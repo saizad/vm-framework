@@ -1,0 +1,23 @@
+<resources>
+
+    <attr name="backgroundColor" format="color" />
+    <attr name="topRightCornerRadius" format="dimension" />
+    <attr name="topLeftCornerRadius" format="dimension" />
+    <attr name="bottomRightCornerRadius" format="dimension" />
+    <attr name="bottomLeftCornerRadius" format="dimension" />
+    <attr name="roundedCornerStrokeColor" format="color" />
+    <attr name="roundedCornerColor" format="color" />
+    <attr name="roundedCornerStrokeWidth" format="dimension" />
+
+    <attr name="mandatory" format="boolean" />
+    <attr name="edited" format="boolean" />
+    <attr name="error" format="boolean" />
+
+    <attr name="inputFieldHint" format="string" />
+    <attr name="inputFieldTheme" format="reference" />
+    <attr name="textInputLayoutStyle" format="reference" />
+    <attr name="textInputEditTextStyle" format="reference" />
+
+    <attr name="navGraph" format="reference"/>
+
+</resources>

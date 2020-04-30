@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="AuthTheme" parent="FullScreen.AppLaunch">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="navGraph">@navigation/auth_nav</item>
+    </style>
+
+    <style name="MainTheme" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="navGraph">@navigation/home_nav</item>
+    </style>
+
+</resources>
