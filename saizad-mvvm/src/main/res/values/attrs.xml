@@ -1,5 +1,16 @@
 <resources>
 
+    <attr name="DrawableCircleStrokeWidth" format="dimension" />
+    <attr name="DrawableCircleStrokeColor" format="color" />
+    <attr name="DrawableCircleColor" format="color" />
+    <attr name="DrawableCircleSize" format="dimension" />
+    <attr name="DrawableCircleRadius" format="dimension" />
+
+    <attr name="CircleDrawablePaddingTop" format="dimension" />
+    <attr name="CircleDrawablePaddingBottom" format="dimension" />
+    <attr name="CircleDrawablePaddingRight" format="dimension" />
+    <attr name="CircleDrawablePaddingLeft" format="dimension" />
+
     <attr name="backgroundColor" format="color" />
     <attr name="topRightCornerRadius" format="dimension" />
     <attr name="topLeftCornerRadius" format="dimension" />

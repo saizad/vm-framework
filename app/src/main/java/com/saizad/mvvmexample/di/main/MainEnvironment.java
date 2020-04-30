@@ -1,4 +1,4 @@
-package com.saizad.mvvmexample;
+package com.saizad.mvvmexample.di.main;
 
 
 import com.saizad.mvvm.ActivityResult;

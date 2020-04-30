@@ -1,6 +1,6 @@
 package com.saizad.mvvmexample.components.home;
 
-import com.saizad.mvvmexample.MainEnvironment;
+import com.saizad.mvvmexample.di.main.MainEnvironment;
 
 import javax.inject.Inject;
 

@@ -7,7 +7,6 @@ import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.SaizadEasyRetrofit;
 import com.saizad.mvvm.CurrentUser;
 import com.saizad.mvvm.FCMToken;
-import com.saizad.mvvmexample.MainEnvironment;
 import com.saizad.mvvm.NotifyOnce;
 import com.saizad.mvvm.ObjectPreference;
 import com.saizad.mvvmexample.api.MainApi;

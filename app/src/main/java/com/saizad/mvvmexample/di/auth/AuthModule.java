@@ -2,7 +2,6 @@ package com.saizad.mvvmexample.di.auth;
 
 import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.SaizadEasyRetrofit;
-import com.saizad.mvvmexample.AuthEnvironment;
 import com.saizad.mvvm.CurrentUser;
 import com.saizad.mvvm.FCMToken;
 import com.saizad.mvvm.NotifyOnce;

@@ -1,4 +1,4 @@
-package com.saizad.mvvmexample;
+package com.saizad.mvvmexample.di.auth;
 
 
 import com.saizad.mvvm.ActivityResult;

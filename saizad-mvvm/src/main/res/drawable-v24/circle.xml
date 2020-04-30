@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <size android:height="?DrawableCircleSize" android:width="?DrawableCircleSize"/>
+            <solid
+                android:color="?DrawableCircleColor"
+                />
+            <padding android:right="?CircleDrawablePaddingRight"
+                android:top="?CircleDrawablePaddingTop" android:left="?CircleDrawablePaddingLeft"
+                android:bottom="?CircleDrawablePaddingBottom"/>
+            <stroke android:color="?DrawableCircleStrokeColor" android:width="?DrawableCircleStrokeWidth"/>
+        </shape>
+    </item>
+</selector>

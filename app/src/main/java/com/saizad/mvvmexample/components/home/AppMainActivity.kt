@@ -4,7 +4,7 @@ import com.saizad.mvvm.SaizadLocation
 import com.saizad.mvvm.Environment
 import com.saizad.mvvm.ViewModelProviderFactory
 import com.saizad.mvvm.components.DrawerMainActivity
-import com.saizad.mvvmexample.MainEnvironment
+import com.saizad.mvvmexample.di.main.MainEnvironment
 import javax.inject.Inject
 
 class AppMainActivity: DrawerMainActivity<AppMainViewModel>() {

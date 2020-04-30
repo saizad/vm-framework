@@ -4,7 +4,7 @@ import com.saizad.mvvm.SaizadLocation
 import com.saizad.mvvm.Environment
 import com.saizad.mvvm.ViewModelProviderFactory
 import com.saizad.mvvm.components.AuthActivity
-import com.saizad.mvvmexample.AuthEnvironment
+import com.saizad.mvvmexample.di.auth.AuthEnvironment
 import javax.inject.Inject
 
 class AppAuthActivity : AuthActivity<AppAuthViewModel>() {
