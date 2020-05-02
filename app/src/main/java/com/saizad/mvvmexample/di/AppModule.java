@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.saizad.mvvm.SaizadEasyRetrofit;
 import com.saizad.mvvm.di.SaizadDaggerAppModule;
+import com.saizad.mvvmexample.BuildConfig;
 import com.saizad.mvvmexample.api.BackgroundApi;
 
 import javax.inject.Singleton;
@@ -27,7 +28,7 @@ public class AppModule extends SaizadDaggerAppModule {
 
     @Override
     public String domainURL() {
-        return "http://google.com";
+        return BuildConfig.DOMAIN_URL;
     }
 
     @Provides
@@ -43,14 +44,14 @@ public class AppModule extends SaizadDaggerAppModule {
     }
 
     private AppPermission locationPermission(SharedPreferences sharedPreferences) {
-        return new AppPermissionImp(LOCATION_PERMISSION_REQUEST_CODE, new String[] {
+        return new AppPermissionImp(LOCATION_PERMISSION_REQUEST_CODE, new String[]{
                 Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
         }, MAX_REQUEST, sharedPreferences);
     }
 
     @Singleton
     @Provides
-    protected BackgroundApi providesBackgroundApi(SaizadEasyRetrofit saizadEasyRetrofit){
+    protected BackgroundApi providesBackgroundApi(SaizadEasyRetrofit saizadEasyRetrofit) {
         return saizadEasyRetrofit.provideRetrofit().create(BackgroundApi.class);
     }
 }

@@ -1,34 +1,119 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+//apply plugin: 'com.google.gms.google-services'
+
+//Common
+def PACKAGE_NAME = "com.saizad.mvvmexample"
+def VERSION_CODE = 1
+
+def VERSION_NAME = "0.0.1"
+
+//local
+def DOMAIN_URL_LOCAL = "http://192.168.0.112:8000/"
+
+//Dev
+def DOMAIN_URL_DEV = "http://167.71.236.237:8080/"
+
+//Stg
+def DOMAIN_URL_STG = "http://167.71.236.237:8080/"
+
+//Prod
+def DOMAIN_URL_PROD = "http://167.71.236.237:8080/"
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        applicationId "com.saizad.mvvmexample"
-        minSdkVersion 19
+        applicationId PACKAGE_NAME
+        minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-        multiDexEnabled true
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+            renderscriptDebuggable true
+            versionNameSuffix '-debug'
+            applicationIdSuffix ".debug"
+        }
+
         release {
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "default"
+
+    productFlavors{
+
+        local {
+            versionName VERSION_NAME + "-local"
+            buildConfigField "String", "VERSION_CODE_NAME", "\"${VERSION_NAME}\""
+            buildConfigField "String", "DOMAIN_URL", "\"${DOMAIN_URL_LOCAL}\""
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_local_launcher_round", appIcon: "@mipmap/ic_local_launcher", appName: "[Dev]Local"]
+            buildConfigField "String", "TEST_USERNAME", "\"MVVMExample@MVVMExample.com\""
+            buildConfigField "String", "TEST_PASSWORD", "\"testuser\""
+        }
+
+        dev {
+            versionName VERSION_NAME + "-dev"
+            buildConfigField "String", "VERSION_CODE_NAME", "\"${VERSION_NAME}\""
+            buildConfigField "String", "DOMAIN_URL", "\"${DOMAIN_URL_DEV}\""
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_dev_launcher_round", appIcon: "@mipmap/ic_dev_launcher", appName: "[Dev]Server"]
+            buildConfigField "String", "TEST_USERNAME", "\"MVVMExample@MVVMExample.com\""
+            buildConfigField "String", "TEST_PASSWORD", "\"testuser\""
+        }
+
+        stg{
+            versionName VERSION_NAME + "-stg"
+            buildConfigField "String", "VERSION_CODE_NAME", "\"${VERSION_NAME}\""
+            buildConfigField "String", "DOMAIN_URL", "\"${DOMAIN_URL_STG}\""
+            applicationIdSuffix ".stg"
+            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_stg_launcher_round", appIcon: "@mipmap/ic_stg_launcher", appName: "[Dev]Stg"]
+            buildConfigField "String", "TEST_USERNAME", "\"MVVMExample@MVVMExample.com\""
+            buildConfigField "String", "TEST_PASSWORD", "\"testuser\""
+        }
+
+        prod {
+            versionName VERSION_NAME + "-prod"
+            buildConfigField "String", "VERSION_CODE_NAME", "\"${VERSION_NAME}\""
+            buildConfigField "String", "DOMAIN_URL", "\"${DOMAIN_URL_PROD}\""
+            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_launcher_round", appIcon: "@mipmap/ic_launcher", appName: "MVVMExample"]
+            buildConfigField "String", "TEST_USERNAME", "\"\""
+            buildConfigField "String", "TEST_PASSWORD", "\"\""
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
     android.defaultConfig.vectorDrawables.useSupportLibrary = true
 }
 

@@ -19,12 +19,12 @@ public class AuthModule {
 
 
     @Provides
-    static AuthEnvironment providesAuthEnvironment(FCMToken fcmToken, AuthApi authApi, CurrentUser currentUser, BehaviorSubject<ActivityResult<?>> navigationFragmentResult, @Named("notification") BehaviorSubject<NotifyOnce<?>> notifyOnceBehaviorSubject, PermissionManager permissionManager){
+    static AuthEnvironment providesAuthEnvironment(FCMToken fcmToken, AuthApi authApi, CurrentUser currentUser, BehaviorSubject<ActivityResult<?>> navigationFragmentResult, @Named("notification") BehaviorSubject<NotifyOnce<?>> notifyOnceBehaviorSubject, PermissionManager permissionManager) {
         return new AuthEnvironment(fcmToken, authApi, navigationFragmentResult, currentUser, notifyOnceBehaviorSubject, permissionManager);
     }
 
     @Provides
-    static AuthApi providesAuthApi(SaizadEasyRetrofit easyRetrofit){
+    static AuthApi providesAuthApi(SaizadEasyRetrofit easyRetrofit) {
         return easyRetrofit.provideRetrofit().create(AuthApi.class);
     }
 }

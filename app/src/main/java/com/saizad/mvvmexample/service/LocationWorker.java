@@ -14,13 +14,14 @@ import com.squareup.inject.assisted.Assisted;
 import com.squareup.inject.assisted.AssistedInject;
 
 import com.saizad.mvvm.di.worker.ChildWorkerFactory;
+
 import sa.zad.easypermission.PermissionManager;
 
 public class LocationWorker extends BaseLocationWorker {
 
     @AssistedInject
-    public LocationWorker(@Assisted @NonNull Context arg0, @Assisted @NonNull WorkerParameters arg1, SaizadLocation saizadLocation, PermissionManager permissionManager) {
-        super(arg0, arg1, saizadLocation, permissionManager.getAppPermission(RequestCodes.LOCATION_PERMISSION_REQUEST_CODE));
+    public LocationWorker(@Assisted @NonNull Context arg0, @Assisted @NonNull WorkerParameters arg1, SaizadLocation gpsLocation, PermissionManager permissionManager) {
+        super(arg0, arg1, gpsLocation, permissionManager.getAppPermission(RequestCodes.LOCATION_PERMISSION_REQUEST_CODE));
     }
 
     @Override
@@ -30,5 +31,6 @@ public class LocationWorker extends BaseLocationWorker {
     }
 
     @AssistedInject.Factory
-    public interface Factory extends ChildWorkerFactory {}
+    public interface Factory extends ChildWorkerFactory {
+    }
 }

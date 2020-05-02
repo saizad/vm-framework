@@ -10,15 +10,20 @@
         android:id="@+id/splashFragment"
         android:name="com.saizad.mvvmexample.components.auth.splash.SplashFragment"
         android:label=""
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
 
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@+id/auth_nav"
+            app:popUpToInclusive="false" />
+
     </fragment>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.saizad.mvvmexample.components.auth.login.LoginFragment"
-        android:label="" />
+        android:label=""
+        tools:layout="@layout/fragment_login" />
 
 </navigation>

@@ -23,14 +23,19 @@ import dagger.android.DaggerApplication;
 public class MVVMExampleApplication extends SaizadApplication {
 
     public static final String LOCATION_UPDATE_TAG = "location_update";
-
+    private static MVVMExampleApplication INSTANCE;
     @Inject
     WorkerFactory locationWorkerFactory;
 
-    private static MVVMExampleApplication INSTANCE;
-
     public MVVMExampleApplication() {
         INSTANCE = this;
+    }
+
+    public static MVVMExampleApplication getInstance() {
+        if (INSTANCE != null) {
+            return INSTANCE;
+        }
+        return new MVVMExampleApplication();
     }
 
     @Override
@@ -42,13 +47,6 @@ public class MVVMExampleApplication extends SaizadApplication {
     public void onCreate() {
         super.onCreate();
         WorkManager.initialize(this, new Configuration.Builder().setWorkerFactory(locationWorkerFactory).build());
-    }
-
-    public static MVVMExampleApplication getInstance() {
-        if (INSTANCE != null) {
-            return INSTANCE;
-        }
-        return new MVVMExampleApplication();
     }
 
     public void cancelLocationWorker() {

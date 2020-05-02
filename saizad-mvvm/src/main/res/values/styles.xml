@@ -5,6 +5,10 @@
         <item name="colorPrimary">?colorPrimary</item>
         <item name="colorPrimaryDark">?colorPrimaryDark</item>
         <item name="colorAccent">?colorAccent</item>
+        <item name="badgeDrawableSrc">@drawable/ic_warning_black_24dp</item>
+        <item name="badgeBGColor">@color/amber_700</item>
+        <item name="badgeTextSize">@dimen/badge_text_size</item>
+        <item name="badgeFontColor">@color/white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

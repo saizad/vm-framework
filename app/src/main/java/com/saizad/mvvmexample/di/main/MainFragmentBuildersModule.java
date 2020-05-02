@@ -1,7 +1,7 @@
 package com.saizad.mvvmexample.di.main;
 
 
-import com.saizad.mvvmexample.components.home.main.MainFragment;
+import com.saizad.mvvmexample.components.main.home.HomeFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -10,6 +10,6 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class MainFragmentBuildersModule {
 
     @ContributesAndroidInjector
-    abstract MainFragment mainFragment();
+    abstract HomeFragment homeFragment();
 
 }

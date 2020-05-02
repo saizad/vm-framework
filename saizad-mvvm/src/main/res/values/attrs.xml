@@ -31,4 +31,9 @@
 
     <attr name="navGraph" format="reference"/>
 
+    <attr name="badgeDrawableSrc" format="reference"/>
+    <attr name="badgeTextSize" format="dimension"/>
+    <attr name="badgeFontColor" format="color"/>
+    <attr name="badgeBGColor" format="color"/>
+
 </resources>

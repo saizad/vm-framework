@@ -22,4 +22,6 @@
     <dimen name="space_9x">72dp</dimen>
     <dimen name="space_10x">80dp</dimen>
     <dimen name="full_screen_list_padding_bottom">120dp</dimen>
+    <dimen name="badge_text_size">8sp</dimen>
+
 </resources>
