@@ -17,39 +17,13 @@ buildscript {
     }
 
 
-
-
-
-    
-
-
-
-
-    
-
-
-
-
-    
-
-
-
-
-    
-
-
 }
 
 allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://jitpack.io'
-            credentials {
-                username mavenUser
-                password mavenPassword
-            }
-        }
+        maven { url 'https://jitpack.io' }
     }
 }
 
