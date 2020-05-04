@@ -58,6 +58,7 @@ public abstract class SaizadBaseFragment<V extends SaizadBaseViewModel> extends 
     @NotNull
     public abstract Class<V> getViewModelClassType();
 
+    @NotNull
     @Override
     public NavController navController() {
         return Navigation.findNavController(requireView());
@@ -270,6 +271,7 @@ public abstract class SaizadBaseFragment<V extends SaizadBaseViewModel> extends 
         return (V) delegate.viewModel();
     }
 
+    @NotNull
     @Override
     public CompositeDisposable compositeDisposable() {
         return delegate.compositeDisposable();

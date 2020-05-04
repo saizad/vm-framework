@@ -10,16 +10,13 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.annotation.CallSuper;
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 
 import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.components.SaizadBaseViewModel;
-import com.saizad.mvvm.R;
 import com.saizad.mvvm.delegation.BaseLifecycleDelegateImp;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel> extends BaseLifecycleDelegateImp<V, FragmentCB<V>> implements FragmentAppLifecycleDelegate {
@@ -98,12 +95,13 @@ public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         log("onViewCreated");
+        compositeDisposable = new CompositeDisposable();
+        viewModel.onViewCreated();
         fragmentAppLifecycleCallBack.onViewCreated(view, savedInstanceState, hasInitializedRootView);
         if(!hasInitializedRootView){
             hasInitializedRootView = appLifecycleDelegate.persistView();
         }
-        compositeDisposable = new CompositeDisposable();
-        viewModel.onViewCreated();
+
     }
 
     @Override

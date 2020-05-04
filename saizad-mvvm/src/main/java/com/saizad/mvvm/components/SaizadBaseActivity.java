@@ -183,6 +183,7 @@ public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends 
         return (V) delegate.viewModel();
     }
 
+    @NotNull
     @Override
     public CompositeDisposable compositeDisposable() {
         return delegate.compositeDisposable();

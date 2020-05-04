@@ -25,6 +25,8 @@ import com.saizad.mvvm.SaizadLocation;
 import com.saizad.mvvm.components.SaizadBaseViewModel;
 import com.saizad.mvvm.model.ErrorModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -166,6 +168,7 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
         log("onCreate");
         loadingDialog = new LoadingDialog(appLifecycleDelegate.context());
         viewModel = getFragmentViewModel(appLifecycleDelegate.getViewModelClassType());
+//        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -203,6 +206,7 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
         return viewModel;
     }
 
+    @NotNull
     @Override
     public CompositeDisposable compositeDisposable() {
         return compositeDisposable;
@@ -223,6 +227,7 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
         navController().navigate(fragment, bundle, navOptions);
     }
 
+    @NotNull
     @Override
     public NavController navController() {
         return appLifecycleDelegate.navController();

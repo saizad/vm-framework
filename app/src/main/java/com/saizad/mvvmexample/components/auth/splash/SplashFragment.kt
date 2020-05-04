@@ -16,6 +16,7 @@ class SplashFragment : MVVMExampleAuthFragment<SplashViewModel>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
+        compositeDisposable().size()
         Observable.just("")
             .subscribeOn(schedulerProviderIO)
             .delay(1000, TimeUnit.MILLISECONDS)

@@ -70,9 +70,9 @@ public interface BaseLifecycleDelegate {
 
     SaizadBaseViewModel viewModel();
 
-    CompositeDisposable compositeDisposable();
+    @NonNull CompositeDisposable compositeDisposable();
 
-    NavController navController();
+    @NonNull NavController navController();
 
     void openClosableFragment(@IdRes int fragment);
 
