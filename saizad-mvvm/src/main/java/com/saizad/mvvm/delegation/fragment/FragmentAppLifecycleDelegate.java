@@ -8,11 +8,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 
 import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.delegation.BaseLifecycleDelegate;
@@ -35,15 +32,7 @@ public interface FragmentAppLifecycleDelegate extends BaseLifecycleDelegate {
 
      void onDetach();
 
-    NavController navController();
-
     <T> void finishWithResult(ActivityResult<T> activityResult);
 
-     void finish();
-
-    void openClosableFragment(@IdRes int fragment);
-
-    void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle);
-
-    void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions);
+    void finish();
 }

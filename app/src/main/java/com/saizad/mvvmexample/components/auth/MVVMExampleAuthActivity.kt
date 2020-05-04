@@ -1,6 +1,8 @@
 package com.saizad.mvvmexample.components.auth
 
 import android.os.Bundle
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.saizad.mvvm.Environment
 import com.saizad.mvvm.SaizadLocation
 import com.saizad.mvvm.ViewModelProviderFactory
@@ -40,5 +42,9 @@ class MVVMExampleAuthActivity : SaizadBaseAuthActivity<MVVMExampleAuthActivityVi
 
     override fun appLocation(): SaizadLocation {
         return gpsLocation
+    }
+
+    override fun navController(): NavController {
+        return findNavController(R.id.auth_nav)
     }
 }

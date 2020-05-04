@@ -8,16 +8,20 @@ import android.widget.Toast;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 
 import com.saizad.mvvm.ActivityResult;
-import com.saizad.mvvm.SaizadLocation;
 import com.saizad.mvvm.LoadingDialog;
+import com.saizad.mvvm.R;
+import com.saizad.mvvm.SaizadLocation;
 import com.saizad.mvvm.components.SaizadBaseViewModel;
 import com.saizad.mvvm.model.ErrorModel;
 
@@ -198,4 +202,30 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
     public SaizadBaseViewModel viewModel() {
         return viewModel;
     }
+
+    @Override
+    public CompositeDisposable compositeDisposable() {
+        return compositeDisposable;
+    }
+
+
+    public void openClosableFragment(@IdRes int fragment) {
+        openClosableFragment(fragment, null);
+    }
+
+    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle) {
+        openClosableFragment(fragment, bundle, new NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_up)
+                .setPopExitAnim(R.anim.slide_down).build());
+    }
+
+    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
+        navController().navigate(fragment, bundle, navOptions);
+    }
+
+    @Override
+    public NavController navController() {
+        return appLifecycleDelegate.navController();
+    }
+
 }

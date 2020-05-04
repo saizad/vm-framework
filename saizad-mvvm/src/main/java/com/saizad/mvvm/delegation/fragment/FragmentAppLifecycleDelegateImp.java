@@ -55,25 +55,6 @@ public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel
         navController().popBackStack();
     }
 
-    public void openClosableFragment(@IdRes int fragment) {
-        openClosableFragment(fragment, null);
-    }
-
-    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle) {
-        openClosableFragment(fragment, bundle, new NavOptions.Builder()
-                .setEnterAnim(R.anim.slide_up)
-                .setPopExitAnim(R.anim.slide_down).build());
-    }
-
-    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
-        navController().navigate(fragment, bundle, navOptions);
-    }
-
-    @Override
-    public NavController navController() {
-        return appLifecycleDelegate.navController();
-    }
-
     @CallSuper
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

@@ -6,6 +6,7 @@ import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.NavController;
 
 import com.saizad.mvvm.Environment;
 import com.saizad.mvvm.SaizadLocation;
@@ -36,4 +37,6 @@ public interface BaseCB<V extends SaizadBaseViewModel> {
 
     @MenuRes
     int menRes();
+
+    NavController navController();
 }

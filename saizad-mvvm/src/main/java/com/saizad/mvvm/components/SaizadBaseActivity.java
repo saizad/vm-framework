@@ -7,11 +7,13 @@ import android.os.Bundle;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.NavOptions;
 
 import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.delegation.activity.ActivityAppLifecycleDelegate;
@@ -22,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import dagger.android.support.DaggerAppCompatActivity;
 import io.reactivex.Scheduler;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 import rx.functions.Action1;
 
@@ -181,7 +184,24 @@ public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends 
     }
 
     @Override
+    public CompositeDisposable compositeDisposable() {
+        return delegate.compositeDisposable();
+    }
+
+    @Override
     public int menRes() {
         return 0;
+    }
+
+    public void openClosableFragment(@IdRes int fragment) {
+        delegate.openClosableFragment(fragment);
+    }
+
+    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle) {
+        delegate.openClosableFragment(fragment, bundle);
+    }
+
+    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
+        delegate.openClosableFragment(fragment, bundle, navOptions);
     }
 }

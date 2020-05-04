@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 import dagger.android.support.DaggerFragment;
 import io.reactivex.Scheduler;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 import rx.functions.Action1;
 
@@ -267,6 +268,11 @@ public abstract class SaizadBaseFragment<V extends SaizadBaseViewModel> extends 
     public @NonNull
     V viewModel() {
         return (V) delegate.viewModel();
+    }
+
+    @Override
+    public CompositeDisposable compositeDisposable() {
+        return delegate.compositeDisposable();
     }
 
     @Override

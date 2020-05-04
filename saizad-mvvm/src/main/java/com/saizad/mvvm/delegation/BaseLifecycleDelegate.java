@@ -4,14 +4,18 @@ import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 
 import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.components.SaizadBaseViewModel;
 
 import io.reactivex.Scheduler;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 import rx.functions.Action1;
 
@@ -65,4 +69,14 @@ public interface BaseLifecycleDelegate {
     void requestLocation(Action1<Location> locationAction);
 
     SaizadBaseViewModel viewModel();
+
+    CompositeDisposable compositeDisposable();
+
+    NavController navController();
+
+    void openClosableFragment(@IdRes int fragment);
+
+    void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle);
+
+    void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions);
 }

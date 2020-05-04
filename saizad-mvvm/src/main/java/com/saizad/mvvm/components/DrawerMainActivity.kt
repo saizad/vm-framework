@@ -58,4 +58,8 @@ abstract class DrawerMainActivity<VM: SaizadBaseViewModel> : SaizadBaseActivity<
         // drawer menu, depending on the situation
         return findNavController(R.id.mainFragmentHost).navigateUp(appBarConfiguration)
     }
+
+    override fun navController(): NavController {
+        return findNavController(R.id.mainFragmentHost)
+    }
 }
