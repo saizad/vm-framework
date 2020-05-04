@@ -37,7 +37,6 @@
 
 
     <style name="FullScreen" parent="AppTheme.NoActionBar">
-        <item name="android:colorBackground">?colorPrimary</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowContentOverlay">@null</item>

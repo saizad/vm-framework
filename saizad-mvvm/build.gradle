@@ -79,7 +79,7 @@ dependencies {
     api "androidx.navigation:navigation-ui-ktx:2.2.2"
 
     api 'com.github.saizad:easyretrofit:e10fba163d85ec157519ea51e8b5680440461709'
-    api 'com.github.saizad:Android-Easy-Form:68099c89ec23dda489eede6c600999b665875d55'
+    api 'com.github.saizad:Android-Easy-Form:2657aeb897c60beaee66a78e25e6c513c171a177'
     api 'com.github.saizad:PagedRecyclerList:e70af1648feaaefb867730b0d6f61d7e9ce48be9'
     api 'com.github.saizad:EasyPermission:bugs_fixes-SNAPSHOT'
 

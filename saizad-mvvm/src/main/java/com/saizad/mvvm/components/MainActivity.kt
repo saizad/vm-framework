@@ -1,6 +1,7 @@
 package com.saizad.mvvm.components
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -33,6 +34,10 @@ abstract class MainActivity<VM: SaizadBaseViewModel> : SaizadBaseActivity<VM>() 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
 
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun setupActionBar(

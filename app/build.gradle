@@ -70,7 +70,7 @@ android {
             buildConfigField "String", "VERSION_CODE_NAME", "\"${VERSION_NAME}\""
             buildConfigField "String", "DOMAIN_URL", "\"${DOMAIN_URL_LOCAL}\""
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_local_launcher_round", appIcon: "@mipmap/ic_local_launcher", appName: "[Dev]Local"]
+            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_local_launcher_round", appIcon: "@mipmap/ic_local_launcher", appName: "[Local]MVVMExample"]
             buildConfigField "String", "TEST_USERNAME", "\"MVVMExample@MVVMExample.com\""
             buildConfigField "String", "TEST_PASSWORD", "\"testuser\""
         }
@@ -80,7 +80,7 @@ android {
             buildConfigField "String", "VERSION_CODE_NAME", "\"${VERSION_NAME}\""
             buildConfigField "String", "DOMAIN_URL", "\"${DOMAIN_URL_DEV}\""
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_dev_launcher_round", appIcon: "@mipmap/ic_dev_launcher", appName: "[Dev]Server"]
+            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_dev_launcher_round", appIcon: "@mipmap/ic_dev_launcher", appName: "[Dev]MVVMExample"]
             buildConfigField "String", "TEST_USERNAME", "\"MVVMExample@MVVMExample.com\""
             buildConfigField "String", "TEST_PASSWORD", "\"testuser\""
         }
@@ -90,7 +90,7 @@ android {
             buildConfigField "String", "VERSION_CODE_NAME", "\"${VERSION_NAME}\""
             buildConfigField "String", "DOMAIN_URL", "\"${DOMAIN_URL_STG}\""
             applicationIdSuffix ".stg"
-            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_stg_launcher_round", appIcon: "@mipmap/ic_stg_launcher", appName: "[Dev]Stg"]
+            manifestPlaceholders = [appRoundIcon: "@mipmap/ic_stg_launcher_round", appIcon: "@mipmap/ic_stg_launcher", appName: "[Stg]MVVMExample"]
             buildConfigField "String", "TEST_USERNAME", "\"MVVMExample@MVVMExample.com\""
             buildConfigField "String", "TEST_PASSWORD", "\"testuser\""
         }
@@ -124,4 +124,9 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:2.26"
     compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2'
     annotationProcessor 'com.squareup.inject:assisted-inject-processor-dagger2:0.5.2'
+
+    testImplementation 'joda-time:joda-time:2.9.3'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

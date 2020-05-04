@@ -180,4 +180,8 @@ public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends 
         return (V) delegate.viewModel();
     }
 
+    @Override
+    public int menRes() {
+        return 0;
+    }
 }

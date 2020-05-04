@@ -3,10 +3,13 @@ package com.saizad.mvvm.delegation.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -26,7 +29,9 @@ public interface FragmentAppLifecycleDelegate extends BaseLifecycleDelegate {
 
      void onViewCreated(View view, @Nullable Bundle savedInstanceState);
 
-     void onDestroyView();
+    void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater);
+
+    void onDestroyView();
 
      void onDetach();
 

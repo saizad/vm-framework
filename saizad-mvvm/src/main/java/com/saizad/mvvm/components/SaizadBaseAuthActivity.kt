@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import com.saizad.mvvm.R
 
-abstract class AuthActivity<VM : SaizadBaseViewModel> : SaizadBaseActivity<VM>() {
+abstract class SaizadBaseAuthActivity<VM : SaizadBaseViewModel> : SaizadBaseActivity<VM>() {
 
     override fun onSupportNavigateUp() = this.findNavController(R.id.auth_nav).navigateUp()
 

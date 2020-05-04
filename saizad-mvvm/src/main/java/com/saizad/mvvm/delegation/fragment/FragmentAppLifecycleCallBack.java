@@ -9,4 +9,7 @@ import com.saizad.mvvm.delegation.BaseLifecycleCallBack;
 
 public interface FragmentAppLifecycleCallBack extends BaseLifecycleCallBack {
     void onViewCreated(View view, @Nullable Bundle savedInstanceState, boolean recycled);
+
+    void setHasOptionsMenu(boolean hasOptionsMenu);
+
 }

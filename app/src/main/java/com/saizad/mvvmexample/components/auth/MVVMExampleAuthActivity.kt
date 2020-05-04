@@ -1,13 +1,15 @@
 package com.saizad.mvvmexample.components.auth
 
-import com.saizad.mvvm.SaizadLocation
+import android.os.Bundle
 import com.saizad.mvvm.Environment
+import com.saizad.mvvm.SaizadLocation
 import com.saizad.mvvm.ViewModelProviderFactory
-import com.saizad.mvvm.components.AuthActivity
+import com.saizad.mvvm.components.SaizadBaseAuthActivity
+import com.saizad.mvvmexample.R
 import com.saizad.mvvmexample.di.auth.AuthEnvironment
 import javax.inject.Inject
 
-class MVVMExampleAuthActivity : AuthActivity<MVVMExampleAuthActivityViewModel>() {
+class MVVMExampleAuthActivity : SaizadBaseAuthActivity<MVVMExampleAuthActivityViewModel>() {
 
     @Inject
     lateinit var gpsLocation: SaizadLocation
@@ -17,6 +19,12 @@ class MVVMExampleAuthActivity : AuthActivity<MVVMExampleAuthActivityViewModel>()
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProviderFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        //sets to default theme after app launch
+        setTheme(R.style.AuthTheme)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun environment(): Environment {
         return authEnvironment

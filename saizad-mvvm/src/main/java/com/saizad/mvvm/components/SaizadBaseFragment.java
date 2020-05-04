@@ -4,6 +4,8 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -111,7 +113,18 @@ public abstract class SaizadBaseFragment<V extends SaizadBaseViewModel> extends 
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        delegate.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState, boolean recycled) {
+    }
+
+    @Override
+    public void setHasOptionsMenu(boolean hasMenu) {
+        super.setHasOptionsMenu(hasMenu);
     }
 
     @Override
@@ -261,4 +274,8 @@ public abstract class SaizadBaseFragment<V extends SaizadBaseViewModel> extends 
         return true;
     }
 
+    @Override
+    public int menRes() {
+        return 0;
+    }
 }

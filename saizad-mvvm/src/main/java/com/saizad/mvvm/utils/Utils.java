@@ -6,9 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.annotations.SerializedName;
 import com.sa.easyandroidfrom.Func1;
 import com.sa.easyandroidfrom.ObjectUtils;
 
+import java.lang.reflect.Field;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -98,5 +100,42 @@ public class Utils {
 
     public static String removeTrailingZeros(float value) {
         return decimalN(value, 2).toString().replaceAll("\\.?0*$", "");
+    }
+
+    public static String printDataToForm(Class<?> data) {
+        StringBuilder sb = new StringBuilder();
+        for (Field field : data.getDeclaredFields()) {
+            if (field.isAnnotationPresent(SerializedName.class)) {
+                final String simpleName = field.getType().getSimpleName();
+                final SerializedName annotation = field.getAnnotation(SerializedName.class);
+                if (annotation != null) {
+                    sb.append("public final Field<").append(simpleName).append("> ").append(field.getName()).append("Field;\n");
+                }
+            }
+        }
+        sb.append("public Form(){\nthis(new ").append(data.getSimpleName()).append("());\n}\n\npublic Form(").append(data.getSimpleName()).append(" data) {\nsuper(asList(");
+        for (Field field : data.getDeclaredFields()) {
+            if (field.isAnnotationPresent(SerializedName.class)) {
+                final String simpleName = field.getType().getSimpleName();
+                final SerializedName annotation = field.getAnnotation(SerializedName.class);
+                if (annotation != null) {
+                    final String value = annotation.value();
+                    sb.append("new Field<>(\"").append(value).append("\"").append(", data.").append(field.getName()).append(", true),\n");
+                }
+            }
+        }
+        sb.deleteCharAt(sb.length() - 2).append("));\n\n");
+        for (Field field : data.getDeclaredFields()) {
+            if (field.isAnnotationPresent(SerializedName.class)) {
+                final SerializedName annotation = field.getAnnotation(SerializedName.class);
+                if (annotation != null) {
+                    final String value = annotation.value();
+                    final String s = "\"" + value + "\"";
+                    sb.append(field.getName()).append("Field = getField(").append(s).append(");\n");
+                }
+            }
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }

@@ -6,6 +6,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="FullScreen.Launch">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
     <style name="AuthTheme" parent="FullScreen.AppLaunch">
         <item name="navGraph">@navigation/auth_nav</item>
     </style>

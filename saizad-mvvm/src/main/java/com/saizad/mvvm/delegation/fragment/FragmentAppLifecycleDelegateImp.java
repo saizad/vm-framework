@@ -3,12 +3,15 @@ package com.saizad.mvvm.delegation.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -98,6 +101,12 @@ public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel
         log("onAttach");
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragmentAppLifecycleCallBack.setHasOptionsMenu(appLifecycleDelegate.menRes() != 0);
+    }
+
     @Nullable
     @Override
     @CallSuper
@@ -114,6 +123,11 @@ public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel
         }
         compositeDisposable = new CompositeDisposable();
         viewModel.onViewCreated();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(appLifecycleDelegate.menRes(), menu);
     }
 
     @Override

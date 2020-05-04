@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".components.auth.MVVMExampleAuthActivity"
-            android:theme="@style/AuthTheme">
+            android:theme="@style/FullScreen.Launch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
