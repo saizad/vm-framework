@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".components.main.MVVMExampleMainActivity"
+            android:name=".components.main.DrawerMainActivity"
             android:theme="@style/MainTheme" />
 
         <provider

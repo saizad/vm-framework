@@ -76,7 +76,7 @@ abstract public class SaizadFirebaseMessagingService extends FirebaseMessagingSe
             String notificationType = data.get("type");
             final String json = jsonObject.toString();
         } else {
-            NotificationHelper.createNotification(notification);
+//            NotificationHelper.createNotification(notification);
         }
     }
 

@@ -6,7 +6,7 @@ import android.view.View
 import com.saizad.mvvm.utils.bindClick
 import com.saizad.mvvmexample.R
 import com.saizad.mvvmexample.components.auth.MVVMExampleAuthFragment
-import com.saizad.mvvmexample.components.main.MVVMExampleMainActivity
+import com.saizad.mvvmexample.components.main.DrawerMainActivity
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -19,7 +19,7 @@ class LoginFragment : MVVMExampleAuthFragment<LoginViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
 
         goToMain.bindClick(Consumer {
-            startActivity(Intent(context(), MVVMExampleMainActivity::class.java))
+            startActivity(Intent(context(), DrawerMainActivity::class.java))
         }, Consumer {
             showLongToast(it.message)
         })

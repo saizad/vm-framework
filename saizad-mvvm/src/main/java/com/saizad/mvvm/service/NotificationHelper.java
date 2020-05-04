@@ -12,7 +12,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.saizad.mvvm.BaseNotificationModel;
-import com.saizad.mvvm.components.DrawerMainActivity;
 
 
 public class NotificationHelper {
@@ -45,17 +44,17 @@ public class NotificationHelper {
         mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
     }
 
-    public static void createNotification(BaseNotificationModel baseNotificationModel) {
+    public static void createNotification(BaseNotificationModel baseNotificationModel, Class<?> cl) {
         Context context = null;
-        Intent intent = new Intent(context, DrawerMainActivity.class);
+        Intent intent = new Intent(context, cl);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         createNotification(baseNotificationModel, PendingIntent.getActivity(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
-    public static void createNotification(RemoteMessage.Notification notification) {
+    public static void createNotification(RemoteMessage.Notification notification, Class<?> cl) {
         Context context = null;
-        Intent intent = new Intent(context, DrawerMainActivity.class);
+        Intent intent = new Intent(context, cl);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         createNotification(notification, PendingIntent.getActivity(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT));

@@ -3,7 +3,7 @@ package com.saizad.mvvmexample.di;
 import com.saizad.mvvm.di.AuthScope;
 import com.saizad.mvvm.di.MainScope;
 import com.saizad.mvvmexample.components.auth.MVVMExampleAuthActivity;
-import com.saizad.mvvmexample.components.main.MVVMExampleMainActivity;
+import com.saizad.mvvmexample.components.main.DrawerMainActivity;
 import com.saizad.mvvmexample.di.auth.AuthFragmentBuildersModule;
 import com.saizad.mvvmexample.di.auth.AuthModule;
 import com.saizad.mvvmexample.di.auth.AuthViewModelsModule;
@@ -27,7 +27,7 @@ public abstract class ActivityBuildersModule {
     @ContributesAndroidInjector(
             modules = {MainFragmentBuildersModule.class, MainViewModelsModule.class, MainModule.class}
     )
-    abstract MVVMExampleMainActivity mainActivity();
+    abstract DrawerMainActivity mainActivity();
 
     @ContributesAndroidInjector
     public abstract FCMService fcmService();
