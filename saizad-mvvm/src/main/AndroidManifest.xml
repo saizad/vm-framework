@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.saizad.mvvm" >
-
     <application>
         <provider
             android:name=".GenericFileProvider"
@@ -11,5 +10,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+
     </application>
 </manifest>

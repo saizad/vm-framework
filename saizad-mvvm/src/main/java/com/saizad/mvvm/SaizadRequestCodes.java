@@ -4,6 +4,6 @@ public class SaizadRequestCodes {
 
     private SaizadRequestCodes() {
     }
-    public static final int PICK_AVATAR = 20000;
+    public static final int PICK_FILE = 20000;
 
 }

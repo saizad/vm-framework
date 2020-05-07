@@ -64,8 +64,8 @@ public class LoginBody implements Parcelable {
         public Form() {
             super(asList(new MandatoryStringField("username"), new PasswordField("password")));
 
-            passwordField = (PasswordField) getField("password");
-            usernameField = (MandatoryStringField) getField("username");
+            passwordField = getField("password");
+            usernameField = getField("username");
         }
 
         @NonNull

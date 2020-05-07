@@ -8,12 +8,12 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.saizad.mvvm.ActivityResult;
-import com.saizad.mvvm.SaizadEasyRetrofit;
-import com.saizad.mvvm.SaizadLocation;
-import com.saizad.mvvm.CurrentUser;
+import com.saizad.mvvm.CurrentUserType;
 import com.saizad.mvvm.Environment;
 import com.saizad.mvvm.FCMToken;
 import com.saizad.mvvm.NotifyOnce;
+import com.saizad.mvvm.SaizadEasyRetrofit;
+import com.saizad.mvvm.SaizadLocation;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -38,10 +38,12 @@ public abstract class SaizadDaggerAppModule {
         return new FCMToken(sharedPreferences, gson);
     }
 
+    public abstract SaizadEasyRetrofit retrofit(Application application, CurrentUserType currentUser, Gson gson);
+
     @Singleton
     @Provides
-    public SaizadEasyRetrofit providesAppEasyRetrofit(Application application, CurrentUser currentUser, Gson gson) {
-        return new SaizadEasyRetrofit(application, currentUser, gson, domainURL());
+    public SaizadEasyRetrofit providesRetrofit(Application application, CurrentUserType currentUser, Gson gson) {
+        return retrofit(application, currentUser, gson);
     }
 
     public abstract String domainURL();
@@ -52,11 +54,7 @@ public abstract class SaizadDaggerAppModule {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
 
-    @Singleton
-    @Provides
-    public static CurrentUser providesCurrentUser(SharedPreferences sharedPreferences, Gson gson) {
-        return new CurrentUser(sharedPreferences, gson);
-    }
+    abstract public CurrentUserType currentUser(SharedPreferences sharedPreferences, Gson gson);
 
     @Singleton
     @Provides
@@ -81,24 +79,14 @@ public abstract class SaizadDaggerAppModule {
 
     @Singleton
     @Provides
-    public static Environment providesEnvironment(FCMToken fcmToken, CurrentUser currentUser, BehaviorSubject<ActivityResult<?>> navigationFragmentResult, @Named("notification") BehaviorSubject<NotifyOnce<?>> notifyOnceBehaviorSubject, PermissionManager permissionManager) {
+    public CurrentUserType providesCurrentUserType(SharedPreferences sharedPreferences, Gson gson) {
+        return currentUser(sharedPreferences, gson);
+    }
+
+    @Singleton
+    @Provides
+    public static Environment providesEnvironment(FCMToken fcmToken, CurrentUserType currentUser, BehaviorSubject<ActivityResult<?>> navigationFragmentResult, @Named("notification") BehaviorSubject<NotifyOnce<?>> notifyOnceBehaviorSubject, PermissionManager permissionManager) {
         return new Environment(fcmToken, navigationFragmentResult, currentUser, notifyOnceBehaviorSubject, permissionManager);
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

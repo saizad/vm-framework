@@ -49,6 +49,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:padding="6dp"
+        tools:src="@tools:sample/avatars"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

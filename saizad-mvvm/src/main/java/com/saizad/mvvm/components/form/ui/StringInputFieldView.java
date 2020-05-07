@@ -22,6 +22,9 @@ public class StringInputFieldView extends InputFieldView<String> {
 
     @Override
     public String resolveTo(@NotNull CharSequence charSequence) {
+        if(charSequence.toString().isEmpty()){
+            return null;
+        }
         return charSequence.toString();
     }
 

@@ -20,12 +20,12 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
     init {
         ViewUtils.inflate(getContext(), R.layout.lib_text_input_layout, this, true)
         val handler = Handler()
-        handler.postDelayed( {
+        /*handler.postDelayed( {
             editTextLayout.isEndIconVisible = false
-        }, 1000)
+        }, 500)
         editText.setOnFocusChangeListener { v, hasFocus ->
             editTextLayout.isEndIconVisible = hasFocus
-        }
+        }*/
     }
 
 

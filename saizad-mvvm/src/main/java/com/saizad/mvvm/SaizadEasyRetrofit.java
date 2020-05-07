@@ -14,15 +14,17 @@ import sa.zad.easyretrofit.EasyRetrofitClient;
 
 public class SaizadEasyRetrofit extends EasyRetrofit {
 
-    private final CurrentUser currentUser;
-    private final Gson gson;
-    private final String domainUrl;
+    protected final CurrentUserType currentUser;
+    protected final Gson gson;
+    protected final String domainUrl;
+    protected final Application application;
 
-    public SaizadEasyRetrofit(Application application, CurrentUser currentUser, Gson gson, String domainUrl) {
+    public SaizadEasyRetrofit(Application application, CurrentUserType currentUser, Gson gson, String domainUrl) {
         super(application);
         this.currentUser = currentUser;
         this.gson = gson;
         this.domainUrl = domainUrl;
+        this.application = application;
     }
 
     @NonNull

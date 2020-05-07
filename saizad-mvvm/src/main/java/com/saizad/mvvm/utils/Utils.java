@@ -1,5 +1,6 @@
 package com.saizad.mvvm.utils;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -137,5 +138,13 @@ public class Utils {
         }
         sb.append("}");
         return sb.toString();
+    }
+
+    @Nullable
+    public static Uri parseUrl(String url) {
+        if (url != null) {
+            return Uri.parse(url);
+        }
+        return null;
     }
 }

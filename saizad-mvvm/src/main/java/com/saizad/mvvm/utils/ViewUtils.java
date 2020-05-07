@@ -17,17 +17,24 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.saizad.mvvm.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
+import rx.functions.Action1;
 
 
 public class ViewUtils {
@@ -224,5 +231,74 @@ public class ViewUtils {
 
     public static AlertDialog.Builder dialogList(@NonNull Context context, String title, DialogInterface.OnClickListener listener, CharSequence[] items) {
         return new AlertDialog.Builder(context).setTitle(title).setItems(items, listener);
+    }
+
+
+    public static void initChipGroup(ChipGroup chipGroup, @NonNull List<String> checkItem, List<String> list, Action1<Chip> onClickListener) {
+        initChipGroup(chipGroup, checkItem, list, (chip, s) -> s, onClickListener);
+    }
+
+    public static <T> void initChipGroup(ChipGroup chipGroup, @NonNull List<T> checkItem, List<T> list, BiFunction<Chip, T, String> action, Action1<Chip> onClickListener) {
+        chipGroup.removeAllViews();
+        addToChipGroup(chipGroup, checkItem, list, action, onClickListener);
+    }
+
+    public static <T> void addToChipGroup(ChipGroup chipGroup, @NonNull List<T> checkItem, List<T> list, BiFunction<Chip, T, String> action, Action1<Chip> onClickListener) {
+        for (T s : list) {
+            Chip chip = (Chip) View.inflate(chipGroup.getContext(), R.layout.chip, null);
+            chip.setCloseIconVisible(false);
+            chip.setTag(s);
+            ViewUtils.bindClick(chip, ignored -> onClickListener.call(chip));
+            chipGroup.addView(chip);
+            String text;
+            try {
+                text = action.apply(chip, s);
+                chip.setText(text);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        check(chipGroup, checkItem);
+    }
+
+    public static <T> void check(ChipGroup chipGroup, @NonNull List<T> checkItem) {
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            Chip childAt = (Chip) chipGroup.getChildAt(i);
+            final T t1 = (T) childAt.getTag();
+            check(chipGroup, childAt, Utils.compareFindItem(checkItem, t -> t.equals(t1)), t1);
+        }
+    }
+
+    public static <T> void check(ChipGroup chipGroup, Chip chip, @Nullable T checkItem, T item) {
+        if (checkItem != null && checkItem.equals(item)) {
+            chipGroup.check(chip.getId());
+        }
+    }
+
+    public static <T> List<T> fetchChipTags(ChipGroup chipGroup) {
+        List<T> returnList = new ArrayList<>();
+        for (int x = 0; x < chipGroup.getChildCount(); x++) {
+            Chip childAt = (Chip) chipGroup.getChildAt(x);
+            if (childAt != null) {
+                final Object tag = childAt.getTag();
+                if (tag != null) {
+                    returnList.add((T) tag);
+                }
+            }
+        }
+        return returnList;
+    }
+
+    public static <T> List<T> getSelectedChipItems(ChipGroup chipGroup) {
+        List<T> selectedList = new ArrayList<>();
+        for (int x = 0; x < chipGroup.getChildCount(); x++) {
+            Chip childAt = (Chip) chipGroup.getChildAt(x);
+            if (childAt != null) {
+                if (childAt.isChecked()) {
+                    selectedList.add((T) childAt.getTag());
+                }
+            }
+        }
+        return selectedList;
     }
 }

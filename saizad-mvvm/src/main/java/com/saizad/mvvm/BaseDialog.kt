@@ -6,12 +6,17 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import com.saizad.mvvm.utils.ViewUtils
 
-open abstract class BaseDialog(context: Context, @LayoutRes layoutRes: Int) : Dialog(context) {
+abstract class BaseDialog(context: Context, @LayoutRes layoutRes: Int) : Dialog(context) {
 
 
     init {
         val inflate = ViewUtils.inflate(context, layoutRes)
         setContentView(inflate)
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        dismiss()
     }
 }

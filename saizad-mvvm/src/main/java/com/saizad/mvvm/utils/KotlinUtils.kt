@@ -1,6 +1,7 @@
 package com.saizad.mvvm.utils
 
 import android.view.View
+import com.google.android.material.chip.ChipGroup
 import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import org.joda.time.DateTime
@@ -39,4 +40,8 @@ public fun View.bindClick(
     onComplete: Action = Action {}
 ) {
     ViewUtils.bindClick(this, consumer, throwable, onComplete)
+}
+
+fun <T> ChipGroup.getSelectedChipItems(): List<T> {
+    return ViewUtils.getSelectedChipItems(this)
 }

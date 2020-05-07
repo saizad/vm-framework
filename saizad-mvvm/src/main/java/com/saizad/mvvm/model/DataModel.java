@@ -7,7 +7,9 @@ public class DataModel<M> {
     @Expose
     @SerializedName("data")
     public M data;
-    @Expose
     @SerializedName("status")
-    public int status;
+    public boolean status;
+
+    @SerializedName("validation")
+    public String validation;
 }

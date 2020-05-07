@@ -13,7 +13,6 @@ import com.google.android.gms.common.util.ArrayUtils;
 import com.sa.easyandroidfrom.ObjectUtils;
 import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.BaseNotificationModel;
-import com.saizad.mvvm.CurrentUser;
 import com.saizad.mvvm.Environment;
 import com.saizad.mvvm.NotifyOnce;
 import com.saizad.mvvm.model.DataModel;
@@ -30,16 +29,16 @@ import sa.zad.pagedrecyclerlist.ConstraintLayoutList;
 
 public abstract class SaizadBaseViewModel extends ViewModel {
 
-    public final CurrentUser currentUser;
     private final BehaviorSubject<ActivityResult<?>> activityResult;
     private CompositeDisposable disposable;
     private MutableLiveData<LoadingData> loadingLiveData = new MutableLiveData<>();
     private MutableLiveData<ErrorData> errorLiveData = new MutableLiveData<>();
     private MutableLiveData<ApiErrorData> apiErrorLiveData = new MutableLiveData<>();
     protected BehaviorSubject<NotifyOnce<?>> notification;
+    public final Environment environment;
 
     public SaizadBaseViewModel(Environment environment) {
-        this.currentUser = environment.currentUser();
+        this.environment = environment;
         this.activityResult = environment.navigationFragmentResult();
         this.notification = environment.getNotification();
     }
@@ -94,8 +93,7 @@ public abstract class SaizadBaseViewModel extends ViewModel {
         shootLoading(true, requestId);
         observable
                 .successResponse(dataModelResponse -> mutableLiveData.setValue(null))
-                .apiException(errorModel ->
-                        shootError(errorModel, requestId), ErrorModel.class)
+//                .apiException(errorModel -> shootError(errorModel, requestId), ErrorModel.class)
                 .exception(throwable -> shootError(throwable, requestId))
                 .doFinally(() -> shootLoading(false, requestId))
                 .subscribe();

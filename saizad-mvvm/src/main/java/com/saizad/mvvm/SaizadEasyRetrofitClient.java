@@ -5,7 +5,6 @@ import android.app.Application;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.sa.easyandroidfrom.ObjectUtils;
 
-import com.saizad.mvvm.model.Token;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,10 +14,10 @@ import sa.zad.easyretrofit.EasyRetrofitClient;
 
 public class SaizadEasyRetrofitClient extends EasyRetrofitClient {
 
-    private final Application application;
-    private final CurrentUser currentUser;
+    protected final Application application;
+    protected final CurrentUserType currentUser;
 
-    public SaizadEasyRetrofitClient(Application application, CurrentUser currentUser) {
+    public SaizadEasyRetrofitClient(Application application, CurrentUserType currentUser) {
         super(application);
         this.application = application;
         this.currentUser = currentUser;
@@ -38,12 +37,12 @@ public class SaizadEasyRetrofitClient extends EasyRetrofitClient {
         return BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE;
     }
 
-    private static Interceptor getAuthInterceptor(final CurrentUser currentUser) {
+    private static Interceptor getAuthInterceptor(final CurrentUserType currentUser) {
         return chain -> {
             Request request = chain.request();
-            final Token token = currentUser.getAuthToken();
+            final String token = currentUser.getToken();
             if (ObjectUtils.isNotNull(token)) {
-                request = request.newBuilder().header("Authorization", "Bearer " + token.getAccess()).build();
+                request = request.newBuilder().header("Authorization",  token).build();
             }
             return chain.proceed(request);
         };

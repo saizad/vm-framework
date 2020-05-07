@@ -9,9 +9,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.sa.easyandroidfrom.ObjectUtils;
-import com.saizad.mvvm.CurrentUser;
+import com.saizad.mvvm.CurrentUserType;
 import com.saizad.mvvm.FCMToken;
-import com.saizad.mvvm.model.UserInfo;
 
 import org.json.JSONObject;
 
@@ -23,15 +22,14 @@ import dagger.android.AndroidInjection;
 
 abstract public class SaizadFirebaseMessagingService extends FirebaseMessagingService {
 
-    public static void updateToken(String token, FCMToken fcmToken, @NonNull CurrentUser currentUser, FcmCallBack callBack) {
+    public static void updateToken(String token, FCMToken fcmToken, @NonNull CurrentUserType currentUser, FcmCallBack callBack) {
         fcmToken.putToken(token);
-        final UserInfo user = currentUser.getUser();
-        if (ObjectUtils.isNotNull(user)) {
+        if (ObjectUtils.isNotNull(currentUser.getUser())) {
             callBack.updateToken(token);
         }
     }
 
-    public static void requestAndUpdate(FCMToken fcmToken, CurrentUser currentUser, FcmCallBack callBack) {
+    public static void requestAndUpdate(FCMToken fcmToken, CurrentUserType currentUser, FcmCallBack callBack) {
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && ObjectUtils.isNotNull(task.getResult())) {

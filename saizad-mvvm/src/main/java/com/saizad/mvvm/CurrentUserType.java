@@ -89,4 +89,6 @@ public abstract class CurrentUserType<U> extends SaizadSharedPreferences {
         return user == emptyUser ? null : user;
     }
 
+    public abstract @Nullable
+    String getToken();
 }

@@ -9,11 +9,11 @@ public class Environment {
 
     private final FCMToken fcmToken;
     private final BehaviorSubject<ActivityResult<?>> behaviorSubject;
-    private final CurrentUser currentUser;
+    private final CurrentUserType currentUser;
     private final BehaviorSubject<NotifyOnce<?>> notification;
     private final PermissionManager permissionManager;
 
-    public Environment(FCMToken fcmToken, BehaviorSubject<ActivityResult<?>> behaviorSubject, CurrentUser currentUser,
+    public Environment(FCMToken fcmToken, BehaviorSubject<ActivityResult<?>> behaviorSubject, CurrentUserType currentUser,
                        BehaviorSubject<NotifyOnce<?>> notification, PermissionManager permissionManager) {
         this.fcmToken = fcmToken;
         this.behaviorSubject = behaviorSubject;
@@ -33,7 +33,7 @@ public class Environment {
     }
 
     @NotNull
-    public CurrentUser currentUser() {
+    public CurrentUserType currentUser() {
         return currentUser;
     }
 

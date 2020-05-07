@@ -9,6 +9,14 @@
         <item name="badgeBGColor">@color/amber_700</item>
         <item name="badgeTextSize">@dimen/badge_text_size</item>
         <item name="badgeFontColor">@color/white</item>
+
+        <item name="topRightCornerRadius">4dp</item>
+        <item name="topLeftCornerRadius">4dp</item>
+        <item name="bottomRightCornerRadius">4dp</item>
+        <item name="bottomLeftCornerRadius">4dp</item>
+        <item name="roundedCornerStrokeColor">@color/grey_100</item>
+        <item name="roundedCornerColor">@color/grey_50</item>
+        <item name="roundedCornerStrokeWidth">1dp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />

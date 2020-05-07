@@ -36,8 +36,11 @@ android {
 
 dependencies {
     def work_version = "2.3.4"
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(path: ':paged-list')
+    api project(path: ':easy-permission')
+    api project(path: ':easy-retrofit')
+    api project(path: ':android-form')
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api 'androidx.appcompat:appcompat:1.1.0'
     api 'androidx.core:core-ktx:1.2.0'
@@ -78,10 +81,10 @@ dependencies {
     api "androidx.navigation:navigation-fragment-ktx:2.2.2"
     api "androidx.navigation:navigation-ui-ktx:2.2.2"
 
-    api 'com.github.saizad:easyretrofit:e10fba163d85ec157519ea51e8b5680440461709'
-    api 'com.github.saizad:Android-Easy-Form:2657aeb897c60beaee66a78e25e6c513c171a177'
-    api 'com.github.saizad:PagedRecyclerList:e70af1648feaaefb867730b0d6f61d7e9ce48be9'
-    api 'com.github.saizad:EasyPermission:bugs_fixes-SNAPSHOT'
+//    api 'com.github.saizad:easyretrofit:e10fba163d85ec157519ea51e8b5680440461709'
+//    api 'com.github.saizad:Android-Easy-Form:2657aeb897c60beaee66a78e25e6c513c171a177'
+//    api 'com.github.saizad:PagedRecyclerList:e70af1648feaaefb867730b0d6f61d7e9ce48be9'
+//    api 'com.github.saizad:EasyPermission:bugs_fixes-SNAPSHOT'
 
     //Time
     api 'net.danlew:android.joda:2.9.3.1'
