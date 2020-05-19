@@ -4,10 +4,10 @@ import com.saizad.mvvmexample.di.auth.AuthEnvironment;
 
 import javax.inject.Inject;
 
-public class MVVMExampleAuthActivityViewModel extends MVVMExampleAuthViewModel {
+public class AuthActivityViewModel extends AuthViewModel {
 
     @Inject
-    public MVVMExampleAuthActivityViewModel(AuthEnvironment authEnvironment) {
+    public AuthActivityViewModel(AuthEnvironment authEnvironment) {
         super(authEnvironment);
     }
 }

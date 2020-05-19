@@ -3,7 +3,7 @@ package com.saizad.mvvmexample.components;
 import androidx.annotation.NonNull;
 
 import com.saizad.mvvm.SaizadLocation;
-import com.saizad.mvvm.CurrentUser;
+import com.saizad.mvvm.CurrentUserType;
 import com.saizad.mvvm.Environment;
 import com.saizad.mvvm.ViewModelProviderFactory;
 import com.saizad.mvvm.components.SaizadBaseFragment;
@@ -39,7 +39,7 @@ abstract public class MVVMExampleFragment<VM extends MVVMExampleViewModel> exten
         return mainEnvironment;
     }
 
-    protected CurrentUser currentUser() {
+    protected CurrentUserType currentUser() {
         return mainEnvironment.currentUser();
     }
 }

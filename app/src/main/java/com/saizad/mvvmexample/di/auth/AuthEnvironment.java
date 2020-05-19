@@ -2,7 +2,7 @@ package com.saizad.mvvmexample.di.auth;
 
 
 import com.saizad.mvvm.ActivityResult;
-import com.saizad.mvvm.CurrentUser;
+import com.saizad.mvvm.CurrentUserType;
 import com.saizad.mvvm.Environment;
 import com.saizad.mvvm.FCMToken;
 import com.saizad.mvvm.NotifyOnce;
@@ -23,7 +23,7 @@ public class AuthEnvironment extends Environment {
     private final AuthApi authApi;
 
     @Inject
-    public AuthEnvironment(FCMToken fcmToken, AuthApi authApi, BehaviorSubject<ActivityResult<?>> behaviorSubject, CurrentUser currentUser, @Named("notification") BehaviorSubject<NotifyOnce<?>> notifyOnceBehaviorSubject, PermissionManager permissionManager) {
+    public AuthEnvironment(FCMToken fcmToken, AuthApi authApi, BehaviorSubject<ActivityResult<?>> behaviorSubject, CurrentUserType currentUser, @Named("notification") BehaviorSubject<NotifyOnce<?>> notifyOnceBehaviorSubject, PermissionManager permissionManager) {
         super(fcmToken, behaviorSubject, currentUser, notifyOnceBehaviorSubject, permissionManager);
         this.authApi = authApi;
     }

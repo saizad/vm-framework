@@ -9,6 +9,7 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 import androidx.work.WorkerFactory;
 
+import com.saizad.mvvm.CurrentUserType;
 import com.saizad.mvvm.SaizadApplication;
 import com.saizad.mvvmexample.di.DaggerAppComponent;
 import com.saizad.mvvmexample.service.LocationWorker;
@@ -24,6 +25,8 @@ public class MVVMExampleApplication extends SaizadApplication {
 
     public static final String LOCATION_UPDATE_TAG = "location_update";
     private static MVVMExampleApplication INSTANCE;
+    @Inject
+    CurrentUserType currentUserType;
     @Inject
     WorkerFactory locationWorkerFactory;
 
@@ -76,5 +79,10 @@ public class MVVMExampleApplication extends SaizadApplication {
         };
 
         WorkManager.getInstance(this).getWorkInfoByIdLiveData(oneTimeWorkRequest.getId()).observeForever(observer);
+    }
+
+
+    public MVVMExampleCurrentUser getCurrentUserType() {
+        return (MVVMExampleCurrentUser) currentUserType;
     }
 }

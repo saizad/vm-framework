@@ -25,13 +25,20 @@ abstract class SaizadListItem<M> @JvmOverloads constructor(
 
     override fun lastItem(hide: Boolean) {
         if (!hide) {
-            if (layoutParams is MarginLayoutParams) {
-                val layoutParams = layoutParams as MarginLayoutParams
-                layoutParams.setMargins(0, 0, 0, itemGapSize())
-                requestLayout()
-            }
+            margins(horizontalGap(), itemGapSize())
+        }else{
+            margins(horizontalGap(), 0)
         }
     }
+
+    private fun margins(horizontal: Int, itemGapSize : Int){
+        if (layoutParams is MarginLayoutParams) {
+            val layoutParams = layoutParams as MarginLayoutParams
+            layoutParams.setMargins(horizontal, 0, horizontal, itemGapSize)
+            requestLayout()
+        }
+    }
+    open protected fun horizontalGap(): Int = 10
 
     open protected fun itemGapSize(): Int = 10
 }

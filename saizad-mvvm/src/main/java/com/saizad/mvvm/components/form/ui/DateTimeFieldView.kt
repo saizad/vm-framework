@@ -24,7 +24,7 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
 
     private lateinit var dateTimeField: DateTimeField
     var action1: Action1<Pair<String?, Boolean>> = Action1 { }
-    protected abstract var dateTimeView: DateTimeViewDelegate
+    public abstract var dateTimeView: DateTimeViewDelegate
 
     open fun setupTime(fragmentManager: FragmentManager, dateFieldDate: TimeField) {
         setup(dateFieldDate)

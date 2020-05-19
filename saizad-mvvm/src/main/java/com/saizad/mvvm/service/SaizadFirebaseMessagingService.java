@@ -3,13 +3,13 @@ package com.saizad.mvvm.service;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RawRes;
 import androidx.annotation.WorkerThread;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.sa.easyandroidfrom.ObjectUtils;
-import com.saizad.mvvm.CurrentUserType;
 import com.saizad.mvvm.FCMToken;
 
 import org.json.JSONObject;
@@ -18,27 +18,39 @@ import java.io.IOException;
 import java.util.Map;
 
 import dagger.android.AndroidInjection;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import sa.zad.easyretrofit.observables.NeverErrorObservable;
 
 
 abstract public class SaizadFirebaseMessagingService extends FirebaseMessagingService {
 
-    public static void updateToken(String token, FCMToken fcmToken, @NonNull CurrentUserType currentUser, FcmCallBack callBack) {
+
+    public static <T> void updateToken(String token, FCMToken fcmToken, @NonNull NeverErrorObservable<T> fcmRegister) {
         fcmToken.putToken(token);
-        if (ObjectUtils.isNotNull(currentUser.getUser())) {
-            callBack.updateToken(token);
-        }
+        fcmRegister
+                .exception(throwable -> {
+                    Log.d("Fcm_token", "Error updating token " + throwable.getMessage());
+                })
+                .subscribe(dataModel -> {
+                    Log.d("Fcm_token", "onNewToken Update");
+                });
     }
 
-    public static void requestAndUpdate(FCMToken fcmToken, CurrentUserType currentUser, FcmCallBack callBack) {
+    public static Observable<String> requestAndUpdate() {
+        PublishSubject<String> tokenSubject = PublishSubject.create();
+
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful() && ObjectUtils.isNotNull(task.getResult())) {
                         final String token = task.getResult().getToken();
                         Log.d("Fcm_token", "requestFCMToken Received " + token);
-                        updateToken(token, fcmToken, currentUser, callBack);
+                        tokenSubject.onNext(token);
                     }
                 });
+        return tokenSubject;
     }
+
 
     @WorkerThread
     public static void deleteFcmToken() throws IOException {
@@ -74,10 +86,14 @@ abstract public class SaizadFirebaseMessagingService extends FirebaseMessagingSe
             String notificationType = data.get("type");
             final String json = jsonObject.toString();
         } else {
-//            NotificationHelper.createNotification(notification);
+            NotificationHelper.createNotification(sound(), getApplicationContext(), notification, aClass());
         }
     }
 
     abstract public void updateToken(String token);
+
+    abstract public Class<?> aClass();
+
+    abstract public @RawRes int sound();
 
 }

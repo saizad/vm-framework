@@ -1,4 +1,4 @@
-package com.saizad.mvvmexample.components
+package com.saizad.mvvmexample.components;
 
 import com.saizad.mvvm.Environment
 import com.saizad.mvvm.SaizadLocation
@@ -6,7 +6,7 @@ import com.saizad.mvvm.ViewModelProviderFactory
 import com.saizad.mvvm.components.SaizadBaseActivity
 import javax.inject.Inject
 
-abstract class MVVMExampleActivity<VM: MVVMExampleViewModel> : SaizadBaseActivity<VM>() {
+abstract class MVVMExampleActivity<VM : MVVMExampleViewModel> : SaizadBaseActivity<VM>() {
 
     override fun onSupportNavigateUp() = navController().navigateUp()
 

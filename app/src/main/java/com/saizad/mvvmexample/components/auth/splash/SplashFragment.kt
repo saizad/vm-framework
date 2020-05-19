@@ -2,21 +2,20 @@ package com.saizad.mvvmexample.components.auth.splash
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import com.saizad.mvvmexample.R
-import com.saizad.mvvmexample.components.auth.MVVMExampleAuthFragment
+import com.saizad.mvvmexample.components.auth.AuthFragment
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_splash.*
 import java.util.concurrent.TimeUnit
+import androidx.navigation.fragment.findNavController
 
-class SplashFragment : MVVMExampleAuthFragment<SplashViewModel>() {
+class SplashFragment : AuthFragment<SplashViewModel>() {
 
     override fun getViewModelClassType(): Class<SplashViewModel> {
         return SplashViewModel::class.java
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
-        compositeDisposable().size()
         Observable.just("")
             .subscribeOn(schedulerProviderIO)
             .delay(1000, TimeUnit.MILLISECONDS)

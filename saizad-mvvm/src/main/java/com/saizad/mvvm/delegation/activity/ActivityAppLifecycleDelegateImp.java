@@ -6,7 +6,7 @@ import com.saizad.mvvm.delegation.BaseLifecycleDelegateImp;
 
 public class ActivityAppLifecycleDelegateImp<V extends SaizadBaseViewModel> extends BaseLifecycleDelegateImp<V, ActivityCB<V>> implements ActivityAppLifecycleDelegate {
 
-    public ActivityAppLifecycleDelegateImp(ActivityCB<V> activityCB, String tag) {
-        super(activityCB, tag);
+    public ActivityAppLifecycleDelegateImp(ActivityAppLifeCycleCallback activityAppLifeCycleCallback, ActivityCB<V> activityCB, String tag) {
+        super(activityAppLifeCycleCallback, activityCB, tag);
     }
 }

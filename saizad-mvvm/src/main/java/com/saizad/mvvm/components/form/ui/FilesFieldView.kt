@@ -3,6 +3,7 @@ package com.saizad.mvvm.components.form.ui
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.AttributeSet
 import android.view.View
@@ -12,7 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.sa.easyandroidfrom.field_view.BaseFieldView
-import com.sa.easyandroidfrom.fields.FileField
+import com.sa.easyandroidfrom.fields.StringListField
 import com.saizad.mvvm.SaizadRequestCodes
 import com.saizad.mvvm.components.SaizadBaseViewModel
 import com.saizad.mvvm.utils.bindClick
@@ -20,18 +21,21 @@ import io.reactivex.functions.Consumer
 import sa.zad.easypermission.AppPermission
 import sa.zad.easypermission.AppPermissionRequest
 import sa.zad.easypermission.PermissionManager
-import sa.zad.easyretrofit.Utils
 import sa.zad.easyretrofit.base.ProgressObservable
 import sa.zad.easyretrofit.observables.UploadObservable
 import java.io.File
 
 
-abstract class UriFieldView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    BaseFieldView<Uri>(context, attrs, defStyleAttr) {
-    
+abstract class FilesFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) :
+    BaseFieldView<List<String>>(context, attrs, defStyleAttr) {
+
     private lateinit var parentFragment: Fragment
     private lateinit var baseViewModel: SaizadBaseViewModel
-    private lateinit var imageField: FileField
+    protected lateinit var filesField: StringListField
     private lateinit var permissionManager: PermissionManager
     private lateinit var storagePermission: AppPermission
     private var undo: View? = null
@@ -45,21 +49,21 @@ abstract class UriFieldView @JvmOverloads constructor(context: Context, attrs: A
         initView().bindClick(Consumer {
             init()
         })
-        if(undo != null) {
+        if (undo != null) {
             undo!!.bindClick(Consumer {
                 reset()
             })
         }
         if (clear != null) {
             clear!!.bindClick(Consumer {
-                imageField.field = null
+                filesField.field = null
             })
         }
     }
 
-    fun reset(){
-        imageField.field = imageField.ogField
-        showValue(imageField.ogField)
+    fun reset() {
+        filesField.field = filesField.ogField
+        showValue(filesField.ogField)
     }
 
     fun setup(
@@ -67,13 +71,13 @@ abstract class UriFieldView @JvmOverloads constructor(context: Context, attrs: A
         baseViewModel: SaizadBaseViewModel,
         permissionManager: PermissionManager,
         permCode: Int,
-        fileField: FileField
+        fileField: StringListField
     ) {
         this.storagePermission = permissionManager.getAppPermission(permCode)
         parentFragment = fragment
         this.baseViewModel = baseViewModel
         this.permissionManager = permissionManager
-        this.imageField = fileField
+        this.filesField = fileField
         setField(fileField)
         init(baseViewModel)
 
@@ -92,15 +96,34 @@ abstract class UriFieldView @JvmOverloads constructor(context: Context, attrs: A
     private fun init(baseViewModel: SaizadBaseViewModel) {
         baseViewModel.onNavigationResult(SaizadRequestCodes.PICK_FILE, Intent::class.java)
             .observe(parentFragment.viewLifecycleOwner, Observer {
-                val fileName = getFileName(it.data!!)
-                val file = File.createTempFile("$fileName _", "." + File(fileName).extension)
-                Utils.writeStreamToFile(context.contentResolver.openInputStream(it.data!!)!!, file)
-                val uri = Uri.fromFile(file)
-                imageField.field = uri
+                val list = ArrayList<String>()
+                // checking multiple selection or not
+                if (null != it.getClipData()) {
+                    for (i in 0 until it.clipData!!.itemCount) {
+                        val uri: Uri = it.clipData!!.getItemAt(i).uri
+                        list.add(extractFile(uri).absolutePath)
+                    }
+                } else {
+                    val uri: Uri = it.data!!
+                    list.add(extractFile(uri).absolutePath)
+                }
+                filesField.field = list
+
             })
     }
-    
-    protected fun init(){
+
+    private fun extractFile(uri: Uri): File{
+        val fileName = getFileName(uri)
+        val file =
+            File.createTempFile(fileName, File(fileName).extension)
+        sa.zad.easyretrofit.Utils.writeStreamToFile(
+            context.contentResolver.openInputStream(uri)!!,
+            file
+        )
+        return file
+    }
+
+    protected fun init() {
         requestPerm()
     }
 
@@ -117,6 +140,19 @@ abstract class UriFieldView @JvmOverloads constructor(context: Context, attrs: A
             }, {
                 Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             })
+    }
+
+    private fun getRealPathFromURIPath(contentURI: Uri): String {
+        val cursor = this.context?.contentResolver?.query(contentURI, null, null, null, null)
+        return if (cursor == null) {
+            contentURI.path!!
+        } else {
+            cursor.moveToFirst()
+            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            val path = cursor.getString(idx)
+            cursor.close()
+            path
+        }
     }
 
     private fun getFileName(uri: Uri): String {
@@ -144,7 +180,7 @@ abstract class UriFieldView @JvmOverloads constructor(context: Context, attrs: A
     private fun openPicker() {
         parentFragment.activity?.startActivityForResult(intent(), SaizadRequestCodes.PICK_FILE)
     }
-    
+
     abstract fun intent(): Intent
 
     override fun error() {
@@ -161,26 +197,28 @@ abstract class UriFieldView @JvmOverloads constructor(context: Context, attrs: A
     }
 
     @CallSuper
-    override fun showValue(field: Uri?) {
-        if(undo != null) {
-            undo!!.isVisible = imageField.isModified
+    override fun showValue(field: List<String>?) {
+        if (undo != null) {
+            undo!!.isVisible = filesField.isModified
         }
-        if(clear != null) {
-            clear!!.isVisible = !imageField.isMandatory && field != null
+        if (clear != null) {
+            clear!!.isVisible = !filesField.isMandatory && field != null
         }
     }
 
     override fun fieldMandatory() {
-        if(clear != null) {
+        if (clear != null) {
             clear!!.isVisible = false
         }
     }
 
-    open fun clearView(): View?{
+    open fun clearView(): View? {
         return null
     }
-    open fun undoView(): View?{
+
+    open fun undoView(): View? {
         return null
     }
+
     abstract fun initView(): View
 }

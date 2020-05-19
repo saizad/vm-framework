@@ -3,9 +3,12 @@ package com.saizad.mvvmexample.di;
 import android.Manifest;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.saizad.mvvm.CurrentUserType;
 import com.saizad.mvvm.SaizadEasyRetrofit;
 import com.saizad.mvvm.di.SaizadDaggerAppModule;
 import com.saizad.mvvmexample.BuildConfig;
+import com.saizad.mvvmexample.MVVMExampleCurrentUser;
 import com.saizad.mvvmexample.api.BackgroundApi;
 
 import javax.inject.Singleton;
@@ -26,9 +29,15 @@ public class AppModule extends SaizadDaggerAppModule {
 
     private static final int MAX_REQUEST = 3;
 
+
     @Override
     public String domainURL() {
         return BuildConfig.DOMAIN_URL;
+    }
+
+    @Override
+    public CurrentUserType currentUser(SharedPreferences sharedPreferences, Gson gson) {
+        return new MVVMExampleCurrentUser(sharedPreferences, gson);
     }
 
     @Provides

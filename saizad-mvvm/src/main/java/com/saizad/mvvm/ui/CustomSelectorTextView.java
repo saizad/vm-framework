@@ -3,6 +3,7 @@ package com.saizad.mvvm.ui;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.annotation.CallSuper;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.saizad.mvvm.R;
@@ -59,6 +60,7 @@ public class CustomSelectorTextView extends AppCompatTextView {
         refreshDrawableState();
     }
 
+    @CallSuper
     public void neutral() {
         isMandatory = false;
         isError = false;

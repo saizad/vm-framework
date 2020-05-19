@@ -38,7 +38,9 @@ public abstract class SaizadDaggerAppModule {
         return new FCMToken(sharedPreferences, gson);
     }
 
-    public abstract SaizadEasyRetrofit retrofit(Application application, CurrentUserType currentUser, Gson gson);
+    public SaizadEasyRetrofit retrofit(Application application, CurrentUserType currentUser, Gson gson){
+        return new SaizadEasyRetrofit(application, currentUser, gson, domainURL());
+    }
 
     @Singleton
     @Provides

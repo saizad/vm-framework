@@ -9,10 +9,6 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../EasyAndroidForm/easyandroidform" />
-            <option value="$PROJECT_DIR$/../EasyPermission/easypermission" />
-            <option value="$PROJECT_DIR$/../EasyRetrofit/easyretrofit" />
-            <option value="$PROJECT_DIR$/../PagedRecyclerList/pagedrecyclerlist" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/saizad-mvvm" />

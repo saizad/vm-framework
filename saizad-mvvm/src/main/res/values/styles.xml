@@ -39,8 +39,8 @@
 
         <item name="android:windowBackground">@color/white</item>
 
-        <item name="android:windowEnterAnimation">@anim/slide_up</item>
-        <item name="android:windowExitAnimation">@anim/slide_down</item>
+        <item name="android:windowEnterAnimation">@anim/vertical_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/vertical_pop_enter_anim</item>
     </style>
 
 

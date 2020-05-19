@@ -38,12 +38,14 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
 
     public final String tag;
 
-    protected CompositeDisposable compositeDisposable;
+    private CompositeDisposable compositeDisposable;
     protected LoadingDialog loadingDialog;
     public V viewModel;
+    private final BaseLifecycleCallBack baseLifecycleCallBack;
     protected final CB appLifecycleDelegate;
 
-    public BaseLifecycleDelegateImp(CB appLifecycleDelegate, String tag) {
+    public BaseLifecycleDelegateImp(BaseLifecycleCallBack baseLifecycleCallBack, CB appLifecycleDelegate, String tag) {
+        this.baseLifecycleCallBack = baseLifecycleCallBack;
         this.appLifecycleDelegate = appLifecycleDelegate;
         this.tag = tag;
     }
@@ -89,7 +91,7 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
     }
 
     public void requestError(@NonNull SaizadBaseViewModel.ErrorData errorData) {
-        final boolean handle = serverError(errorData.getThrowable(), errorData.getId());
+        final boolean handle = baseLifecycleCallBack.serverError(errorData.getThrowable(), errorData.getId());
         if (!handle) {
             showAlertDialogOk("Error", errorData.getThrowable().getMessage());
         }
@@ -97,7 +99,7 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
 
     public void requestApiError(@NonNull SaizadBaseViewModel.ApiErrorData apiErrorData) {
         final ErrorModel.Error error = apiErrorData.getApiErrorException().getError();
-        final boolean handel = serverError(apiErrorData.getApiErrorException(), apiErrorData.getId());
+        final boolean handel = baseLifecycleCallBack.serverError(apiErrorData.getApiErrorException(), apiErrorData.getId());
         if (!handel) {
             showAlertDialogOk(error.error, error.message);
         }
@@ -199,6 +201,37 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
     @CallSuper
     public void onDestroy() {
         log("onDestroy");
+        try {
+            compositeDisposable.dispose();
+        }catch (Exception e){
+            log(e.toString());
+        }
+    }
+
+    @CallSuper
+    @Override
+    public void onViewReady() {
+        viewModel.onViewCreated();
+        compositeDisposable = new CompositeDisposable();
+        log("onViewReady");
+        viewModel.errorLiveData().observe(appLifecycleDelegate.getViewLifecycleOwner(), errorData -> {
+            if (!errorData.isDiscarded()) {
+                baseLifecycleCallBack.requestError(errorData);
+                errorData.discard();
+            }
+        });
+        viewModel.apiErrorLiveData().observe(appLifecycleDelegate.getViewLifecycleOwner(), apiErrorData -> {
+            if (!apiErrorData.isDiscarded()) {
+                baseLifecycleCallBack.requestApiError(apiErrorData);
+                apiErrorData.discard();
+            }
+        });
+        viewModel.loadingLiveData().observe(appLifecycleDelegate.getViewLifecycleOwner(), loadingData -> {
+            if (!loadingData.isDiscarded()) {
+                baseLifecycleCallBack.requestLoading(loadingData);
+                loadingData.discard();
+            }
+        });
     }
 
     @Override
@@ -219,8 +252,8 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
 
     public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle) {
         openClosableFragment(fragment, bundle, new NavOptions.Builder()
-                .setEnterAnim(R.anim.slide_up)
-                .setPopExitAnim(R.anim.slide_down).build());
+                .setEnterAnim(R.anim.vertical_enter_anim)
+                .setPopExitAnim(R.anim.vertical_pop_exit_anim).build());
     }
 
     public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {

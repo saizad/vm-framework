@@ -115,6 +115,9 @@ public abstract class SaizadBaseFragment<V extends SaizadBaseViewModel> extends 
     }
 
     @Override
+    public final void onViewReady() { }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         delegate.onCreateOptionsMenu(menu, inflater);

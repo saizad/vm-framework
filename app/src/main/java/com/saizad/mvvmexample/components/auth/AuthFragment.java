@@ -8,7 +8,7 @@ import com.saizad.mvvmexample.di.auth.AuthEnvironment;
 import javax.inject.Inject;
 
 
-public abstract class MVVMExampleAuthFragment<V extends MVVMExampleAuthViewModel> extends MVVMExampleFragment<V> {
+public abstract class AuthFragment<V extends AuthViewModel> extends MVVMExampleFragment<V> {
 
     @Inject
     public AuthEnvironment authEnvironment;

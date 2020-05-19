@@ -79,4 +79,7 @@ public interface BaseLifecycleDelegate {
     void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle);
 
     void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions);
+
+    void onViewReady();
+
 }

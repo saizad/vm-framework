@@ -17,8 +17,11 @@ public class LocationBody {
     @SerializedName("lng")
     private final Double lng;
 
+    public LocationBody(@NonNull String lat, @NonNull String lng) {
+        this(Double.valueOf(lat), Double.valueOf(lng));
+    }
     public LocationBody(@NonNull Double lat, @NonNull Double lng) {
-        this.lat = Double.valueOf(lat);
-        this.lng = Double.valueOf(lng);
+        this.lat = lat;
+        this.lng = lng;
     }
 }

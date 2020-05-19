@@ -4,9 +4,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import com.saizad.mvvm.ui.CountDrawable
 import com.saizad.mvvmexample.R
-import com.saizad.mvvmexample.components.main.MVVMExampleMainFragment
+import com.saizad.mvvmexample.components.main.MainFragment
 
-class HomeFragment : MVVMExampleMainFragment<HomeViewModel>() {
+class HomeFragment : MainFragment<HomeViewModel>() {
 
     override fun getViewModelClassType(): Class<HomeViewModel> {
         return HomeViewModel::class.java
@@ -23,6 +23,11 @@ class HomeFragment : MVVMExampleMainFragment<HomeViewModel>() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         val findItem = menu.findItem(R.id.counterMenu)
-        CountDrawable.setCount(context(), findItem.icon, R.drawable.ic_home_black_24dp, (0..200).random())
+        CountDrawable.setCount(
+            context(),
+            findItem.icon,
+            R.drawable.ic_home_black_24dp,
+            (0..200).random()
+        )
     }
 }

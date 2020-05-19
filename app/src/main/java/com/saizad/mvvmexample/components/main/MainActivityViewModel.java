@@ -4,10 +4,10 @@ import com.saizad.mvvmexample.di.main.MainEnvironment;
 
 import javax.inject.Inject;
 
-public class MVVMExampleMainActivityViewModel extends MVVMExampleMainViewModel {
+public class MainActivityViewModel extends MainViewModel {
 
     @Inject
-    public MVVMExampleMainActivityViewModel(MainEnvironment mainEnvironment) {
+    public MainActivityViewModel(MainEnvironment mainEnvironment) {
         super(mainEnvironment);
     }
 }

@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.activity_home.*
 
 
-class DrawerMainActivity : MVVMExampleActivity<MVVMExampleMainActivityViewModel>() {
+class DrawerMainActivity : MVVMExampleActivity<MainActivityViewModel>() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -71,7 +71,7 @@ class DrawerMainActivity : MVVMExampleActivity<MVVMExampleMainActivityViewModel>
         return findNavController(R.id.mainFragmentHost)
     }
 
-    override fun getViewModelClassType(): Class<MVVMExampleMainActivityViewModel> {
-        return MVVMExampleMainActivityViewModel::class.java
+    override fun getViewModelClassType(): Class<MainActivityViewModel> {
+        return MainActivityViewModel::class.java
     }
 }

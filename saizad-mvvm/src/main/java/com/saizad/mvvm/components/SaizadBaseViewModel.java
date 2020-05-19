@@ -30,10 +30,11 @@ import sa.zad.pagedrecyclerlist.ConstraintLayoutList;
 public abstract class SaizadBaseViewModel extends ViewModel {
 
     private final BehaviorSubject<ActivityResult<?>> activityResult;
-    private CompositeDisposable disposable;
+    protected CompositeDisposable disposable;
     private MutableLiveData<LoadingData> loadingLiveData = new MutableLiveData<>();
     private MutableLiveData<ErrorData> errorLiveData = new MutableLiveData<>();
     private MutableLiveData<ApiErrorData> apiErrorLiveData = new MutableLiveData<>();
+    public MutableLiveData<Object> currentUser = new MutableLiveData<>();
     protected BehaviorSubject<NotifyOnce<?>> notification;
     public final Environment environment;
 
@@ -93,25 +94,27 @@ public abstract class SaizadBaseViewModel extends ViewModel {
         shootLoading(true, requestId);
         observable
                 .successResponse(dataModelResponse -> mutableLiveData.setValue(null))
-//                .apiException(errorModel -> shootError(errorModel, requestId), ErrorModel.class)
-                .exception(throwable -> shootError(throwable, requestId))
-                .doFinally(() -> shootLoading(false, requestId))
-                .subscribe();
-        return mutableLiveData;
-    }
-    public  <M> LiveData<M> livedata(NeverErrorObservable<DataModel<M>> observable, int requestId) {
-        MutableLiveData<M> mutableLiveData = new MutableLiveData<>();
-        shootLoading(true, requestId);
-        observable
-                .successResponse(dataModelResponse -> mutableLiveData.setValue(dataModelResponse.body().data))
-                .apiException(errorModel ->
-                        shootError(errorModel, requestId), ErrorModel.class)
+                .apiException(errorModel -> shootError(errorModel, requestId), ErrorModel.class)
                 .exception(throwable -> shootError(throwable, requestId))
                 .doFinally(() -> shootLoading(false, requestId))
                 .subscribe();
         return mutableLiveData;
     }
 
+    public @NonNull
+    <M> LiveData<M> liveData(NeverErrorObservable<DataModel<M>> observable, int requestId) {
+        MutableLiveData<M> mutableLiveData = new MutableLiveData<>();
+        shootLoading(true, requestId);
+        observable
+                .successResponse(dataModelResponse -> mutableLiveData.setValue(dataModelResponse.body().data))
+                .connectionException(e -> shootError(e, requestId))
+                .failedResponse(dataModelResponse -> {})
+                .apiException(errorModel -> shootError(errorModel, requestId), ErrorModel.class)
+                .exception(throwable -> shootError(throwable, requestId))
+                .doFinally(() -> shootLoading(false, requestId))
+                .subscribe();
+        return mutableLiveData;
+    }
 
     public final Observable<ActivityResult<?>> activityResult(int requestCode) {
         return activityResult
@@ -146,7 +149,7 @@ public abstract class SaizadBaseViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         //Todo temp fix can't locate bug
-        if(ObjectUtils.isNotNull(disposable)) {
+        if (ObjectUtils.isNotNull(disposable)) {
             disposable.dispose();
         }
         super.onCleared();
@@ -172,13 +175,17 @@ public abstract class SaizadBaseViewModel extends ViewModel {
     @CallSuper
     public void onViewCreated() {
         disposable = new CompositeDisposable();
+        disposable.add(environment.currentUser().observable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(o -> {
+                    currentUser.setValue(o);
+                }));
     }
 
     protected void shootError(ErrorModel errorModel, int id) {
         final ApiErrorData value = new ApiErrorData(new ApiErrorException(errorModel), id);
         new Handler(Looper.getMainLooper()).post(() -> {
             apiErrorLiveData.setValue(value);
-            value.discard();
         });
     }
 
@@ -186,7 +193,6 @@ public abstract class SaizadBaseViewModel extends ViewModel {
         final ErrorData value = new ErrorData(throwable, id);
         new Handler(Looper.getMainLooper()).post(() -> {
             errorLiveData.setValue(value);
-            value.discard();
         });
     }
 
@@ -194,7 +200,6 @@ public abstract class SaizadBaseViewModel extends ViewModel {
         final LoadingData value = new LoadingData(loading, id);
         new Handler(Looper.getMainLooper()).post(() -> {
             loadingLiveData.setValue(value);
-            value.discard();
         });
     }
 
@@ -214,7 +219,7 @@ public abstract class SaizadBaseViewModel extends ViewModel {
             return id;
         }
 
-        public boolean isDiscarded(){
+        public boolean isDiscarded() {
             return DISCARDED_ID == this.id;
         }
 
@@ -262,7 +267,8 @@ public abstract class SaizadBaseViewModel extends ViewModel {
             return isLoading;
         }
     }
-    public static class ApiErrorException extends Exception{
+
+    public static class ApiErrorException extends Exception {
 
         private final ErrorModel errorModel;
 
@@ -275,7 +281,7 @@ public abstract class SaizadBaseViewModel extends ViewModel {
             return errorModel;
         }
 
-        public ErrorModel.Error getError(){
+        public ErrorModel.Error getError() {
             return getErrorModel().error;
         }
     }

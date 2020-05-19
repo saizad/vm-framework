@@ -8,7 +8,6 @@ import com.saizad.mvvm.utils.ViewUtils
 
 abstract class BaseDialog(context: Context, @LayoutRes layoutRes: Int) : Dialog(context) {
 
-
     init {
         val inflate = ViewUtils.inflate(context, layoutRes)
         setContentView(inflate)
@@ -19,4 +18,5 @@ abstract class BaseDialog(context: Context, @LayoutRes layoutRes: Int) : Dialog(
         super.onDetachedFromWindow()
         dismiss()
     }
+
 }

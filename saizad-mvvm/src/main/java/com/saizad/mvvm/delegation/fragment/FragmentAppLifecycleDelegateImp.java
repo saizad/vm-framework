@@ -17,8 +17,6 @@ import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.components.SaizadBaseViewModel;
 import com.saizad.mvvm.delegation.BaseLifecycleDelegateImp;
 
-import io.reactivex.disposables.CompositeDisposable;
-
 public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel> extends BaseLifecycleDelegateImp<V, FragmentCB<V>> implements FragmentAppLifecycleDelegate {
 
     private boolean hasInitializedRootView = false;
@@ -26,7 +24,7 @@ public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel
     private final FragmentAppLifecycleCallBack fragmentAppLifecycleCallBack;
 
     public FragmentAppLifecycleDelegateImp(FragmentAppLifecycleCallBack fragmentAppLifecycleCallBack, FragmentCB<V> fragmentAppLifecycleDelegate, String tag) {
-        super(fragmentAppLifecycleDelegate, tag);
+        super(fragmentAppLifecycleCallBack, fragmentAppLifecycleDelegate, tag);
         this.fragmentAppLifecycleCallBack = fragmentAppLifecycleCallBack;
     }
 
@@ -56,21 +54,6 @@ public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         log("onActivityCreated");
-        viewModel.errorLiveData().observe(appLifecycleDelegate.getViewLifecycleOwner(), errorData -> {
-            if (!errorData.isDiscarded()) {
-                requestError(errorData);
-            }
-        });
-        viewModel.apiErrorLiveData().observe(appLifecycleDelegate.getViewLifecycleOwner(), apiErrorData -> {
-            if (!apiErrorData.isDiscarded()) {
-                requestApiError(apiErrorData);
-            }
-        });
-        viewModel.loadingLiveData().observe(appLifecycleDelegate.getViewLifecycleOwner(), loadingData -> {
-            if (!loadingData.isDiscarded()) {
-                requestLoading(loadingData);
-            }
-        });
     }
 
     @CallSuper
@@ -95,8 +78,7 @@ public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         log("onViewCreated");
-        compositeDisposable = new CompositeDisposable();
-        viewModel.onViewCreated();
+        onViewReady();
         fragmentAppLifecycleCallBack.onViewCreated(view, savedInstanceState, hasInitializedRootView);
         if(!hasInitializedRootView){
             hasInitializedRootView = appLifecycleDelegate.persistView();
@@ -119,7 +101,7 @@ public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel
     @CallSuper
     public void onDestroyView() {
         log("onDestroyView");
-        compositeDisposable.dispose();
+        compositeDisposable().dispose();
         loadingDialog.dismiss();
         viewModel.onDestroyView();
     }

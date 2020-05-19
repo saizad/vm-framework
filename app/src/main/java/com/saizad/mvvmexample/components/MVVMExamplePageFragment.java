@@ -2,7 +2,7 @@ package com.saizad.mvvmexample.components;
 
 import androidx.annotation.NonNull;
 
-import com.saizad.mvvm.CurrentUser;
+import com.saizad.mvvm.CurrentUserType;
 import com.saizad.mvvm.Environment;
 import com.saizad.mvvm.SaizadLocation;
 import com.saizad.mvvm.ViewModelProviderFactory;
@@ -16,8 +16,10 @@ abstract public class MVVMExamplePageFragment<VM extends MVVMExampleViewModel> e
 
     @Inject
     public Environment mainEnvironment;
+
     @Inject
     public ViewModelProviderFactory viewModelProviderFactory;
+
     @Inject
     SaizadLocation gpsLocation;
 
@@ -39,7 +41,7 @@ abstract public class MVVMExamplePageFragment<VM extends MVVMExampleViewModel> e
         return mainEnvironment;
     }
 
-    protected CurrentUser currentUser() {
+    protected CurrentUserType currentUser() {
         return mainEnvironment.currentUser();
     }
 }

@@ -1,18 +1,20 @@
 rootProject.name = 'SaizadMVVMExample'
 include ':app'
 include ':saizad-mvvm'
-include ':android-form'
-project(':android-form').projectDir =
-        new File('/Users/sa-zadprasla/AndroidStudioProjects/EasyAndroidForm/easyandroidform')
+if (false) {
+    include ':android-form'
+    project(':android-form').projectDir =
+            new File('/Users/sa-zadprasla/AndroidStudioProjects/EasyAndroidForm/easyandroidform')
 
-include ':easy-retrofit'
-project(':easy-retrofit').projectDir =
-        new File('/Users/sa-zadprasla/AndroidStudioProjects/EasyRetrofit/easyretrofit')
+    include ':easy-retrofit'
+    project(':easy-retrofit').projectDir =
+            new File('/Users/sa-zadprasla/AndroidStudioProjects/EasyRetrofit/easyretrofit')
 
-include ':easy-permission'
-project(':easy-permission').projectDir =
-        new File('/Users/sa-zadprasla/AndroidStudioProjects/EasyPermission/easypermission')
+    include ':easy-permission'
+    project(':easy-permission').projectDir =
+            new File('/Users/sa-zadprasla/AndroidStudioProjects/EasyPermission/easypermission')
 
-include ':paged-list'
-project(':paged-list').projectDir =
-        new File('/Users/sa-zadprasla/AndroidStudioProjects/PagedRecyclerList/pagedrecyclerlist')
+    include ':paged-list'
+    project(':paged-list').projectDir =
+            new File('/Users/sa-zadprasla/AndroidStudioProjects/PagedRecyclerList/pagedrecyclerlist')
+}

@@ -2,7 +2,7 @@ package com.saizad.mvvmexample.di;
 
 import com.saizad.mvvm.di.AuthScope;
 import com.saizad.mvvm.di.MainScope;
-import com.saizad.mvvmexample.components.auth.MVVMExampleAuthActivity;
+import com.saizad.mvvmexample.components.auth.AuthActivity;
 import com.saizad.mvvmexample.components.main.DrawerMainActivity;
 import com.saizad.mvvmexample.di.auth.AuthFragmentBuildersModule;
 import com.saizad.mvvmexample.di.auth.AuthModule;
@@ -21,7 +21,7 @@ public abstract class ActivityBuildersModule {
     @AuthScope
     @ContributesAndroidInjector(
             modules = {AuthFragmentBuildersModule.class, AuthViewModelsModule.class, AuthModule.class})
-    abstract MVVMExampleAuthActivity authActivity();
+    abstract AuthActivity authActivity();
 
     @MainScope
     @ContributesAndroidInjector(

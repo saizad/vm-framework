@@ -6,7 +6,7 @@ import androidx.navigation.findNavController
 import com.saizad.mvvmexample.R
 import com.saizad.mvvmexample.components.MVVMExampleActivity
 
-class MVVMExampleAuthActivity : MVVMExampleActivity<MVVMExampleAuthActivityViewModel>() {
+class AuthActivity : MVVMExampleActivity<AuthActivityViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AuthTheme)
@@ -14,8 +14,8 @@ class MVVMExampleAuthActivity : MVVMExampleActivity<MVVMExampleAuthActivityViewM
         setContentView(R.layout.activity_auth)
     }
 
-    override fun getViewModelClassType(): Class<MVVMExampleAuthActivityViewModel> {
-        return MVVMExampleAuthActivityViewModel::class.java
+    override fun getViewModelClassType(): Class<AuthActivityViewModel> {
+        return AuthActivityViewModel::class.java
     }
 
     override fun navController(): NavController {

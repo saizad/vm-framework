@@ -2,7 +2,6 @@ package com.saizad.mvvm.components.form.ui
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.View
@@ -13,11 +12,11 @@ import kotlinx.android.synthetic.main.lib_image_field_view.view.*
 
 
 class ImageFieldView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    UriFieldView(context, attrs, defStyleAttr) {
+    FilesFieldView(context, attrs, defStyleAttr) {
 
-    override fun showValue(field: Uri?) {
+    override fun showValue(field: List<String>?) {
         super.showValue(field)
-        ImageUtils.setAvatarImage(image_view, field.toString())
+        ImageUtils.setAvatarImage(image_view, field?.first())
     }
 
     override fun initView(): View {

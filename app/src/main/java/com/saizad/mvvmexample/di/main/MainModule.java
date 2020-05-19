@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.SaizadEasyRetrofit;
-import com.saizad.mvvm.CurrentUser;
+import com.saizad.mvvm.CurrentUserType;
 import com.saizad.mvvm.FCMToken;
 import com.saizad.mvvm.NotifyOnce;
 import com.saizad.mvvm.ObjectPreference;
@@ -22,7 +22,7 @@ import sa.zad.easypermission.PermissionManager;
 public class MainModule {
 
     @Provides
-    static MainEnvironment providesAuthEnvironment(FCMToken fcmToken, MainApi mainApi, PermissionManager permissionManager, CurrentUser currentUser, BehaviorSubject<ActivityResult<?>> navigationFragmentResult, @Named("notification") BehaviorSubject<NotifyOnce<?>> notifyOnceBehaviorSubject) {
+    static MainEnvironment providesAuthEnvironment(FCMToken fcmToken, MainApi mainApi, PermissionManager permissionManager, CurrentUserType currentUser, BehaviorSubject<ActivityResult<?>> navigationFragmentResult, @Named("notification") BehaviorSubject<NotifyOnce<?>> notifyOnceBehaviorSubject) {
         return new MainEnvironment(fcmToken, mainApi, navigationFragmentResult, currentUser, permissionManager, notifyOnceBehaviorSubject);
     }
 

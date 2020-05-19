@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavOptions;
 
 import com.saizad.mvvm.ActivityResult;
+import com.saizad.mvvm.delegation.activity.ActivityAppLifeCycleCallback;
 import com.saizad.mvvm.delegation.activity.ActivityAppLifecycleDelegate;
 import com.saizad.mvvm.delegation.activity.ActivityAppLifecycleDelegateImp;
 import com.saizad.mvvm.delegation.activity.ActivityCB;
@@ -28,12 +29,12 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 import rx.functions.Action1;
 
-public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends DaggerAppCompatActivity implements ActivityAppLifecycleDelegate, ActivityCB<V> {
+public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends DaggerAppCompatActivity implements ActivityAppLifecycleDelegate, ActivityCB<V>, ActivityAppLifeCycleCallback {
 
     protected final ActivityAppLifecycleDelegate delegate;
 
     public SaizadBaseActivity() {
-        delegate = new ActivityAppLifecycleDelegateImp<>(this, getClass().getSimpleName());
+        delegate = new ActivityAppLifecycleDelegateImp<>(this,this, getClass().getSimpleName());
     }
 
     @NonNull
@@ -98,6 +99,12 @@ public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         delegate.onCreate(savedInstanceState);
+        onViewReady();
+    }
+
+    @Override
+    public final void onViewReady() {
+        delegate.onViewReady();
     }
 
     public void requestError(@NonNull SaizadBaseViewModel.ErrorData errorData) {
@@ -205,4 +212,6 @@ public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends 
     public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
         delegate.openClosableFragment(fragment, bundle, navOptions);
     }
+
+
 }

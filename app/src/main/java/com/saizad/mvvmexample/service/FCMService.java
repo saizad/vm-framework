@@ -1,10 +1,10 @@
 package com.saizad.mvvmexample.service;
 
 import com.google.gson.Gson;
-import com.saizad.mvvm.CurrentUser;
 import com.saizad.mvvm.FCMToken;
 import com.saizad.mvvm.NotifyOnce;
 import com.saizad.mvvm.service.SaizadFirebaseMessagingService;
+import com.saizad.mvvmexample.components.auth.AuthActivity;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,10 +17,6 @@ public class FCMService extends SaizadFirebaseMessagingService {
     FCMToken fcmToken;
 
     @Inject
-    CurrentUser currentUser;
-
-
-    @Inject
     @Named("notification")
     BehaviorSubject<NotifyOnce<?>> notification;
 
@@ -30,5 +26,15 @@ public class FCMService extends SaizadFirebaseMessagingService {
     @Override
     public void updateToken(String token) {
 
+    }
+
+    @Override
+    public Class<?> aClass() {
+        return AuthActivity.class;
+    }
+
+    @Override
+    public int sound() {
+        return 0;
     }
 }
