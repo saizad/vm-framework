@@ -5,33 +5,25 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 public class NonSwipeableViewPager extends BaseViewPager {
-  private boolean enabled;
+    private boolean enabled;
 
-  public NonSwipeableViewPager(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    this.enabled = false;
-  }
+    public NonSwipeableViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.enabled = false;
+    }
 
-  @Override
-  public boolean onTouchEvent(MotionEvent event) {
-    return this.enabled && super.onTouchEvent(event);
-  }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return this.enabled && super.onTouchEvent(event);
+    }
 
-  @Override
-  public boolean onInterceptTouchEvent(MotionEvent event) {
-    return this.enabled && super.onInterceptTouchEvent(event);
-  }
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        return this.enabled && super.onInterceptTouchEvent(event);
+    }
 
-  public void setPagingEnabled(boolean enabled) {
-    this.enabled = enabled;
+    public void setPagingEnabled(boolean enabled) {
+        this.enabled = enabled;
 
-  }
-
-  public void next(){
-    setCurrentItem(getCurrentItem()+1, true);
-  }
-
-  public void previous(){
-    setCurrentItem(getCurrentItem()-1, true);
-  }
+    }
 }

@@ -214,7 +214,7 @@ public class ViewUtils {
 
     public static Observable<Object> bindClick(View view) {
         return RxView.clicks(view)
-                .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

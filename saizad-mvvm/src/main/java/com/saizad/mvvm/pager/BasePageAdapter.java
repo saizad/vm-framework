@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.sa.easyandroidfrom.ObjectUtils;
+import com.sa.easyandroidform.ObjectUtils;
 import com.saizad.mvvm.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +26,7 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
     private float sumPosition;
     private int scrollState;
     private final SparseArray<F> fragments = new SparseArray<>();
+    private int mCurrentPosition = -1;
 
     private PageListener<F> pageListener = new PageListener<F>() {
         @Override
@@ -94,6 +95,14 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
     @Override
     public final void setPrimaryItem(ViewGroup container, int position, Object object) {
         this.position = position;
+        if (position != mCurrentPosition) {
+            Fragment fragment = (Fragment) object;
+            BaseViewPager pager = (BaseViewPager) container;
+            if (fragment != null && fragment.getView() != null) {
+                mCurrentPosition = position;
+                pager.measureCurrentView(fragment.getView());
+            }
+        }
         if (getCurrentPage() != object) {
             if (ObjectUtils.isNotNull(mCurrentFragment)) {
                 mCurrentFragment.onPageUnSelected();

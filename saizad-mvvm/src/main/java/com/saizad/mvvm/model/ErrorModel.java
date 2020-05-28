@@ -2,8 +2,8 @@ package com.saizad.mvvm.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.sa.easyandroidfrom.ObjectUtils;
-import com.sa.easyandroidfrom.StringUtils;
+import com.sa.easyandroidform.ObjectUtils;
+import com.sa.easyandroidform.StringUtils;
 
 import java.util.List;
 

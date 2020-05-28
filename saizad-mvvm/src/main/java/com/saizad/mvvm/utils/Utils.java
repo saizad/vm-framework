@@ -8,8 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.annotations.SerializedName;
-import com.sa.easyandroidfrom.Func1;
-import com.sa.easyandroidfrom.ObjectUtils;
+import com.sa.easyandroidform.Func1;
+import com.sa.easyandroidform.ObjectUtils;
 
 import java.lang.reflect.Field;
 import java.math.RoundingMode;
@@ -20,6 +20,7 @@ import java.util.List;
 
 public class Utils {
 
+    public static final String DOB_DATE_FORMATTER = "yyyy-MMM-dd";
     public static final String APP_DATE_FORMATTER = "yyyy-MM-dd";
     public static final String APP_TIME_FORMATTER = "h:mm:ss";
     public static final String APP_TIME_FORMATTER_24_HOURS = "H:mm:ss";

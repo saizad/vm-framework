@@ -3,7 +3,7 @@ package com.saizad.mvvm.components.form.ui;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.sa.easyandroidfrom.ObjectUtils;
+import com.sa.easyandroidform.ObjectUtils;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +24,7 @@ public class IntegerInputFieldView extends InputFieldView<Integer> {
 
 
     @Override
-    public Integer resolveTo(@NotNull CharSequence charSequence) {
+    public Integer resolveFrom(@NotNull CharSequence charSequence) {
         try {
             return Integer.valueOf(charSequence.toString());
         }catch (NumberFormatException e){
@@ -33,7 +33,7 @@ public class IntegerInputFieldView extends InputFieldView<Integer> {
     }
 
     @Override
-    public CharSequence setText(@Nullable Integer value) {
+    public CharSequence resolve(@Nullable Integer value) {
         if(ObjectUtils.isNull(value)){
             return null;
         }
@@ -41,7 +41,7 @@ public class IntegerInputFieldView extends InputFieldView<Integer> {
     }
 
     @Override
-    public boolean compare(Integer value, Integer prevValue) {
+    public boolean isSame(Integer value, Integer prevValue) {
         return value.equals(prevValue);
     }
 }

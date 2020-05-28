@@ -10,6 +10,11 @@ import org.joda.time.format.PeriodFormatterBuilder
 import kotlin.math.max
 
 
+public val DateTime.dobDateFormat: String
+    get() {
+        return toString(Utils.DOB_DATE_FORMATTER)
+    }
+
 public val DateTime.appDateFormat: String
     get() {
         return toString(Utils.APP_DATE_FORMATTER)

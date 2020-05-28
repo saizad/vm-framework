@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-public class NameModel extends BaseModel implements Parcelable  {
+public class NameModel extends IdModel implements Parcelable  {
 
     @SerializedName("name")
     public @NonNull String name;

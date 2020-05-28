@@ -1,17 +1,18 @@
 package com.saizad.mvvm;
 
-import com.sa.easyandroidfrom.fields.BaseField;
-import com.sa.easyandroidfrom.form.FormModel;
+import com.sa.easyandroidform.fields.BaseField;
+import com.sa.easyandroidform.form.FormModel;
 import com.saizad.mvvm.model.ErrorModel;
 import com.saizad.mvvm.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class SaizadFormModel<T> extends FormModel<T> {
-    protected transient final List<BaseField> fields;
+public abstract class PublishNetworkErrorFormModel<T> extends FormModel<T> {
+    protected transient final List<BaseField<?>> fields;
 
-    public SaizadFormModel(List<BaseField> fields) {
+    public PublishNetworkErrorFormModel(ArrayList<BaseField<?>> fields) {
         super(fields);
         this.fields = fields;
     }

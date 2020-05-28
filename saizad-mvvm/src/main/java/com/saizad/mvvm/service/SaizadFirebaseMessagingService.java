@@ -9,7 +9,7 @@ import androidx.annotation.WorkerThread;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.sa.easyandroidfrom.ObjectUtils;
+import com.sa.easyandroidform.ObjectUtils;
 import com.saizad.mvvm.FCMToken;
 
 import org.json.JSONObject;

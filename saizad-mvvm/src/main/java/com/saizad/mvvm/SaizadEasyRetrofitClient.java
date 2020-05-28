@@ -3,7 +3,7 @@ package com.saizad.mvvm;
 import android.app.Application;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-import com.sa.easyandroidfrom.ObjectUtils;
+import com.sa.easyandroidform.ObjectUtils;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -42,7 +42,7 @@ public class SaizadEasyRetrofitClient extends EasyRetrofitClient {
             Request request = chain.request();
             final String token = currentUser.getToken();
             if (ObjectUtils.isNotNull(token)) {
-                request = request.newBuilder().header("Authorization",  token).build();
+                request = request.newBuilder().header("Authorization",  "Bearer " + token).build();
             }
             return chain.proceed(request);
         };

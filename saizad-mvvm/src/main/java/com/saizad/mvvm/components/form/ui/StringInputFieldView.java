@@ -21,7 +21,7 @@ public class StringInputFieldView extends InputFieldView<String> {
     }
 
     @Override
-    public String resolveTo(@NotNull CharSequence charSequence) {
+    public String resolveFrom(@NotNull CharSequence charSequence) {
         if(charSequence.toString().isEmpty()){
             return null;
         }
@@ -29,12 +29,12 @@ public class StringInputFieldView extends InputFieldView<String> {
     }
 
     @Override
-    public CharSequence setText(@Nullable String value) {
+    public CharSequence resolve(@Nullable String value) {
         return value;
     }
 
     @Override
-    public boolean compare(String value, String prevValue) {
+    public boolean isSame(String value, String prevValue) {
         return value.equals(prevValue);
     }
 }

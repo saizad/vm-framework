@@ -12,8 +12,8 @@ import androidx.annotation.CallSuper
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.sa.easyandroidfrom.field_view.BaseFieldView
-import com.sa.easyandroidfrom.fields.StringListField
+import com.sa.easyandroidform.field_view.BaseFieldView
+import com.sa.easyandroidform.fields.StringListField
 import com.saizad.mvvm.SaizadRequestCodes
 import com.saizad.mvvm.components.SaizadBaseViewModel
 import com.saizad.mvvm.utils.bindClick
@@ -182,15 +182,6 @@ abstract class FilesFieldView @JvmOverloads constructor(
     }
 
     abstract fun intent(): Intent
-
-    override fun error() {
-    }
-
-    override fun edited() {
-    }
-
-    override fun neutral() {
-    }
 
     override fun displayError(show: Boolean, error: String?) {
 

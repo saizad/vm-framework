@@ -4,33 +4,22 @@ import android.content.Context
 import android.widget.Button
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.sa.easyandroidfrom.form.FormModel
+import com.sa.easyandroidform.form.FormModel
 import com.saizad.mvvm.utils.bindClick
 import io.reactivex.functions.Consumer
 
-abstract class BaseFormDialog<M>(context: Context, @LayoutRes layoutRes: Int) : BaseDialog(context, layoutRes) {
-    private val mutableLiveData = MutableLiveData<M>()
+abstract class BaseFormDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) : BaseDialog<M, R>(context, layoutRes) {
 
     init {
-        setOnShowListener {
-            onShow()
-        }
         formActionButton().bindClick(Consumer {
-            mutableLiveData.value = form().build()
+            mutableLiveData.value = form().requiredBuild()
             dismiss()
         })
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        dismiss()
-    }
-
     @CallSuper
-    open fun onShow() {
-        form().isAllFieldValidObservable
+    override fun onShow() {
+        form().validObservable()
             .subscribe {
                 formActionButton().isEnabled = it
             }
@@ -38,18 +27,5 @@ abstract class BaseFormDialog<M>(context: Context, @LayoutRes layoutRes: Int) : 
 
     abstract fun formActionButton(): Button
 
-    @CallSuper
-    fun show(data: M? = null): LiveData<M> {
-        prepare(data)
-        super.show()
-        return mutableLiveData
-    }
-
-    final override fun show() {
-        throw RuntimeException("Invalid method call")
-    }
-
-    abstract fun prepare(data: M?)
-
-    abstract fun form(): FormModel<M>
+    abstract fun form(): FormModel<R>
 }

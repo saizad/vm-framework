@@ -7,13 +7,17 @@ import androidx.annotation.CallSuper;
 
 import com.google.gson.annotations.SerializedName;
 
-public class BaseModel implements Parcelable {
+public class IdModel implements Parcelable {
     @SerializedName("id")
     public int id;
 
-    protected BaseModel(){}
+    public IdModel(int id) {
+        this.id = id;
+    }
 
-    protected BaseModel(Parcel in) {
+    protected IdModel(){}
+
+    protected IdModel(Parcel in) {
         id = in.readInt();
     }
 
@@ -28,15 +32,15 @@ public class BaseModel implements Parcelable {
         return 0;
     }
 
-    public static final Creator<BaseModel> CREATOR = new Creator<BaseModel>() {
+    public static final Creator<IdModel> CREATOR = new Creator<IdModel>() {
         @Override
-        public BaseModel createFromParcel(Parcel in) {
-            return new BaseModel(in);
+        public IdModel createFromParcel(Parcel in) {
+            return new IdModel(in);
         }
 
         @Override
-        public BaseModel[] newArray(int size) {
-            return new BaseModel[size];
+        public IdModel[] newArray(int size) {
+            return new IdModel[size];
         }
     };
 }

@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.common.util.ArrayUtils;
-import com.sa.easyandroidfrom.ObjectUtils;
+import com.sa.easyandroidform.ObjectUtils;
 import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.BaseNotificationModel;
 import com.saizad.mvvm.Environment;

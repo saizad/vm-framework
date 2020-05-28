@@ -1,12 +1,13 @@
 package com.saizad.mvvm.components.form
 
-import com.sa.easyandroidfrom.ObjectUtils
-import com.sa.easyandroidfrom.StringUtils
-import com.sa.easyandroidfrom.StringUtils.stripTrailingLeadingNewLines
+import com.sa.easyandroidform.ObjectUtils
+import com.sa.easyandroidform.StringUtils
+import com.sa.easyandroidform.StringUtils.stripTrailingLeadingNewLines
+import io.reactivex.exceptions.CompositeException
 
 private const val MAX_REQUIRED_STRING_LENGTH = 50
 
-@Throws(Exception::class)
+@Throws(CompositeException::class)
 fun validateName(name: String?) {
     if (!isNameValid(name))
         throw Exception("Invalid Name format. Use first name followed by last name and space in between.")
@@ -49,7 +50,7 @@ fun isUserNameValid(name: String?): Boolean {
     return ObjectUtils.isNull(name) || name!!.matches("^[0-9A-Za-z_-]+$".toRegex())
 }
 
-@Throws(Exception::class)
+@Throws(CompositeException::class)
 @JvmOverloads
 fun stringLengthValidation(string: String?, max: Int = -1, min: Int = 0, allowNone: Boolean = false,
                            fieldName: String? = null, minErrorMessage: String? = null, maxErrorMessage: String? = null,
@@ -88,7 +89,7 @@ fun stringLengthValidation(string: String?, max: Int = -1, min: Int = 0, allowNo
 }
 
 //not-tested
-@Throws(Exception::class)
+@Throws(CompositeException::class)
 @JvmOverloads
 fun valueValidation(value: Int?, max: Int, min: Int = 0, allowNone: Boolean = true,
                     fieldName: String? = null, minErrorMessage: String? = null, maxErrorMessage: String? = null,

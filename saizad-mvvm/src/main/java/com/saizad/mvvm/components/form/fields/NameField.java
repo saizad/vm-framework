@@ -3,11 +3,13 @@ package com.saizad.mvvm.components.form.fields;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sa.easyandroidfrom.StringUtils;
-import com.sa.easyandroidfrom.fields.NonEmptyStringField;
+import com.sa.easyandroidform.StringUtils;
+import com.sa.easyandroidform.fields.NonEmptyStringField;
 import com.saizad.mvvm.components.form.FieldValidatorKt;
 
 import javax.annotation.Nonnull;
+
+import io.reactivex.exceptions.CompositeException;
 
 
 public class NameField extends NonEmptyStringField {
@@ -40,7 +42,7 @@ public class NameField extends NonEmptyStringField {
 
     @Nullable
     private String getName(int index) {
-        if (isFieldValid()) {
+        if (isValid()) {
             final String[] split = StringUtils.stripTrailingLeadingNewLines(getField()).split(" ");
             return split[index];
         }
@@ -48,7 +50,8 @@ public class NameField extends NonEmptyStringField {
     }
 
     @Override
-    public void validate() throws Exception {
+    public void validate() throws CompositeException {
+        super.validate();
         FieldValidatorKt.validateName(getField());
     }
 }

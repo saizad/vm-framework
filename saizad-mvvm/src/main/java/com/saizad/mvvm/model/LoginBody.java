@@ -7,9 +7,11 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.sa.easyandroidfrom.fields.MandatoryStringField;
-import com.sa.easyandroidfrom.fields.PasswordField;
-import com.sa.easyandroidfrom.form.FormModel;
+import com.sa.easyandroidform.fields.MandatoryStringField;
+import com.sa.easyandroidform.fields.PasswordField;
+import com.sa.easyandroidform.form.FormModel;
+
+import java.util.ArrayList;
 
 import static java.util.Arrays.asList;
 
@@ -62,10 +64,10 @@ public class LoginBody implements Parcelable {
         public final MandatoryStringField usernameField;
 
         public Form() {
-            super(asList(new MandatoryStringField("username"), new PasswordField("password")));
+            super(new ArrayList<>(asList(new MandatoryStringField("username"), new PasswordField("password"))));
 
-            passwordField = getField("password");
-            usernameField = getField("username");
+            passwordField = requiredFindField("password");
+            usernameField = requiredFindField("username");
         }
 
         @NonNull

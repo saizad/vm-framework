@@ -7,13 +7,15 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.sa.easyandroidfrom.fields.Field;
-import com.sa.easyandroidfrom.form.FormModel;
+import com.sa.easyandroidform.fields.Field;
+import com.sa.easyandroidform.form.FormModel;
+
+import java.util.ArrayList;
 
 import static java.util.Arrays.asList;
 
 
-public class UserInfo extends BaseModel implements Parcelable {
+public class UserInfo extends IdModel implements Parcelable {
 
     @Expose
     @SerializedName("mobile")
@@ -72,13 +74,13 @@ public class UserInfo extends BaseModel implements Parcelable {
         }
 
         public Form(UserInfo data) {
-            super(asList(new Field<>("mobile", data.mobile, true),
+            super(new ArrayList<>(asList(new Field<>("mobile", data.mobile, true),
                     new Field<>("email", data.email, true),
                     new Field<>("user_name", data.userName, true)
-            ));
-            mobileField = getField("mobile");
-            emailField = getField("email");
-            userNameField = getField("user_name");
+            )));
+            mobileField = requiredFindField("mobile");
+            emailField = requiredFindField("email");
+            userNameField = requiredFindField("user_name");
         }
 
 

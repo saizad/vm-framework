@@ -3,11 +3,11 @@ package com.saizad.mvvm.components.form.ui
 import android.content.Context
 import android.util.AttributeSet
 import androidx.fragment.app.FragmentManager
-import com.sa.easyandroidfrom.ObjectUtils
-import com.sa.easyandroidfrom.field_view.BaseFieldView
-import com.sa.easyandroidfrom.fields.time.DateField
-import com.sa.easyandroidfrom.fields.time.DateTimeField
-import com.sa.easyandroidfrom.fields.time.TimeField
+import com.sa.easyandroidform.ObjectUtils
+import com.sa.easyandroidform.field_view.BaseFieldView
+import com.sa.easyandroidform.fields.time.DateField
+import com.sa.easyandroidform.fields.time.DateTimeField
+import com.sa.easyandroidform.fields.time.TimeField
 import com.saizad.mvvm.ui.calendar.DatePickerFragment
 import com.saizad.mvvm.ui.calendar.DateTimePickerFragment
 import com.saizad.mvvm.ui.calendar.TimePickerFragment
@@ -94,16 +94,6 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
     override fun fieldMandatory() {
         dateTimeView.getDateView().setMandatory(true)
         dateTimeView.getTimeView().setMandatory(true)
-    }
-
-    override fun error() {
-
-    }
-
-    override fun edited() {
-    }
-
-    override fun neutral() {
     }
 
     override fun displayError(show: Boolean, error: String?) {

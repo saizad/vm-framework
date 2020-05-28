@@ -1,9 +1,10 @@
 rootProject.name = 'SaizadMVVMExample'
 include ':app'
 include ':saizad-mvvm'
-if (false) {
-    include ':android-form'
-    project(':android-form').projectDir =
+if (true) {
+
+    include ':easyandroidform'
+    project(':easyandroidform').projectDir =
             new File('/Users/sa-zadprasla/AndroidStudioProjects/EasyAndroidForm/easyandroidform')
 
     include ':easy-retrofit'
