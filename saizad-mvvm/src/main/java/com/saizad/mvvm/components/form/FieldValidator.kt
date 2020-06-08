@@ -10,7 +10,7 @@ private const val MAX_REQUIRED_STRING_LENGTH = 50
 @Throws(CompositeException::class)
 fun validateName(name: String?) {
     if (!isNameValid(name))
-        throw Exception("Invalid Name format. Use first name followed by last name and space in between.")
+        throw CompositeException(Exception("Invalid Name format. Use first name followed by last name and space in between."))
 
     val split = stripTrailingLeadingNewLines(name).split(" ".toRegex()).toTypedArray()
 
@@ -66,7 +66,7 @@ fun stringLengthValidation(string: String?, max: Int = -1, min: Int = 0, allowNo
     }
 
     if (string == null && !allowNone) {
-        throw Exception(nullStringErrorMessage)
+        throw CompositeException(Exception(nullStringErrorMessage))
     }
 
     if (ObjectUtils.isNull(maxErrorMessage)) {
@@ -78,11 +78,11 @@ fun stringLengthValidation(string: String?, max: Int = -1, min: Int = 0, allowNo
     }
 
     if (ObjectUtils.isNotNull(string) && StringUtils.stripTrailingLeadingNewLines(string).length < min) {
-        throw Exception(minErrorMessage)
+        throw CompositeException(Exception(minErrorMessage))
     }
 
     if (ObjectUtils.isNotNull(string) && max > 0 && StringUtils.stripTrailingLeadingNewLines(string).length > max) {
-        throw Exception(maxErrorMessage)
+        throw CompositeException(Exception(maxErrorMessage))
     }
 
     return string
@@ -106,7 +106,7 @@ fun valueValidation(value: Int?, max: Int, min: Int = 0, allowNone: Boolean = tr
     }
 
     if (ObjectUtils.isNull(value) && !allowNone) {
-        throw Exception(nullStringErrorMessage)
+        throw CompositeException(Exception(nullStringErrorMessage))
     }
 
     if (ObjectUtils.isNull(maxErrorMessage)) {
@@ -119,13 +119,13 @@ fun valueValidation(value: Int?, max: Int, min: Int = 0, allowNone: Boolean = tr
 
     if (value != null) {
         if (ObjectUtils.isNotNull(value) && value < min) {
-            throw Exception(minErrorMessage)
+            throw CompositeException(Exception(minErrorMessage))
         }
     }
 
     if (value != null) {
         if (ObjectUtils.isNotNull(value) && value > max) {
-            throw Exception(maxErrorMessage)
+            throw CompositeException(Exception(maxErrorMessage))
         }
     }
 

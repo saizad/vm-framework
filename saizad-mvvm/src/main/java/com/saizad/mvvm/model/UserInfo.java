@@ -25,7 +25,7 @@ public class UserInfo extends IdModel implements Parcelable {
     @SerializedName("email")
     public String email;
     @Expose
-    @SerializedName("user_name")
+    @SerializedName("username")
     public String userName;
 
     public UserInfo() {

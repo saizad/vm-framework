@@ -13,10 +13,6 @@ abstract class SaizadListItem<M> @JvmOverloads constructor(
 ) : ConstraintLayoutItem<M>(context, attrs, defStyleAttr){
 
     init {
-        setFullWidth()
-    }
-
-    protected fun setFullWidth(){
         layoutParams = RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT

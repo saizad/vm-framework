@@ -17,7 +17,7 @@ public abstract class CurrentUserType<U> extends SaizadSharedPreferences {
     protected final U emptyUser;
     private final BehaviorSubject<U> currentUser = BehaviorSubject.create();
     private static final String KEY_USER_INFO = "user_info";
-
+    private U user;
 
     protected CurrentUserType(U emptyUser, SharedPreferences sharedPreferences, Gson gson) {
         super(sharedPreferences, gson);
@@ -26,6 +26,7 @@ public abstract class CurrentUserType<U> extends SaizadSharedPreferences {
                 .skip(1)
                 .filter(ObjectUtils::isNotNull)
                 .subscribe(userInfo -> {
+                    user = userInfo;
                     if (ObjectUtils.isNull(verifyUserObject(userInfo))) {
                         removeValue(KEY_USER_INFO);
                     } else {
@@ -42,7 +43,7 @@ public abstract class CurrentUserType<U> extends SaizadSharedPreferences {
         currentUser.onNext(newUser);
     }
 
-    public void logout() {
+    public final void logout() {
         sharedPreferences.edit().clear().apply();
         currentUser.onNext(emptyUser);
     }
@@ -57,9 +58,12 @@ public abstract class CurrentUserType<U> extends SaizadSharedPreferences {
         return currentUser;
     }
 
-    public @Nullable
+    public final  @Nullable
     U getUser() {
-        return getSharedPrefObject(KEY_USER_INFO, getClassType());
+        if (user == null) {
+            user = getSharedPrefObject(KEY_USER_INFO, getClassType());
+        }
+        return user;
     }
 
 

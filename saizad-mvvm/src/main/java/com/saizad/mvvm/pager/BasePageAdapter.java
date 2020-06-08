@@ -100,7 +100,9 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
             BaseViewPager pager = (BaseViewPager) container;
             if (fragment != null && fragment.getView() != null) {
                 mCurrentPosition = position;
-                pager.measureCurrentView(fragment.getView());
+                if(isWrapHeight()) {
+                    pager.measureCurrentView(fragment.getView());
+                }
             }
         }
         if (getCurrentPage() != object) {
@@ -120,6 +122,10 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
                     });
         }
         super.setPrimaryItem(container, position, object);
+    }
+
+    protected boolean isWrapHeight(){
+        return false;
     }
 
     public void pageReady(F page) {
