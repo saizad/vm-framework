@@ -29,6 +29,12 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
     private int mCurrentPosition = -1;
 
     private PageListener<F> pageListener = new PageListener<F>() {
+
+        @Override
+        public void onPageLoaded(@NotNull F page, int position) {
+
+        }
+
         @Override
         public void onPageReady(@NotNull F page) {
 
@@ -117,7 +123,9 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
             mCurrentFragment.pageLoaded()
                     .firstElement()
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(__ -> pageReady(getCurrentPage()), throwable -> {
+                    .subscribe(__ -> {
+                        pageReady(getCurrentPage());
+                    }, throwable -> {
                         Log.d("dasfasf", throwable.getMessage());
                     });
         }
@@ -136,6 +144,10 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
     public Fragment getItem(int position) {
         final F instance = Utils.createInstance((items.get(position)));
         fragments.put(position, instance);
+        instance.pageLoaded()
+                .subscribe(__ -> {
+                    pageListener.onPageLoaded(instance, position);
+                });
         return instance;
     }
 

@@ -34,7 +34,6 @@
         <item name="colorPrimary">?colorPrimary</item>
 
         <item name="android:windowFullscreen">true</item>
-
         <item name="android:windowIsFloating">false</item>
 
         <item name="android:windowBackground">@color/white</item>
