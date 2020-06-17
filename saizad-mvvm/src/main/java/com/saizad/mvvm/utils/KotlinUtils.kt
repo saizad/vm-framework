@@ -48,6 +48,12 @@ public val DateTime.ordinalDay: String
     }
 
 public fun View.bindClick(
+    listener: () -> Unit
+) {
+    bindClick(Consumer { listener.invoke() }, Consumer { }, Action { })
+}
+
+public fun View.bindClick(
     consumer: Consumer<Any>,
     throwable: Consumer<Throwable> = Consumer {
         throw it

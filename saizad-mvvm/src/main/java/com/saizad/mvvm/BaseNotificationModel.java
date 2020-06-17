@@ -100,4 +100,8 @@ public class BaseNotificationModel implements Parcelable {
     public Boolean isRead() {
         return read;
     }
+
+    public int id(){
+        return 0;
+    }
 }

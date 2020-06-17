@@ -109,6 +109,11 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
         loadingDialog.show(loadingData.isLoading());
     }
 
+    @Override
+    public void showLoading(boolean show) {
+        loadingDialog.show(show);
+    }
+
     public boolean serverError(@NonNull Throwable throwable, int requestId) {
         return false;
     }

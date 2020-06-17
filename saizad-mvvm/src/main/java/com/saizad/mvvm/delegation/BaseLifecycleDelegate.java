@@ -56,6 +56,8 @@ public interface BaseLifecycleDelegate {
 
     void requestLoading(@NonNull SaizadBaseViewModel.LoadingData loadingData);
 
+    void showLoading(boolean show);
+
     boolean serverError(@NonNull Throwable throwable, int requestId);
 
     LiveData<Integer> showAlertDialogOk(String title, String message, boolean cancelAble);

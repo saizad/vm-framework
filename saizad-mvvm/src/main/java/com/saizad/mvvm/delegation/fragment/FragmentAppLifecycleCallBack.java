@@ -12,4 +12,5 @@ public interface FragmentAppLifecycleCallBack extends BaseLifecycleCallBack {
 
     void setHasOptionsMenu(boolean hasOptionsMenu);
 
+    public boolean onBackPressed();
 }

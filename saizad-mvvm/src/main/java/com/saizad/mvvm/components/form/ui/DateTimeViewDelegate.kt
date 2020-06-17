@@ -16,6 +16,7 @@ abstract class DateTimeViewDelegate @JvmOverloads constructor(
 
     abstract fun getDateView(): CustomSelectorConstraintLayout
     abstract fun getTimeView(): CustomSelectorConstraintLayout
+    abstract fun getDateTimeView(): CustomSelectorConstraintLayout
 
     fun bind(dateTime: DateTime?) {
         printDate(getDateView(), dateTime)

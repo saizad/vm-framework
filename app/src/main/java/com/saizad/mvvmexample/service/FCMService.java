@@ -34,7 +34,17 @@ public class FCMService extends SaizadFirebaseMessagingService {
     }
 
     @Override
+    public boolean jsonString(String json, String type) {
+        return false;
+    }
+
+    @Override
     public int sound() {
+        return 0;
+    }
+
+    @Override
+    public int smallIcon() {
         return 0;
     }
 }

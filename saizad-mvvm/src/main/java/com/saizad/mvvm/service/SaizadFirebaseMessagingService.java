@@ -2,6 +2,7 @@ package com.saizad.mvvm.service;
 
 import android.util.Log;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RawRes;
 import androidx.annotation.WorkerThread;
@@ -79,14 +80,15 @@ abstract public class SaizadFirebaseMessagingService extends FirebaseMessagingSe
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("MessageReceived", remoteMessage.getMessageId());
         final RemoteMessage.Notification notification = remoteMessage.getNotification();
-        if(notification == null) {
+        if (notification == null) {
             final Map<String, String> data = remoteMessage.getData();
             Log.d("MessageReceived-Data", data.toString());
             final JSONObject jsonObject = new JSONObject(data);
             String notificationType = data.get("type");
             final String json = jsonObject.toString();
+            jsonString(json, notificationType);
         } else {
-            NotificationHelper.createNotification(sound(), getApplicationContext(), notification, aClass());
+            NotificationHelper.createNotification(smallIcon(), sound(), getApplicationContext(), notification, aClass());
         }
     }
 
@@ -94,6 +96,12 @@ abstract public class SaizadFirebaseMessagingService extends FirebaseMessagingSe
 
     abstract public Class<?> aClass();
 
-    abstract public @RawRes int sound();
+    abstract public boolean jsonString(String json, String type);
+
+    abstract public @RawRes
+    int sound();
+
+    abstract public @DrawableRes
+    int smallIcon();
 
 }

@@ -10,10 +10,12 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.saizad.mvvm.ActivityResult;
 import com.saizad.mvvm.delegation.activity.ActivityAppLifeCycleCallback;
@@ -34,7 +36,7 @@ public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends 
     protected final ActivityAppLifecycleDelegate delegate;
 
     public SaizadBaseActivity() {
-        delegate = new ActivityAppLifecycleDelegateImp<>(this,this, getClass().getSimpleName());
+        delegate = new ActivityAppLifecycleDelegateImp<>(this, this, getClass().getSimpleName());
     }
 
     @NonNull
@@ -117,6 +119,11 @@ public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends 
 
     public void requestLoading(@NonNull SaizadBaseViewModel.LoadingData loadingData) {
         delegate.requestLoading(loadingData);
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        delegate.showLoading(show);
     }
 
     public boolean serverError(@NonNull Throwable throwable, int requestId) {
@@ -213,5 +220,21 @@ public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends 
         delegate.openClosableFragment(fragment, bundle, navOptions);
     }
 
+    @CallSuper
+    @Override
+    public void onBackPressed() {
+        final NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().getPrimaryNavigationFragment();
+        final Fragment primaryNavigationFragment = navHostFragment.getChildFragmentManager().getPrimaryNavigationFragment();
+        if (primaryNavigationFragment instanceof SaizadBaseFragment<?>) {
+            if (!((SaizadBaseFragment<?>) primaryNavigationFragment).onBackPressed()) {
+                super.onBackPressed();
+            }
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        environment().permissionManager().onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
 }

@@ -133,6 +133,11 @@ public abstract class SaizadBaseFragment<V extends SaizadBaseViewModel> extends 
     }
 
     @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         delegate.onCreate(savedInstanceState);
@@ -148,6 +153,11 @@ public abstract class SaizadBaseFragment<V extends SaizadBaseViewModel> extends 
 
     public void requestLoading(@NonNull SaizadBaseViewModel.LoadingData loadingData) {
         delegate.requestLoading(loadingData);
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        delegate.showLoading(show);
     }
 
     public boolean serverError(@NonNull Throwable throwable, int requestId) {

@@ -11,27 +11,27 @@ import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.Uri;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RawRes;
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.saizad.mvvm.BaseNotificationModel;
-import com.saizad.mvvm.R;
-
-import java.util.Random;
 
 
 public class NotificationHelper {
 
 
-    public static void createNotification(Context context, BaseNotificationModel baseNotificationModel, PendingIntent pendingIntent) {
+    public static void createNotification(@Nullable String channelId, @DrawableRes int smallIcon, @RawRes int sound, Context context, BaseNotificationModel baseNotificationModel, PendingIntent pendingIntent) {
 
         NotificationCompat.Builder mBuilder;
 
         mBuilder = new NotificationCompat.Builder(context, context.getPackageName());
 
         mBuilder
-//                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(smallIcon)
                 .setContentTitle(baseNotificationModel.getTitle())
                 .setContentText(baseNotificationModel.getBody())
                 .setAutoCancel(false)
@@ -40,50 +40,52 @@ public class NotificationHelper {
 
         NotificationManager mNotificationManager;
 
-        mNotificationManager = channelized(Uri.parse(""), context, mBuilder);
+        Uri soundUri = sound == 0 ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION):  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + sound);
+
+        mNotificationManager = channelized(soundUri, context, mBuilder, channelId);
 
         assert mNotificationManager != null;
-        mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
+        mNotificationManager.notify(baseNotificationModel.id(), mBuilder.build());
     }
 
-    public static void createNotification(Context context, BaseNotificationModel baseNotificationModel, Class<?> cl) {
+    public static void createNotification(@Nullable String channelId, @DrawableRes int smallIcon, @RawRes int sound, Context context, BaseNotificationModel baseNotificationModel, Class<?> cl) {
         Intent intent = new Intent(context, cl);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        createNotification(context, baseNotificationModel, PendingIntent.getActivity(context, 0, intent,
+        createNotification(channelId, smallIcon, sound, context, baseNotificationModel, PendingIntent.getActivity(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
-    public static void createNotification(@RawRes int sound, Context context, RemoteMessage.Notification notification, Class<?> cl) {
+    public static void createNotification(@DrawableRes int smallIcon, @RawRes int sound, Context context, @NonNull RemoteMessage.Notification notification, Class<?> cl) {
         Intent intent = new Intent(context, cl);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        createNotification(sound, context, notification, PendingIntent.getActivity(context, 0, intent,
+        createNotification(smallIcon, sound, context, notification, PendingIntent.getActivity(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
-    public static void createNotification(@RawRes int sound, Context context, RemoteMessage.Notification notification, PendingIntent pendingIntent) {
+    public static void createNotification(@DrawableRes int smallIcon, @RawRes int sound, Context context, @NonNull RemoteMessage.Notification notification, PendingIntent pendingIntent) {
 
         NotificationCompat.Builder mBuilder;
         mBuilder = new NotificationCompat.Builder(context, context.getPackageName());
 
-        Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + sound);
+        Uri soundUri = sound == 0 ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION):  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + sound);
 
         mBuilder
-                .setSmallIcon(R.drawable.ic_add_black_24dp)
+                .setSmallIcon(smallIcon)
                 .setContentTitle(notification.getTitle())
                 .setContentText(notification.getBody())
-                .setSound(soundUri)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setAutoCancel(false)
                 .setContentIntent(pendingIntent);
 
         NotificationManager mNotificationManager;
-
-        mNotificationManager = channelized(soundUri, context, mBuilder);
+        final String channelId = "General";
+        mNotificationManager = channelized(soundUri, context, mBuilder, channelId);
 
         assert mNotificationManager != null;
         mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
     }
 
-    private static NotificationManager channelized(Uri sound, Context context, NotificationCompat.Builder builder) {
+    private static NotificationManager channelized(Uri sound, Context context, NotificationCompat.Builder builder, @Nullable String channelId) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -91,9 +93,9 @@ public class NotificationHelper {
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build();
 
+            channelId = channelId == null ? "General" : channelId;
 
             NotificationManager mNotificationManager = context.getSystemService(NotificationManager.class);
-            final String channelId = "General" + new Random().nextInt(100);
             NotificationChannel existingChannel = notificationManager.getNotificationChannel(channelId);
             //it will delete existing channel if it exists
             if (existingChannel != null) {

@@ -13,4 +13,5 @@ public interface BaseLifecycleCallBack {
     void requestLoading(@NonNull SaizadBaseViewModel.LoadingData loadingData);
 
     boolean serverError(@NonNull Throwable throwable, int requestId);
+
 }
