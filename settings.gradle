@@ -2,13 +2,13 @@ rootProject.name = 'SaizadMVVMExample'
 include ':app'
 include ':saizad-mvvm'
 
-include ':easyandroidform'
-project(':easyandroidform').projectDir = new File('../EasyAndroidForm/easyandroidform')
-
-include ':form-test'
-project(':form-test').projectDir = new File('../EasyAndroidFormTest/form-test')
-
 if (false) {
+
+    include ':easyandroidform'
+    project(':easyandroidform').projectDir = new File('../EasyAndroidForm/easyandroidform')
+
+    include ':form-test'
+    project(':form-test').projectDir = new File('../EasyAndroidFormTest/form-test')
 
     include ':easy-retrofit'
     project(':easy-retrofit').projectDir = new File('../EasyRetrofit/easyretrofit')
