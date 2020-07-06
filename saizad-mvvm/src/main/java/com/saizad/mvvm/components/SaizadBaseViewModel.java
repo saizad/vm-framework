@@ -66,6 +66,7 @@ public abstract class SaizadBaseViewModel extends ViewModel {
     protected <M> Observable<M> observable(NeverErrorObservable<DataModel<M>> observable, int requestId) {
         shootLoading(true, requestId);
         return observable
+                .connectionException(e -> shootError(e, requestId))
                 .apiException(errorModel ->
                         shootError(errorModel, requestId), ErrorModel.class)
                 .exception(throwable -> shootError(throwable, requestId))
@@ -81,6 +82,7 @@ public abstract class SaizadBaseViewModel extends ViewModel {
                     callback.call(data);
                     mutableLiveData.setValue(data);
                 })
+                .connectionException(e -> shootError(e, requestId))
                 .apiException(errorModel ->
                         shootError(errorModel, requestId), ErrorModel.class)
                 .exception(throwable -> shootError(throwable, requestId))
@@ -94,6 +96,7 @@ public abstract class SaizadBaseViewModel extends ViewModel {
         shootLoading(true, requestId);
         observable
                 .successResponse(dataModelResponse -> mutableLiveData.setValue(null))
+                .connectionException(e -> shootError(e, requestId))
                 .apiException(errorModel -> shootError(errorModel, requestId), ErrorModel.class)
                 .exception(throwable -> shootError(throwable, requestId))
                 .doFinally(() -> shootLoading(false, requestId))

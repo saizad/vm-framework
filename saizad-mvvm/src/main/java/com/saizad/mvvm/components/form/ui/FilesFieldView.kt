@@ -16,7 +16,7 @@ import com.sa.easyandroidform.field_view.BaseFieldView
 import com.sa.easyandroidform.fields.StringListField
 import com.saizad.mvvm.SaizadRequestCodes
 import com.saizad.mvvm.components.SaizadBaseViewModel
-import com.saizad.mvvm.utils.bindClick
+import com.saizad.mvvm.utils.throttleClick
 import io.reactivex.functions.Consumer
 import sa.zad.easypermission.AppPermission
 import sa.zad.easypermission.AppPermissionRequest
@@ -24,6 +24,8 @@ import sa.zad.easypermission.PermissionManager
 import sa.zad.easyretrofit.base.ProgressObservable
 import sa.zad.easyretrofit.observables.UploadObservable
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 abstract class FilesFieldView @JvmOverloads constructor(
@@ -46,16 +48,16 @@ abstract class FilesFieldView @JvmOverloads constructor(
         undo = undoView()
         clear = clearView()
 
-        initView().bindClick(Consumer {
+        initView().throttleClick(Consumer {
             init()
         })
         if (undo != null) {
-            undo!!.bindClick(Consumer {
+            undo!!.throttleClick(Consumer {
                 reset()
             })
         }
         if (clear != null) {
-            clear!!.bindClick(Consumer {
+            clear!!.throttleClick(Consumer {
                 filesField.field = null
             })
         }
@@ -114,8 +116,9 @@ abstract class FilesFieldView @JvmOverloads constructor(
 
     private fun extractFile(uri: Uri): File{
         val fileName = getFileName(uri)
+        val extension = File(fileName).extension
         val file =
-            File.createTempFile(fileName, File(fileName).extension)
+            File.createTempFile((111111..9999999).random().toString(), ".$extension")
         sa.zad.easyretrofit.Utils.writeStreamToFile(
             context.contentResolver.openInputStream(uri)!!,
             file

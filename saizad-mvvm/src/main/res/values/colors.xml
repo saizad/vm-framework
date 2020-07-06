@@ -276,6 +276,7 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="darkWhite">#fcfcfc</color>
 
     <!-- Colors for the app -->
     <color name="primary">@color/indigo_500</color>

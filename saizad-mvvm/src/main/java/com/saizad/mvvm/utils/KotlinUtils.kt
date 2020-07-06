@@ -47,13 +47,13 @@ public val DateTime.ordinalDay: String
         return ordinalDayOfMonth + " " + toString("MMMM")
     }
 
-public fun View.bindClick(
+public fun View.throttleClick(
     listener: () -> Unit
 ) {
-    bindClick(Consumer { listener.invoke() }, Consumer { }, Action { })
+    throttleClick(Consumer { listener.invoke() })
 }
 
-public fun View.bindClick(
+public fun View.throttleClick(
     consumer: Consumer<Any>,
     throwable: Consumer<Throwable> = Consumer {
         throw it

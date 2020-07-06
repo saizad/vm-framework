@@ -5,8 +5,6 @@ public interface PagerAdapterListener {
 
     void onPageUnSelected();
 
-    //  void onPageSettling();
-    //  void onPageIdle();
     void onPageShowing(int visiblePercent);
 
     void onPageHiding(int visiblePercent);

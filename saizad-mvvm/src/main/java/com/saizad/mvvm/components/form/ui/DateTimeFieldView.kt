@@ -12,7 +12,7 @@ import com.sa.easyandroidform.fields.time.TimeField
 import com.saizad.mvvm.ui.calendar.DatePickerFragment
 import com.saizad.mvvm.ui.calendar.DateTimePickerFragment
 import com.saizad.mvvm.ui.calendar.TimePickerFragment
-import com.saizad.mvvm.utils.bindClick
+import com.saizad.mvvm.utils.throttleClick
 import io.reactivex.functions.Consumer
 import org.joda.time.DateTime
 import rx.functions.Action1
@@ -31,7 +31,7 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
     open fun setupTime(fragmentManager: FragmentManager, dateFieldDate: TimeField) {
         setup(dateFieldDate)
         dateTimeView.timeView()
-        dateTimeView.getTimeView().bindClick(Consumer {
+        dateTimeView.getTimeView().throttleClick(Consumer {
             timePicker(fragmentManager, dateFieldDate)
         })
     }
@@ -39,7 +39,7 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
     open fun setupDate(fragmentManager: FragmentManager, dateFieldDate: DateField) {
         setup(dateFieldDate)
         dateTimeView.dateView()
-        dateTimeView.getDateView().bindClick(Consumer {
+        dateTimeView.getDateView().throttleClick(Consumer {
             datePicker(fragmentManager, dateFieldDate)
         })
     }
@@ -48,26 +48,23 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
         setup(dateFieldDate)
         dateTimeView.dateTimeView()
 
-        dateTimeView.getTimeView().bindClick(Consumer {
+        dateTimeView.getTimeView().throttleClick(Consumer {
             timePicker(fragmentManager, dateTimeField)
         })
 
-        dateTimeView.getDateTimeView().bindClick(Consumer {
+        dateTimeView.getDateTimeView().throttleClick(Consumer {
             dateTimePicker(fragmentManager, dateFieldDate)
         })
     }
 
     private fun datePicker(fragmentManager: FragmentManager, dateTimeField: DateTimeField) {
-        var minDateTime = dateTimeField.dateTime()
+        var minDateTime = DateTime()
 
         if(dateTimeField is EndDateTimeField) {
             val dateTime = dateTimeField.startDateTimeField.dateTime()
             if(dateTime != null) {
                 minDateTime = dateTime
             }
-        }
-        if(minDateTime == null){
-            minDateTime = DateTime()
         }
         DatePickerFragment(ObjectUtils.coalesce(dateTimeField.dateTime(), minDateTime), minDateTime) {
             dateTimeField.field = it.toString()
@@ -94,16 +91,13 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
     }
 
     private fun dateTimePicker(fragmentManager: FragmentManager, dateTimeField: DateTimeField) {
-        var minDateTime = dateTimeField.dateTime()
+        var minDateTime = DateTime()
 
         if(dateTimeField is EndDateTimeField) {
             val dateTime = dateTimeField.startDateTimeField.dateTime()
             if(dateTime != null) {
                 minDateTime = dateTime
             }
-        }
-        if(minDateTime == null){
-            minDateTime = DateTime()
         }
         DateTimePickerFragment(
             ObjectUtils.coalesce(dateTimeField.dateTime(), DateTime()),

@@ -81,13 +81,13 @@ dependencies {
 //    api project(path: ':paged-list')
 //    api project(path: ':easy-permission')
 //    api project(path: ':easy-retrofit')
-//    api project(path: ':easyandroidform')
+    api project(path: ':easyandroidform')
 
     api 'com.github.saizad:easyretrofit:c594ffa672cd9d9f38d8adef72e3314621178bb6'
-    api 'com.github.saizad:Android-Easy-Form:e5f33115773b4bf31b0afb47a80db632cfab0ca1'
+//    api 'com.github.saizad:Android-Easy-Form:575e7944d19d17129c0305479e58134b3bf48323'
     api 'com.github.saizad:PagedRecyclerList:c360b5bb29a5818a3d27feb52560c59b4c222ae5'
     api 'com.github.saizad:EasyPermission:531d80b5d356650b06d530666dff2d4e6244cb2b'
-    testImplementation 'com.github.saizad:EasyAndroidFormTest:develop-SNAPSHOT'
+//    testImplementation 'com.github.saizad:EasyAndroidFormTest:develop-SNAPSHOT'
 
     //Time
     api 'net.danlew:android.joda:2.9.3.1'

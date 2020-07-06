@@ -5,13 +5,13 @@ import android.widget.Button
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import com.sa.easyandroidform.form.FormModel
-import com.saizad.mvvm.utils.bindClick
+import com.saizad.mvvm.utils.throttleClick
 import io.reactivex.functions.Consumer
 
 abstract class BaseFormDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) : BaseDialog<M, R>(context, layoutRes) {
 
     init {
-        formActionButton().bindClick(Consumer {
+        formActionButton().throttleClick(Consumer {
             mutableLiveData.value = form().requiredBuild()
             dismiss()
         })

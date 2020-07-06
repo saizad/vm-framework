@@ -88,7 +88,10 @@ public final class FragmentAppLifecycleDelegateImp<V extends SaizadBaseViewModel
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(appLifecycleDelegate.menRes(), menu);
+        final int menuRes = appLifecycleDelegate.menRes();
+        if(menuRes != 0) {
+            inflater.inflate(menuRes, menu);
+        }
     }
 
     @Override
