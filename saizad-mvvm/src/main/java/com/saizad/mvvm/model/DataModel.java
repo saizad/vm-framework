@@ -9,7 +9,6 @@ public class DataModel<M> {
     public M data;
     @SerializedName("status")
     public boolean status;
-
     @SerializedName("validation")
     public String validation;
 }

@@ -2,11 +2,11 @@ rootProject.name = 'SaizadMVVMExample'
 include ':app'
 include ':saizad-mvvm'
 
-if (false) {
 
+
+if (false) {
     include ':easyandroidform'
     project(':easyandroidform').projectDir = new File('../EasyAndroidForm/easyandroidform')
-
     include ':form-test'
     project(':form-test').projectDir = new File('../EasyAndroidFormTest/form-test')
 

@@ -8,10 +8,12 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.saizad.mvvm.utils.ViewUtils
+import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) : Dialog(context) {
     protected val mutableLiveData = MutableLiveData<R>()
     protected var data: M? = null
+    protected val compositeDisposable = CompositeDisposable()
 
     init {
         val inflate = ViewUtils.inflate(context, layoutRes)
@@ -27,6 +29,7 @@ abstract class BaseDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) : D
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         dismiss()
+        compositeDisposable.dispose()
     }
 
     fun dismiss(returnData: R){

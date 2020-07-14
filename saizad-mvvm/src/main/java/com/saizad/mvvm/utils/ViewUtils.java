@@ -250,10 +250,8 @@ public class ViewUtils {
             chip.setTag(s);
             ViewUtils.bindClick(chip, ignored -> onClickListener.call(chip));
             chipGroup.addView(chip);
-            String text;
             try {
-                text = action.apply(chip, s);
-                chip.setText(text);
+                chip.setText(action.apply(chip, s));
             } catch (Exception e) {
                 e.printStackTrace();
             }

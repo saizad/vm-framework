@@ -8,7 +8,8 @@ import com.sa.easyandroidform.form.FormModel
 import com.saizad.mvvm.utils.throttleClick
 import io.reactivex.functions.Consumer
 
-abstract class BaseFormDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) : BaseDialog<M, R>(context, layoutRes) {
+abstract class BaseFormDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) :
+    BaseDialog<M, R>(context, layoutRes) {
 
     init {
         formActionButton().throttleClick(Consumer {
@@ -19,10 +20,10 @@ abstract class BaseFormDialog<M, R>(context: Context, @LayoutRes layoutRes: Int)
 
     @CallSuper
     override fun onShow() {
-        form().validObservable()
+        compositeDisposable.add(form().validObservable()
             .subscribe {
                 formActionButton().isEnabled = it
-            }
+            })
     }
 
     abstract fun formActionButton(): Button

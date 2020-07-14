@@ -26,7 +26,7 @@ public class SaizadEasyRetrofitClient extends EasyRetrofitClient {
     @Override
     protected OkHttpClient.Builder builderReady(OkHttpClient.Builder builder) {
         builder.addInterceptor(getAuthInterceptor(currentUser));
-        if (BuildConfig.DEBUG) {
+        if (isDebugMode()) {
             builder.addNetworkInterceptor(new StethoInterceptor());
             builder.addNetworkInterceptor(new TextToJsonInterceptor());
         }
@@ -34,7 +34,7 @@ public class SaizadEasyRetrofitClient extends EasyRetrofitClient {
     }
 
     protected HttpLoggingInterceptor.Level loggingLevel() {
-        return BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE;
+        return isDebugMode() ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE;
     }
 
     private static Interceptor getAuthInterceptor(final CurrentUserType currentUser) {
@@ -54,5 +54,9 @@ public class SaizadEasyRetrofitClient extends EasyRetrofitClient {
             return 60L;
         }
         return super.cacheStale(cachePolicy);
+    }
+
+    protected boolean isDebugMode(){
+        return true;
     }
 }

@@ -2,13 +2,11 @@ package com.saizad.mvvm.components.form.ui
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.annotation.CallSuper
 import androidx.fragment.app.FragmentManager
 import com.sa.easyandroidform.ObjectUtils
 import com.sa.easyandroidform.field_view.BaseFieldView
-import com.sa.easyandroidform.fields.time.DateField
-import com.sa.easyandroidform.fields.time.DateTimeField
-import com.sa.easyandroidform.fields.time.EndDateTimeField
-import com.sa.easyandroidform.fields.time.TimeField
+import com.sa.easyandroidform.fields.time.*
 import com.saizad.mvvm.ui.calendar.DatePickerFragment
 import com.saizad.mvvm.ui.calendar.DateTimePickerFragment
 import com.saizad.mvvm.ui.calendar.TimePickerFragment
@@ -58,7 +56,11 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
     }
 
     private fun datePicker(fragmentManager: FragmentManager, dateTimeField: DateTimeField) {
-        var minDateTime = DateTime()
+        var minDateTime = if(dateTimeField is FutureDateField){
+            DateTime()
+        }else{
+            DateTime().minusYears(100)
+        }
 
         if(dateTimeField is EndDateTimeField) {
             val dateTime = dateTimeField.startDateTimeField.dateTime()
@@ -91,7 +93,12 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
     }
 
     private fun dateTimePicker(fragmentManager: FragmentManager, dateTimeField: DateTimeField) {
-        var minDateTime = DateTime()
+
+        var minDateTime = if(dateTimeField is FutureDateField){
+            DateTime()
+        }else{
+            DateTime().minusYears(100)
+        }
 
         if(dateTimeField is EndDateTimeField) {
             val dateTime = dateTimeField.startDateTimeField.dateTime()
@@ -123,11 +130,13 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
         dateTimeView.bind(null)
     }
 
+    @CallSuper
     override fun fieldMandatory() {
         dateTimeView.getDateView().setMandatory(true)
         dateTimeView.getTimeView().setMandatory(true)
     }
 
+    @CallSuper
     override fun displayError(show: Boolean, error: String?) {
         dateTimeView.getDateView().setError(show)
         dateTimeView.getTimeView().setError(show)
