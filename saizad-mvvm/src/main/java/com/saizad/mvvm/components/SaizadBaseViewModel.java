@@ -91,7 +91,7 @@ public abstract class SaizadBaseViewModel extends ViewModel {
         return mutableLiveData;
     }
 
-    public LiveData<Void> liveDataNoResponse(NeverErrorObservable<Void> observable, int requestId) {
+    public @NonNull LiveData<Void> liveDataNoResponse(NeverErrorObservable<Void> observable, int requestId) {
         MutableLiveData<Void> mutableLiveData = new MutableLiveData<>();
         shootLoading(true, requestId);
         observable

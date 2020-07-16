@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/badgeIcon"
-        android:drawable="?attr/badgeDrawableSrc"
+        android:drawable="@color/blue_50"
         android:gravity="center" />
 
     <item
