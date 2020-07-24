@@ -5,6 +5,8 @@ import android.app.Application;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.sa.easyandroidform.ObjectUtils;
 
+import java.net.URLDecoder;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,6 +42,8 @@ public class SaizadEasyRetrofitClient extends EasyRetrofitClient {
     private static Interceptor getAuthInterceptor(final CurrentUserType currentUser) {
         return chain -> {
             Request request = chain.request();
+            final String decode = URLDecoder.decode(request.url().toString(), "UTF-8");
+            request = request.newBuilder().url(decode).build();
             final String token = currentUser.getToken();
             if (ObjectUtils.isNotNull(token)) {
                 request = request.newBuilder().header("Authorization",  "Bearer " + token).build();

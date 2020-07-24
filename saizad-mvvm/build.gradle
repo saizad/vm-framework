@@ -85,7 +85,7 @@ dependencies {
 
     api 'com.github.saizad:easyretrofit:c594ffa672cd9d9f38d8adef72e3314621178bb6'
     api 'com.github.saizad:Android-Easy-Form:74848a079fc1ba996f08208f8694a10e6dda0ab3'
-    api 'com.github.saizad:PagedRecyclerList:c360b5bb29a5818a3d27feb52560c59b4c222ae5'
+    api 'com.github.saizad:PagedRecyclerList:a988eae9d4a4c173ea890aa162b96cbe990be959'
     api 'com.github.saizad:EasyPermission:531d80b5d356650b06d530666dff2d4e6244cb2b'
 //    testImplementation 'com.github.saizad:EasyAndroidFormTest:eb350eb37fd65975ada478b5e84da53b77c167be'
 
