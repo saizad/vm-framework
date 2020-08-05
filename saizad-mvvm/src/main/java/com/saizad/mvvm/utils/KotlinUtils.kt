@@ -1,9 +1,13 @@
 package com.saizad.mvvm.utils
 
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.ChipGroup
+import com.saizad.mvvm.components.SaizadBaseFragment
 import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
+import kotlinx.coroutines.*
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.PeriodFormatterBuilder
@@ -83,3 +87,22 @@ val DateTime.notificationTimeStamp: String
         val lines = formatter.print(period).lines()
         return lines[max(lines.size - 2, 0)]
     }
+
+public fun SaizadBaseFragment<*>.lifecycleScopeOnMain(block: suspend CoroutineScope.() -> Unit): Job {
+    return viewLifecycleOwner.lifecycleScopeOnMain(block)
+}
+
+public fun SaizadBaseFragment<*>.lifecycleScopeOnMain(timeMillis: Long, block: suspend CoroutineScope.() -> Unit): Job {
+    return viewLifecycleOwner.lifecycleScopeOnMainWithDelay(timeMillis, block)
+}
+
+public fun LifecycleOwner.lifecycleScopeOnMain(block: suspend CoroutineScope.() -> Unit): Job {
+    return lifecycleScope.launch(Dispatchers.Main, block = block)
+}
+
+public fun LifecycleOwner.lifecycleScopeOnMainWithDelay(timeMillis: Long, block: suspend CoroutineScope.() -> Unit): Job {
+    return lifecycleScope.launch(Dispatchers.Main){
+        delay(timeMillis)
+        block.invoke(this)
+    }
+}

@@ -148,4 +148,10 @@ public class Utils {
         }
         return null;
     }
+
+    public static String currencyFormat(@NonNull Float amount) {
+        DecimalFormat moneyFormat = new DecimalFormat("00,000,000.00");
+        System.out.println(moneyFormat.format(amount));
+        return new DecimalFormat("##,###,###.##").format(amount);
+    }
 }

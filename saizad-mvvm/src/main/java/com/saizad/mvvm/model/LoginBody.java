@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.sa.easyandroidform.fields.EmailField;
 import com.sa.easyandroidform.fields.MandatoryStringField;
 import com.sa.easyandroidform.fields.PasswordField;
 import com.sa.easyandroidform.form.FormModel;
@@ -17,17 +17,19 @@ import static java.util.Arrays.asList;
 
 public class LoginBody implements Parcelable {
 
-    @Expose
     @SerializedName("password")
     public final String password;
-    @Expose
+
     @SerializedName("username")
-    public final String username;
+    public String username;
 
+    @SerializedName("email")
+    public String email;
 
-    public LoginBody(String password, String username) {
+    public LoginBody(String password, String username, String email) {
         this.password = password;
         this.username = username;
+        this.email = email;
     }
 
     protected LoginBody(Parcel in) {
@@ -58,12 +60,12 @@ public class LoginBody implements Parcelable {
         dest.writeString(username);
     }
 
-    public static class Form extends FormModel<LoginBody> {
+    public static class UsernameForm extends FormModel<LoginBody> {
 
         public final PasswordField passwordField;
         public final MandatoryStringField usernameField;
 
-        public Form() {
+        public UsernameForm() {
             super(new ArrayList<>(asList(new MandatoryStringField("username"), new PasswordField("password"))));
 
             passwordField = requiredFindField("password");
@@ -73,7 +75,26 @@ public class LoginBody implements Parcelable {
         @NonNull
         @Override
         protected LoginBody buildForm() {
-            return new LoginBody(passwordField.getField(), usernameField.getField());
+            return new LoginBody(passwordField.getField(), usernameField.getField(), null);
+        }
+    }
+
+    public static class EmailLoginForm extends FormModel<LoginBody> {
+
+        public final PasswordField passwordField;
+        public final EmailField emailField;
+
+        public EmailLoginForm() {
+            super(new ArrayList<>(asList(new EmailField("email"), new PasswordField("password"))));
+
+            passwordField = requiredFindField("password");
+            emailField = requiredFindField("email");
+        }
+
+        @NonNull
+        @Override
+        protected LoginBody buildForm() {
+            return new LoginBody(passwordField.getField(), null, emailField.getField());
         }
     }
 }

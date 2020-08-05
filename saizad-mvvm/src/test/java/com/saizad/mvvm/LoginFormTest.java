@@ -4,11 +4,11 @@ import com.sa.easyandroidform.fields.BaseField;
 import com.sa.easyandroidform.form.BaseModelFormTest;
 import com.saizad.mvvm.model.LoginBody;
 
-public class LoginFormTest extends BaseModelFormTest<LoginBody.Form> {
+public class LoginFormTest extends BaseModelFormTest<LoginBody.UsernameForm> {
 
 
     @Override
-    public LoginBody.Form initForm() {
+    public LoginBody.UsernameForm initForm() {
         return null;
     }
 

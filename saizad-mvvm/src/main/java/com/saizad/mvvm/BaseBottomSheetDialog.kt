@@ -8,10 +8,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.saizad.mvvm.utils.ViewUtils
+import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseBottomSheetDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) : BottomSheetDialog(context) {
     protected val mutableLiveData = MutableLiveData<R>()
     protected var data: M? = null
+    protected val compositeDisposable = CompositeDisposable()
 
     init {
         val inflate = ViewUtils.inflate(context, layoutRes)
@@ -27,6 +29,7 @@ abstract class BaseBottomSheetDialog<M, R>(context: Context, @LayoutRes layoutRe
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         dismiss()
+        compositeDisposable.dispose()
     }
 
     fun dismiss(returnData: R){
@@ -35,7 +38,7 @@ abstract class BaseBottomSheetDialog<M, R>(context: Context, @LayoutRes layoutRe
     }
 
     @CallSuper
-    fun show(data: M? = null): LiveData<R> {
+    open fun show(data: M? = null): LiveData<R> {
         this.data = data
         prepare(data)
         super.show()
