@@ -16,6 +16,11 @@ public class NameModel extends IdModel implements Parcelable  {
         this.name = name;
     }
 
+    public NameModel(int id, @NonNull String name) {
+        super(id);
+        this.name = name;
+    }
+
     protected NameModel(Parcel in) {
         super(in);
         name = in.readString();
