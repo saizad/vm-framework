@@ -39,16 +39,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta7'
-
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'androidx.appcompat:appcompat:1.1.0'
+    api 'androidx.appcompat:appcompat:1.2.0'
     api 'androidx.core:core-ktx:1.3.1'
-    api 'androidx.constraintlayout:constraintlayout:1.1.3'
     api 'androidx.legacy:legacy-support-v4:1.0.0'
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     api 'androidx.paging:paging-runtime-ktx:2.1.2'
-    api 'com.google.android.material:material:1.1.0'
+    api 'com.google.android.material:material:1.2.0-alpha06'
 
 
     //google play services
@@ -84,14 +82,14 @@ dependencies {
     api "androidx.navigation:navigation-fragment-ktx:2.3.0"
     api "androidx.navigation:navigation-ui-ktx:2.3.0"
 
-//    api project(path: ':paged-list')
+    api project(path: ':paged-list')
 //    api project(path: ':easy-permission')
 //    api project(path: ':easy-retrofit')
 //    api project(path: ':easyandroidform')
 
     api 'com.github.saizad:easyretrofit:c594ffa672cd9d9f38d8adef72e3314621178bb6'
     api 'com.github.saizad:Android-Easy-Form:74848a079fc1ba996f08208f8694a10e6dda0ab3'
-    api 'com.github.saizad:PagedRecyclerList:37b48ffff198073ed34f741fb74a5168ff2baea4'
+//    api 'com.github.saizad:PagedRecyclerList:37b48ffff198073ed34f741fb74a5168ff2baea4'
     api 'com.github.saizad:EasyPermission:531d80b5d356650b06d530666dff2d4e6244cb2b'
 //    testImplementation 'com.github.saizad:EasyAndroidFormTest:eb350eb37fd65975ada478b5e84da53b77c167be'
 

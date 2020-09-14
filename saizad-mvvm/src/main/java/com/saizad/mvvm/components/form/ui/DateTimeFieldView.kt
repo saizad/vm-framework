@@ -29,30 +29,30 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
     open fun setupTime(fragmentManager: FragmentManager, dateFieldDate: TimeField) {
         setup(dateFieldDate)
         dateTimeView.timeView()
-        dateTimeView.getTimeView().throttleClick(Consumer {
+        dateTimeView.getTimeView().throttleClick {
             timePicker(fragmentManager, dateFieldDate)
-        })
+        }
     }
 
     open fun setupDate(fragmentManager: FragmentManager, dateFieldDate: DateField) {
         setup(dateFieldDate)
         dateTimeView.dateView()
-        dateTimeView.getDateView().throttleClick(Consumer {
+        dateTimeView.getDateView().throttleClick {
             datePicker(fragmentManager, dateFieldDate)
-        })
+        }
     }
 
     open fun setupDateTime(fragmentManager: FragmentManager, dateFieldDate: DateTimeField) {
         setup(dateFieldDate)
         dateTimeView.dateTimeView()
 
-        dateTimeView.getTimeView().throttleClick(Consumer {
+        dateTimeView.getTimeView().throttleClick {
             timePicker(fragmentManager, dateTimeField)
-        })
+        }
 
-        dateTimeView.getDateTimeView().throttleClick(Consumer {
+        dateTimeView.getDateTimeView().throttleClick {
             dateTimePicker(fragmentManager, dateFieldDate)
-        })
+        }
     }
 
     private fun datePicker(fragmentManager: FragmentManager, dateTimeField: DateTimeField) {

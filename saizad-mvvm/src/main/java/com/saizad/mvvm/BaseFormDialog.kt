@@ -12,10 +12,10 @@ abstract class BaseFormDialog<M, R>(context: Context, @LayoutRes layoutRes: Int)
     BaseDialog<M, R>(context, layoutRes) {
 
     init {
-        formActionButton().throttleClick(Consumer {
+        formActionButton().throttleClick{
             mutableLiveData.value = form().requiredBuild()
             dismiss()
-        })
+        }
     }
 
     @CallSuper

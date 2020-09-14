@@ -26,6 +26,10 @@ class ImageFieldView @JvmOverloads constructor(context: Context, attrs: Attribut
     override fun undoView(): View? {
         return undo_avatar
     }
+
+    override fun clearView(): View? {
+        return deleteAvatar
+    }
     
     init {
         ViewUtils.inflate(getContext(), R.layout.lib_image_field_view, this, true)

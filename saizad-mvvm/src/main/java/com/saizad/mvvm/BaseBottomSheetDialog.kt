@@ -1,6 +1,8 @@
 package com.saizad.mvvm
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
@@ -32,7 +34,7 @@ abstract class BaseBottomSheetDialog<M, R>(context: Context, @LayoutRes layoutRe
         compositeDisposable.dispose()
     }
 
-    fun dismiss(returnData: R){
+    fun dismiss(returnData: R) {
         mutableLiveData.value = returnData
         dismiss()
     }
@@ -50,4 +52,5 @@ abstract class BaseBottomSheetDialog<M, R>(context: Context, @LayoutRes layoutRe
     }
 
     abstract fun prepare(data: M?)
+
 }

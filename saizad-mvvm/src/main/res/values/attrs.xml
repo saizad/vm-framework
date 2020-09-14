@@ -12,6 +12,7 @@
     <attr name="CircleDrawablePaddingLeft" format="dimension" />
 
     <attr name="backgroundColor" format="color" />
+    <attr name="cornerRadius" format="dimension" />
     <attr name="topRightCornerRadius" format="dimension" />
     <attr name="topLeftCornerRadius" format="dimension" />
     <attr name="bottomRightCornerRadius" format="dimension" />

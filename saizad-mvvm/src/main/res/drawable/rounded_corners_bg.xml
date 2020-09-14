@@ -3,6 +3,7 @@
     <item>
         <shape>
             <corners
+                android:radius="?cornerRadius"
                 android:topLeftRadius="?topLeftCornerRadius"
                 android:topRightRadius="?topRightCornerRadius"
                 android:bottomLeftRadius="?bottomLeftCornerRadius"

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.saizad.mvvm.ui.CollapsedHintTextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/editTextLayout"
         style="?textInputLayoutStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:startIconTint="@color/grey_100">
+        android:layout_height="wrap_content">
 
     <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText"
@@ -14,4 +13,4 @@
             android:layout_height="wrap_content"
             android:saveEnabled="false" />
 
-</com.saizad.mvvm.ui.CollapsedHintTextInputLayout>
+</com.google.android.material.textfield.TextInputLayout>

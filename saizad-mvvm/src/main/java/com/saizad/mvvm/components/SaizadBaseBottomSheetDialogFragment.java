@@ -114,7 +114,8 @@ public abstract class SaizadBaseBottomSheetDialogFragment<V extends SaizadBaseVi
     }
 
     @Override
-    public final void onViewReady() { }
+    public final void onViewReady() {
+    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -275,7 +276,7 @@ public abstract class SaizadBaseBottomSheetDialogFragment<V extends SaizadBaseVi
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        environment().permissionManager().onRequestPermissionsResult(getActivity(),requestCode, permissions, grantResults);
+        environment().permissionManager().onRequestPermissionsResult(getActivity(), requestCode, permissions, grantResults);
     }
 
     public @NonNull

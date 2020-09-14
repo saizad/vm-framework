@@ -75,7 +75,7 @@ public class LoginBody implements Parcelable {
         @NonNull
         @Override
         protected LoginBody buildForm() {
-            return new LoginBody(passwordField.getField(), usernameField.getField(), null);
+            return new LoginBody(passwordField.requiredField().trim(), usernameField.requiredField().trim(), null);
         }
     }
 
@@ -94,7 +94,7 @@ public class LoginBody implements Parcelable {
         @NonNull
         @Override
         protected LoginBody buildForm() {
-            return new LoginBody(passwordField.getField(), null, emailField.getField());
+            return new LoginBody(passwordField.requiredField().trim(), null, emailField.requiredField().trim());
         }
     }
 }

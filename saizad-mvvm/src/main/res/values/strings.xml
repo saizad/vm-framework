@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Saizad MVVM</string>
+    <string name="drawer_menu_profile">My Profile</string>
+    <string name="drawer_menu_my_plan">My Plan</string>
+    <string name="drawer_menu_faq">FAQs</string>
+    <string name="drawer_menu_tnc">Terms &amp; Conditions</string>
+    <string name="drawer_menu_feedback">Feedback</string>
+    <string name="drawer_menu_contact_us">Contact Us</string>
 </resources>

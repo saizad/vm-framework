@@ -24,7 +24,8 @@ public class DOBStringInputFieldView extends InputFieldView<String> {
     }
 
     @Override
-    public String resolveFrom(@NotNull CharSequence charSequence) {
+    public @Nullable
+    String resolveFrom(@NotNull CharSequence charSequence) {
         if(charSequence.toString().isEmpty()){
             return null;
         }

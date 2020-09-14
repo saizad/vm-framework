@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.saizad.mvvm.utils.dpToPxInt
 import sa.zad.pagedrecyclerlist.ConstraintLayoutItem
 
 abstract class SaizadListItem<M> @JvmOverloads constructor(
@@ -12,29 +13,24 @@ abstract class SaizadListItem<M> @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayoutItem<M>(context, attrs, defStyleAttr){
 
-    init {
-        layoutParams = RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-    }
+    var clipVerticalLastItemSpacing = true
 
-    override fun lastItem(hide: Boolean) {
-        if (!hide) {
-            margins(horizontalGap(), itemGapSize())
-        }else{
-            margins(horizontalGap(), 0)
+    override fun lastItem(last: Boolean) {
+        if (!last || !clipVerticalLastItemSpacing) {
+            margins(itemGapSize())
+        }else {
+            margins(0)
         }
     }
 
-    private fun margins(horizontal: Int, itemGapSize : Int){
-        if (layoutParams is MarginLayoutParams) {
-            val layoutParams = layoutParams as MarginLayoutParams
-            layoutParams.setMargins(horizontal, 0, horizontal, itemGapSize)
-            requestLayout()
+    private fun margins(itemGapSize : Int){
+        layoutParams?.let {
+            with(it as MarginLayoutParams) {
+                bottomMargin = itemGapSize
+                layoutParams = this
+            }
         }
     }
-    open protected fun horizontalGap(): Int = 10
 
-    open protected fun itemGapSize(): Int = 10
+    protected open fun itemGapSize(): Int = context.dpToPxInt(4f)
 }

@@ -1,6 +1,7 @@
 package com.saizad.mvvm;
 
 import android.app.Activity;
+
 import androidx.annotation.Nullable;
 
 public class ActivityResult<V> {
@@ -10,10 +11,14 @@ public class ActivityResult<V> {
     @Nullable
     private V value;
 
+    public ActivityResult(final int requestCode, final @Nullable V value) {
+        this(requestCode, OK(), value);
+    }
+
     public ActivityResult(final int requestCode, final int resultCode,
                           final @Nullable V value) {
-        this.requestCode = requestCode;
         this.resultCode = resultCode;
+        this.requestCode = requestCode;
         this.value = value;
     }
 
