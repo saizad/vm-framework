@@ -257,16 +257,16 @@ public abstract class SaizadBaseBottomSheetDialogFragment<V extends SaizadBaseVi
         return delegate.showAlertDialogYesNo(title, message, icon, positiveName, negativeName);
     }
 
-    public void openClosableFragment(@IdRes int fragment) {
-        delegate.openClosableFragment(fragment);
+    public void openFragment(@IdRes int fragment) {
+        delegate.openFragment(fragment);
     }
 
-    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle) {
-        delegate.openClosableFragment(fragment, bundle);
+    public void openFragment(@IdRes int fragment, @Nullable Bundle bundle) {
+        delegate.openFragment(fragment, bundle);
     }
 
-    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
-        delegate.openClosableFragment(fragment, bundle, navOptions);
+    public void openFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
+        delegate.openFragment(fragment, bundle, navOptions);
     }
 
     public void requestLocation(Action1<Location> locationAction) {

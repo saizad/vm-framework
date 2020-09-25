@@ -2,8 +2,8 @@ rootProject.name = 'SaizadMVVMExample'
 include ':app'
 include ':saizad-mvvm'
 
-include ':paged-list'
-project(':paged-list').projectDir = new File('../PagedRecyclerList/pagedrecyclerlist')
+//include ':paged-list'
+//project(':paged-list').projectDir = new File('../PagedRecyclerList/pagedrecyclerlist')
 
 //include ':easyandroidform'
 //project(':easyandroidform').projectDir = new File('../EasyAndroidForm/easyandroidform')

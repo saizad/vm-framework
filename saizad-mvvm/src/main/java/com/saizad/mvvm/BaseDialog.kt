@@ -2,6 +2,7 @@ package com.saizad.mvvm
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
@@ -20,9 +21,12 @@ abstract class BaseDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) : A
         val inflate = ViewUtils.inflate(context, layoutRes)
         setContentView(inflate)
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        setOnShowListener {
+        super.setOnShowListener {
             onShow()
         }
+    }
+
+    final override fun setOnShowListener(listener: DialogInterface.OnShowListener?) {
     }
 
     open fun onShow() {}

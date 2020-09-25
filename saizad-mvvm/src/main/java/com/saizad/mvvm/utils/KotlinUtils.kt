@@ -166,6 +166,11 @@ fun View.padding(dp: Float) {
     this.setPadding(px, px, px, px)
 }
 
+fun View.paddingTop(dp: Float) {
+    val px = context.dpToPx(dp).roundToInt()
+    this.setPadding(0, px, 0, 0)
+}
+
 fun Context.themeColor(@AttrRes attrRes: Int): Int {
     val typedValue = TypedValue()
     theme.resolveAttribute(attrRes, typedValue, true)

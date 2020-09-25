@@ -76,11 +76,11 @@ public interface BaseLifecycleDelegate {
 
     @NonNull NavController navController();
 
-    void openClosableFragment(@IdRes int fragment);
+    void openFragment(@IdRes int fragment);
 
-    void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle);
+    void openFragment(@IdRes int fragment, @Nullable Bundle bundle);
 
-    void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions);
+    void openFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions);
 
     void onViewReady();
 

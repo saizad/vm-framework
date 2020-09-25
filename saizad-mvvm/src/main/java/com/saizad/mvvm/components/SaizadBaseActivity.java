@@ -208,16 +208,16 @@ public abstract class SaizadBaseActivity<V extends SaizadBaseViewModel> extends 
         return 0;
     }
 
-    public void openClosableFragment(@IdRes int fragment) {
-        delegate.openClosableFragment(fragment);
+    public void openFragment(@IdRes int fragment) {
+        delegate.openFragment(fragment);
     }
 
-    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle) {
-        delegate.openClosableFragment(fragment, bundle);
+    public void openFragment(@IdRes int fragment, @Nullable Bundle bundle) {
+        delegate.openFragment(fragment, bundle);
     }
 
-    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
-        delegate.openClosableFragment(fragment, bundle, navOptions);
+    public void openFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
+        delegate.openFragment(fragment, bundle, navOptions);
     }
 
     @CallSuper

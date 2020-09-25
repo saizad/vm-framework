@@ -22,11 +22,19 @@ public class BaseViewPager extends ViewPager {
     }
 
     public final void next() {
-        setCurrentItem(getCurrentItem() + 1, true);
+        next( true);
+    }
+
+    public final void next(boolean smoothScroll) {
+        setCurrentItem(getCurrentItem() + 1, smoothScroll);
     }
 
     public final void previous() {
-        setCurrentItem(getCurrentItem() - 1, true);
+        previous( true);
+    }
+
+    public final void previous(boolean smoothScroll) {
+        setCurrentItem(getCurrentItem() - 1, smoothScroll);
     }
 
     public final boolean isLastPage() {

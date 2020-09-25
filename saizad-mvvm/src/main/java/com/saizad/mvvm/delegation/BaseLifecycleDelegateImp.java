@@ -251,17 +251,17 @@ public abstract class BaseLifecycleDelegateImp<V extends SaizadBaseViewModel, CB
     }
 
 
-    public void openClosableFragment(@IdRes int fragment) {
-        openClosableFragment(fragment, null);
+    public void openFragment(@IdRes int fragment) {
+        openFragment(fragment, null);
     }
 
-    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle) {
-        openClosableFragment(fragment, bundle, new NavOptions.Builder()
+    public void openFragment(@IdRes int fragment, @Nullable Bundle bundle) {
+        openFragment(fragment, bundle, new NavOptions.Builder()
                 .setEnterAnim(R.anim.vertical_enter_anim)
                 .setPopExitAnim(R.anim.vertical_pop_exit_anim).build());
     }
 
-    public void openClosableFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
+    public void openFragment(@IdRes int fragment, @Nullable Bundle bundle, @Nullable NavOptions navOptions) {
         navController().navigate(fragment, bundle, navOptions);
     }
 
