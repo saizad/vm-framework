@@ -63,7 +63,7 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
     };
 
     public BasePageAdapter(FragmentManager fm, ViewPager viewPager) {
-        this(fm, new SparseArray<>(), viewPager);
+        this(fm, viewPager, new SparseArray<>());
     }
 
     @SafeVarargs
@@ -78,7 +78,7 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
         }
     }
 
-    public BasePageAdapter(FragmentManager fm, SparseArray<Class<? extends F>> items, ViewPager viewPager) {
+    public BasePageAdapter(FragmentManager fm, ViewPager viewPager, SparseArray<Class<? extends F>> items) {
         super(fm);
         this.viewPager = viewPager;
         viewPager.addOnPageChangeListener(this);
@@ -106,7 +106,7 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
             BaseViewPager pager = (BaseViewPager) container;
             if (fragment != null && fragment.getView() != null) {
                 mCurrentPosition = position;
-                if(isWrapHeight()) {
+                if (isWrapHeight()) {
                     pager.measureCurrentView(fragment.getView());
                 }
             }
@@ -132,7 +132,7 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
         super.setPrimaryItem(container, position, object);
     }
 
-    protected boolean isWrapHeight(){
+    protected boolean isWrapHeight() {
         return false;
     }
 
@@ -224,7 +224,7 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
             if (position + positionOffset > sumPosition) {
                 //right
                 if (between) {
-                    fragments.get(this.position -1).onPageHiding(visiblePercent);
+                    fragments.get(this.position - 1).onPageHiding(visiblePercent);
                     fragments.get(this.position).onPageShowing(percent);
                     pageListener.upcomingPage(this.position - 1, this.position, 100);
                 } else {

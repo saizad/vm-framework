@@ -7,7 +7,6 @@ import com.saizad.mvvm.utils.throttleClick
 import com.saizad.mvvmexample.R
 import com.saizad.mvvmexample.components.auth.AuthFragment
 import com.saizad.mvvmexample.components.main.DrawerMainActivity
-import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : AuthFragment<LoginViewModel>() {
@@ -18,11 +17,9 @@ class LoginFragment : AuthFragment<LoginViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
 
-        goToMain.throttleClick(Consumer {
+        goToMain.throttleClick{
             startActivity(Intent(context(), DrawerMainActivity::class.java))
-        }, Consumer {
-            showLongToast(it.message)
-        })
+        }
     }
 
     override fun layoutRes(): Int {

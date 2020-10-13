@@ -7,6 +7,7 @@ import android.widget.EditText
 import com.google.android.material.textfield.TextInputLayout
 import com.sa.easyandroidform.field_view.BaseInputFieldView
 import com.saizad.mvvm.R
+import com.saizad.mvvm.utils.KeyBoardUtils
 import com.saizad.mvvm.utils.ViewUtils
 import kotlinx.android.synthetic.main.lib_text_input_layout.view.*
 
@@ -14,22 +15,22 @@ import kotlinx.android.synthetic.main.lib_text_input_layout.view.*
 abstract class InputFieldView<F> @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0) :
-    BaseInputFieldView<F>(context, attrs, defStyleAttr) {
+    defStyleAttr: Int = 0
+) : BaseInputFieldView<F>(context, attrs, defStyleAttr) {
+
+    private val isErrorEnabled: Boolean
 
     init {
         ViewUtils.inflate(getContext(), R.layout.lib_text_input_layout, this, true)
-        val handler = Handler()
-        /*handler.postDelayed( {
-            editTextLayout.isEndIconVisible = false
-        }, 500)
-        editText.setOnFocusChangeListener { v, hasFocus ->
-            editTextLayout.isEndIconVisible = hasFocus
-        }*/
+        isErrorEnabled = editTextLayout.isErrorEnabled
+        editTextLayout.setEndIconOnClickListener {
+            editText.clearFocus()
+            KeyBoardUtils.hide(context, editText)
+        }
     }
 
 
-    public  fun getEditTextLayout(): TextInputLayout{
+    public fun getEditTextLayout(): TextInputLayout {
         return editTextLayout
     }
 
@@ -42,6 +43,6 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
 
     override fun displayError(show: Boolean, error: String?) {
         editTextLayout.error = error
-        editTextLayout.isErrorEnabled = show
+        editTextLayout.isErrorEnabled = show && isErrorEnabled
     }
 }

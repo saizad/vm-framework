@@ -121,9 +121,11 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
 
     override fun showValue(field: String?) {
         try {
-            if(fieldItem.isSet) {
-                dateTimeView.bind(DateTime(field))
-                return
+            fieldItem?.let {
+                if(it.isSet) {
+                    dateTimeView.bind(DateTime(field))
+                    return
+                }
             }
         }catch (e: Exception){
         }

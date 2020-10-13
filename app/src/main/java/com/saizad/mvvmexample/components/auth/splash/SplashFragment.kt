@@ -18,14 +18,11 @@ class SplashFragment : AuthFragment<SplashViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
         Observable.just("")
             .subscribeOn(schedulerProviderIO)
-            .delay(1000, TimeUnit.MILLISECONDS)
+            .delay(100, TimeUnit.MILLISECONDS)
             .observeOn(schedulerProviderUI)
             .subscribe {
                 findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
             }
-        if (!recycled) {
-            tv.text = (1..100000).random().toString()
-        }
     }
 
     override fun layoutRes(): Int {

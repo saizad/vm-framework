@@ -10,7 +10,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -46,7 +46,7 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     api 'androidx.paging:paging-runtime-ktx:2.1.2'
-    api 'com.google.android.material:material:1.2.0-alpha06'
+    api 'com.google.android.material:material:1.2.1'
 
 
     //google play services
@@ -88,8 +88,8 @@ dependencies {
 //    api project(path: ':easyandroidform')
 
     api 'com.github.saizad:easyretrofit:c594ffa672cd9d9f38d8adef72e3314621178bb6'
-    api 'com.github.saizad:Android-Easy-Form:74848a079fc1ba996f08208f8694a10e6dda0ab3'
-    api 'com.github.saizad:PagedRecyclerList:c6abcad9d835ec347e19f4ed59da817c5b393f6c'
+    api 'com.github.saizad:Android-Easy-Form:171457c4ab'
+    api 'com.github.saizad:PagedRecyclerList:e8d0c1fdaeae73ee914d872b12dda63bc450056e'
     api 'com.github.saizad:EasyPermission:531d80b5d356650b06d530666dff2d4e6244cb2b'
 //    testImplementation 'com.github.saizad:EasyAndroidFormTest:eb350eb37fd65975ada478b5e84da53b77c167be'
 

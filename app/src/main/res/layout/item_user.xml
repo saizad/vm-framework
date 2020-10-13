@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.saizad.mvvmexample.components.main.home.UserListItem xmlns:android="http://schemas.android.com/apk/res/android"
+<com.saizad.mvvmexample.components.main.home.UserItem xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,4 +7,4 @@
     android:paddingStart="@dimen/space_0_1x"
     android:paddingEnd="@dimen/space_0_1x">
 
-</com.saizad.mvvmexample.components.main.home.UserListItem>
+</com.saizad.mvvmexample.components.main.home.UserItem>

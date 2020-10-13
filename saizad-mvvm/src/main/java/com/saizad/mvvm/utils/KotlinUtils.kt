@@ -1,20 +1,27 @@
 package com.saizad.mvvm.utils
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.ChipGroup
 import com.jakewharton.rxbinding2.view.RxView
 import com.saizad.mvvm.components.SaizadBaseFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
 import org.joda.time.DateTime
 import org.joda.time.Period
@@ -138,7 +145,12 @@ fun Context.getQuantityStringZero(
 }
 
 fun Context.color(@ColorRes colorRes: Int): Int {
-    return ResourcesCompat.getColor(resources, colorRes, null)
+    return resources.color(colorRes)
+}
+
+@ColorInt
+fun Resources.color(@ColorRes colorRes: Int): Int {
+    return ResourcesCompat.getColor(this, colorRes, null)
 }
 
 fun Context.drawable(@DrawableRes drawableRes: Int): Drawable? {
@@ -175,4 +187,31 @@ fun Context.themeColor(@AttrRes attrRes: Int): Int {
     val typedValue = TypedValue()
     theme.resolveAttribute(attrRes, typedValue, true)
     return typedValue.data
+}
+
+fun Context.inPortraitMode(): Boolean =
+    resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+
+inline fun <reified T : Activity> Context.startActivity(config: Intent.() -> Unit = {}) =
+    startActivity(componentIntent<T>(config))
+
+inline fun <reified T : Activity> Context.startActivityClear(config: Intent.() -> Unit = {}) =
+    startActivity(componentIntent<T>{
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        config.invoke(this)
+    })
+
+inline fun Activity.startActivityForResult(requestCode: Int, config: Intent.() -> Unit = {}) =
+    startActivityForResult(Intent().apply(config), requestCode)
+
+inline fun <reified T> Context.componentIntent(config: Intent.() -> Unit = {}) =
+    Intent(this, T::class.java).apply(config)
+
+val Activity.hideKeyboard: Unit
+    get() {
+        KeyBoardUtils.hide(this)
+    }
+
+fun Disposable.addToComposite(saizadBaseFragment: SaizadBaseFragment<*>){
+    saizadBaseFragment.compositeDisposable().add(this)
 }
