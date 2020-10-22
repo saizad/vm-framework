@@ -1,6 +1,5 @@
 package com.saizad.mvvm
 
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.view.ViewGroup
@@ -11,11 +10,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.saizad.mvvm.utils.ViewUtils
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-abstract class BaseDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) : AppCompatDialog(context) {
+abstract class BaseDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) :
+    AppCompatDialog(context) {
     protected val mutableLiveData = MutableLiveData<R>()
     protected var data: M? = null
     protected val compositeDisposable = CompositeDisposable()
+    private var dismissJob: Job? = null
 
     init {
         val inflate = ViewUtils.inflate(context, layoutRes)
@@ -33,13 +38,18 @@ abstract class BaseDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) : A
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
+        dismissJob?.cancel()
         dismiss()
         compositeDisposable.dispose()
     }
 
-    fun dismiss(returnData: R){
-        mutableLiveData.value = returnData
-        dismiss()
+    fun dismiss(returnData: R, delay: Long = 0) {
+        dismissJob?.cancel()
+        dismissJob = GlobalScope.launch(Dispatchers.Main) {
+            kotlinx.coroutines.delay(delay)
+            mutableLiveData.value = returnData
+            dismiss()
+        }
     }
 
     @CallSuper

@@ -22,7 +22,7 @@ public class BaseViewPager extends ViewPager {
     }
 
     public final void next() {
-        next( true);
+        next(true);
     }
 
     public final void next(boolean smoothScroll) {
@@ -30,7 +30,7 @@ public class BaseViewPager extends ViewPager {
     }
 
     public final void previous() {
-        previous( true);
+        previous(true);
     }
 
     public final void previous(boolean smoothScroll) {

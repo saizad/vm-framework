@@ -1,9 +1,9 @@
 package com.saizad.mvvm.components.form.ui
 
 import android.content.Context
-import android.os.Handler
 import android.util.AttributeSet
 import android.widget.EditText
+import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputLayout
 import com.sa.easyandroidform.field_view.BaseInputFieldView
 import com.saizad.mvvm.R
@@ -23,9 +23,13 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
     init {
         ViewUtils.inflate(getContext(), R.layout.lib_text_input_layout, this, true)
         isErrorEnabled = editTextLayout.isErrorEnabled
-        editTextLayout.setEndIconOnClickListener {
-            editText.clearFocus()
-            KeyBoardUtils.hide(context, editText)
+        editTextLayout.findViewById<CheckableImageButton>(R.id.text_input_end_icon)?.let {
+            if (!it.hasOnClickListeners()) {
+                editTextLayout.setEndIconOnClickListener {
+                    editText.clearFocus()
+                    KeyBoardUtils.hide(context, editText)
+                }
+            }
         }
     }
 
