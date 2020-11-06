@@ -187,6 +187,9 @@ abstract class FilesFieldView @JvmOverloads constructor(
 
     }
 
+    override fun notSetError(error: String) {
+    }
+
     @CallSuper
     override fun showValue(field: List<String>?) {
         if (undo != null) {

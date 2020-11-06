@@ -144,4 +144,7 @@ abstract class DateTimeFieldView @JvmOverloads constructor(
         dateTimeView.getTimeView().setError(show)
         action1.call(Pair(error, show))
     }
+
+    override fun notSetError(error: String) {
+    }
 }

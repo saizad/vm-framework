@@ -19,6 +19,7 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
 ) : BaseInputFieldView<F>(context, attrs, defStyleAttr) {
 
     private val isErrorEnabled: Boolean
+    private var prevShow: Boolean = false
 
     init {
         ViewUtils.inflate(getContext(), R.layout.lib_text_input_layout, this, true)
@@ -46,7 +47,13 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
     }
 
     override fun displayError(show: Boolean, error: String?) {
-        editTextLayout.error = error
-        editTextLayout.isErrorEnabled = show && isErrorEnabled
+        fieldItem?.isSet?.let {
+            editTextLayout.error = error
+            editTextLayout.isErrorEnabled = show && isErrorEnabled && it
+        }
+    }
+
+    override fun notSetError(error: String) {
+        editTextLayout.isErrorEnabled = false
     }
 }

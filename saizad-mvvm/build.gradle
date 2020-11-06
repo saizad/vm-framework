@@ -88,7 +88,7 @@ dependencies {
 //    api project(path: ':easyandroidform')
 
     api 'com.github.saizad:easyretrofit:c594ffa672cd9d9f38d8adef72e3314621178bb6'
-    api 'com.github.saizad:Android-Easy-Form:171457c4ab'
+    api 'com.github.saizad:Android-Easy-Form:7afa327721379de53bddeb9eff9ba041af18cf34'
     api 'com.github.saizad:PagedRecyclerList:e8d0c1fdaeae73ee914d872b12dda63bc450056e'
     api 'com.github.saizad:EasyPermission:531d80b5d356650b06d530666dff2d4e6244cb2b'
 //    testImplementation 'com.github.saizad:EasyAndroidFormTest:eb350eb37fd65975ada478b5e84da53b77c167be'
