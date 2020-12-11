@@ -180,16 +180,16 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
         Log.i("StateOnPageScrolled", "Current Position = " + this.position);
         Log.i("StateOnPageScrolled", "PositionOffset = " + positionOffset);
         Log.i("StateOnPageScrolled", "PositionOffsetPixels = " + positionOffsetPixels);
-        Log.i("StateOnPageScrolled", "PositionOffsetVGetPivotX = " + mCurrentFragment.requireView().getPivotX());
-        Log.i("StateOnPageScrolled", "PositionOffsetVGetX = " + mCurrentFragment.requireView().getX());
-        final int left = mCurrentFragment.requireView().getLeft();
-        Log.i("StateOnPageScrolled", "PositionOffsetVGetLeft = " + left);
-        final int right = mCurrentFragment.requireView().getRight();
-        Log.i("StateOnPageScrolled", "PositionOffsetVGetRight = " + right);
-        Log.i("StateOnPageScrolled", "PositionOffsetVGetWidth = " + mCurrentFragment.requireView().getWidth());
-        Log.i("StateOnPageScrolled", "PositionOffsetVGetScrollX = " + viewPager.getScrollX());
+//        Log.i("StateOnPageScrolled", "PositionOffsetVGetPivotX = " + mCurrentFragment.requireView().getPivotX());
+//        Log.i("StateOnPageScrolled", "PositionOffsetVGetX = " + mCurrentFragment.requireView().getX());
+//        final int left = mCurrentFragment.requireView().getLeft();
+//        Log.i("StateOnPageScrolled", "PositionOffsetVGetLeft = " + left);
+//        final int right = mCurrentFragment.requireView().getRight();
+//        Log.i("StateOnPageScrolled", "PositionOffsetVGetRight = " + right);
+//        Log.i("StateOnPageScrolled", "PositionOffsetVGetWidth = " + mCurrentFragment.requireView().getWidth());
+//        Log.i("StateOnPageScrolled", "PositionOffsetVGetScrollX = " + viewPager.getScrollX());
 
-        final boolean between = isBetween(Math.min(left, right), Math.max(left, right), viewPager.getScrollX());
+        final boolean between = false;//isBetween(Math.min(left, right), Math.max(left, right), viewPager.getScrollX());
         final int visiblePercent = 100 - percent;
         if (positionOffsetPixels > 0 && scrollState == ViewPager.SCROLL_STATE_DRAGGING) {
             int nextPosition;
