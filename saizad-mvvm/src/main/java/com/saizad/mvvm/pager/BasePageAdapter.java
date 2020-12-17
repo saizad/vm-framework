@@ -4,6 +4,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -98,13 +99,26 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
         return mCurrentFragment;
     }
 
+    @NonNull
     @Override
-    public final void setPrimaryItem(ViewGroup container, int position, Object object) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        final F fragment = ((F) super.instantiateItem(container, position));
+        fragment.pageLoaded()
+                    .subscribe(__ -> {
+                        pageListener.onPageLoaded(fragment, position);
+                    }, throwable -> {
+                        Log.d("pageLoaded-Error", throwable.getMessage());
+                    });
+        return fragment;
+    }
+
+    @Override
+    public final void setPrimaryItem(@NotNull ViewGroup container, int position, @NotNull Object object) {
         this.position = position;
         if (position != mCurrentPosition) {
             Fragment fragment = (Fragment) object;
             BaseViewPager pager = (BaseViewPager) container;
-            if (fragment != null && fragment.getView() != null) {
+            if (fragment.getView() != null) {
                 mCurrentPosition = position;
                 if (isWrapHeight()) {
                     pager.measureCurrentView(fragment.getView());
@@ -144,10 +158,6 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
     public Fragment getItem(int position) {
         final F instance = Utils.createInstance((items.get(position)));
         fragments.put(position, instance);
-        instance.pageLoaded()
-                .subscribe(__ -> {
-                    pageListener.onPageLoaded(instance, position);
-                });
         return instance;
     }
 
