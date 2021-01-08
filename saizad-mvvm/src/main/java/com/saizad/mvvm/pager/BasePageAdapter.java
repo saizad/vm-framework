@@ -71,7 +71,7 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
     public BasePageAdapter(FragmentManager fm, ViewPager viewPager, Class<? extends F>... items) {
         super(fm);
         this.viewPager = viewPager;
-        viewPager.addOnPageChangeListener(this);
+//        viewPager.addOnPageChangeListener(this);
         this.items = new SparseArray<>();
         for (Class<? extends F> item : items) {
             fragments.put(this.items.size(), (F) fm.findFragmentByTag(makeFragmentName(viewPager.getId(), this.items.size())));
@@ -82,7 +82,7 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
     public BasePageAdapter(FragmentManager fm, ViewPager viewPager, SparseArray<Class<? extends F>> items) {
         super(fm);
         this.viewPager = viewPager;
-        viewPager.addOnPageChangeListener(this);
+//        viewPager.addOnPageChangeListener(this);
         this.items = new SparseArray<>();
         for (int i = 0; i < items.size(); i++) {
             fragments.put(i, (F) fm.findFragmentByTag(makeFragmentName(viewPager.getId(), i)));
