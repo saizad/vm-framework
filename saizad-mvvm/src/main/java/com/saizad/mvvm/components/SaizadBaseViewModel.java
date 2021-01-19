@@ -30,7 +30,7 @@ import sa.zad.pagedrecyclerlist.ConstraintLayoutList;
 public abstract class SaizadBaseViewModel extends ViewModel {
 
     private final BehaviorSubject<ActivityResult<?>> activityResult;
-    protected CompositeDisposable disposable;
+    protected CompositeDisposable disposable = new CompositeDisposable();
     private MutableLiveData<LoadingData> loadingLiveData = new MutableLiveData<>();
     private MutableLiveData<ErrorData> errorLiveData = new MutableLiveData<>();
     private MutableLiveData<ApiErrorData> apiErrorLiveData = new MutableLiveData<>();
