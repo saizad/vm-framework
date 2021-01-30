@@ -107,16 +107,21 @@ public abstract class SaizadBaseViewModel extends ViewModel {
     public @NonNull
     <M> LiveData<M> liveData(NeverErrorObservable<DataModel<M>> observable, int requestId) {
         MutableLiveData<M> mutableLiveData = new MutableLiveData<>();
+        apiRequest(observable, requestId)
+                .subscribe(mDataModel -> mutableLiveData.setValue(mDataModel.data));
+        return mutableLiveData;
+    }
+
+    public @NonNull
+    <M> Observable<DataModel<M>> apiRequest(NeverErrorObservable<DataModel<M>> observable, int requestId) {
         shootLoading(true, requestId);
-        observable
-                .successResponse(dataModelResponse -> mutableLiveData.setValue(dataModelResponse.body().data))
+        return observable
                 .connectionException(e -> shootError(e, requestId))
-                .failedResponse(dataModelResponse -> {})
+                .failedResponse(dataModelResponse -> {
+                })
                 .apiException(errorModel -> shootError(errorModel, requestId), ErrorModel.class)
                 .exception(throwable -> shootError(throwable, requestId))
-                .doFinally(() -> shootLoading(false, requestId))
-                .subscribe();
-        return mutableLiveData;
+                .doFinally(() -> shootLoading(false, requestId));
     }
 
     public final Observable<ActivityResult<?>> activityResult(int requestCode) {
