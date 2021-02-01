@@ -104,11 +104,11 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         final F fragment = ((F) super.instantiateItem(container, position));
         fragment.pageLoaded()
-                    .subscribe(__ -> {
+                .subscribe(__ -> {
+                    if (fragment.getView() != null) {
                         pageListener.onPageLoaded(fragment, position);
-                    }, throwable -> {
-                        Log.d("pageLoaded-Error", throwable.getMessage());
-                    });
+                    }
+                });
         return fragment;
     }
 
@@ -139,8 +139,6 @@ public class BasePageAdapter<F extends Fragment & PagerAdapterListener & BasePag
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(__ -> {
                         pageReady(getCurrentPage());
-                    }, throwable -> {
-                        Log.d("dasfasf", throwable.getMessage());
                     });
         }
         super.setPrimaryItem(container, position, object);
