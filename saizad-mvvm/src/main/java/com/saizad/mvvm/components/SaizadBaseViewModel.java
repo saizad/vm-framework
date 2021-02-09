@@ -23,6 +23,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
+import retrofit2.Response;
 import rx.functions.Action1;
 import sa.zad.easyretrofit.observables.NeverErrorObservable;
 import sa.zad.pagedrecyclerlist.ConstraintLayoutList;
@@ -63,44 +64,20 @@ public abstract class SaizadBaseViewModel extends ViewModel {
         return notificationListener(types);
     }
 
-    protected <M> Observable<M> observable(NeverErrorObservable<DataModel<M>> observable, int requestId) {
-        shootLoading(true, requestId);
-        return observable
-                .connectionException(e -> shootError(e, requestId))
-                .apiException(errorModel ->
-                        shootError(errorModel, requestId), ErrorModel.class)
-                .exception(throwable -> shootError(throwable, requestId))
-                .doFinally(() -> shootLoading(false, requestId)).map(mDataModel -> mDataModel.data);
-    }
-
     protected <M> LiveData<IntPageDataModel<M>> pagedLiveData(NeverErrorObservable<IntPageDataModel<M>> observable, @NonNull ConstraintLayoutList.CallBack<IntPageDataModel<M>> callback, Action1<Throwable> errorCallback, int requestId) {
         MutableLiveData<IntPageDataModel<M>> mutableLiveData = new MutableLiveData<>();
-        shootLoading(true, requestId);
-        observable
-                .successResponse(dataModelResponse -> {
-                    final IntPageDataModel<M> data = dataModelResponse.body();
-                    callback.call(data);
-                    mutableLiveData.setValue(data);
-                })
-                .connectionException(e -> shootError(e, requestId))
-                .apiException(errorModel ->
-                        shootError(errorModel, requestId), ErrorModel.class)
-                .exception(throwable -> shootError(throwable, requestId))
-                .doFinally(() -> shootLoading(false, requestId))
-                .subscribe();
+        request(observable, requestId, dataModelResponse -> {
+            final IntPageDataModel<M> data = dataModelResponse.body();
+            callback.call(data);
+            mutableLiveData.setValue(data);
+        }).subscribe();
         return mutableLiveData;
     }
 
-    public @NonNull LiveData<Void> liveDataNoResponse(NeverErrorObservable<Void> observable, int requestId) {
+    public @NonNull
+    LiveData<Void> liveDataNoResponse(NeverErrorObservable<Void> observable, int requestId) {
         MutableLiveData<Void> mutableLiveData = new MutableLiveData<>();
-        shootLoading(true, requestId);
-        observable
-                .successResponse(dataModelResponse -> mutableLiveData.setValue(null))
-                .connectionException(e -> shootError(e, requestId))
-                .apiException(errorModel -> shootError(errorModel, requestId), ErrorModel.class)
-                .exception(throwable -> shootError(throwable, requestId))
-                .doFinally(() -> shootLoading(false, requestId))
-                .subscribe();
+        request(observable, requestId, voidResponse -> mutableLiveData.setValue(null)).subscribe();
         return mutableLiveData;
     }
 
@@ -114,8 +91,15 @@ public abstract class SaizadBaseViewModel extends ViewModel {
 
     public @NonNull
     <M> Observable<DataModel<M>> apiRequest(NeverErrorObservable<DataModel<M>> observable, int requestId) {
+        return request(observable, requestId, dataModelResponse -> {});
+    }
+
+    public @NonNull
+    <M> Observable<M> request(NeverErrorObservable<M> observable, int requestId, Action1<Response<M>> responseAction) {
         shootLoading(true, requestId);
         return observable
+                .successResponse(responseAction)
+                .timeoutException(e -> shootError(e, requestId))
                 .connectionException(e -> shootError(e, requestId))
                 .failedResponse(dataModelResponse -> {
                 })
