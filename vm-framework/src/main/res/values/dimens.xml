@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <dimen name="zero">0dp</dimen>
+    <dimen name="space_0_1x">4dp</dimen>
+    <dimen name="space_0_2x">12dp</dimen>
+    <dimen name="space_0_3x">20dp</dimen>
+    <dimen name="space_0_4x">28dp</dimen>
+    <dimen name="space_0_5x">36dp</dimen>
+    <dimen name="space_0_6x">44dp</dimen>
+    <dimen name="space_0_7x">52dp</dimen>
+    <dimen name="space_0_8x">60dp</dimen>
+
+    <dimen name="space_1x">8dp</dimen>
+    <dimen name="space_2x">16dp</dimen>
+    <dimen name="space_3x">24dp</dimen>
+    <dimen name="space_4x">32dp</dimen>
+    <dimen name="space_5x">40dp</dimen>
+    <dimen name="space_6x">48dp</dimen>
+    <dimen name="space_7x">56dp</dimen>
+    <dimen name="space_8x">64dp</dimen>
+    <dimen name="space_9x">72dp</dimen>
+    <dimen name="space_10x">80dp</dimen>
+    <dimen name="full_screen_list_padding_bottom">120dp</dimen>
+    <dimen name="badge_text_size">8sp</dimen>
+
+</resources>

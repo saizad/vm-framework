@@ -1,0 +1,52 @@
+<resources>
+
+    <style name="Theme.MaterialComponents.Light.AppTheme">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorPrimary">?colorPrimary</item>
+        <item name="colorPrimaryDark">?colorPrimaryDark</item>
+        <item name="colorAccent">?colorAccent</item>
+        <item name="cornerRadius">4dp</item>
+        <item name="roundedCornerStrokeColor">@color/grey_100</item>
+        <item name="roundedCornerColor">@color/grey_50</item>
+        <item name="roundedCornerStrokeWidth">1dp</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="FullScreenDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimaryDark">?colorPrimaryDark</item>
+        <item name="colorPrimary">?colorPrimary</item>
+
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">false</item>
+
+        <item name="android:windowBackground">@color/white</item>
+
+        <item name="android:windowEnterAnimation">@anim/vertical_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/vertical_pop_enter_anim</item>
+    </style>
+
+
+    <style name="FullScreen" parent="AppTheme.NoActionBar">
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="FullScreen.AppLaunch">
+        <item name="android:actionModeBackground">?colorPrimary</item>
+    </style>
+
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.AppTheme" />
+
+</resources>

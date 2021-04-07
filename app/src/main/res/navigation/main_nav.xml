@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/homeFragment"
+    tools:ignore="UnusedNavigation">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.vm.frameworkexample.components.main.home.HomeFragment"
+        android:label=""
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_usersFragment"
+            app:destination="@id/usersFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_updateUserFragment"
+            app:destination="@id/updateUserFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.vm.frameworkexample.components.main.users.UsersFragment"
+        android:label="Users"
+        android:layout="@layout/fragment_users">
+        <action
+            android:id="@+id/action_usersFragment_to_userPageHostFragment"
+            app:destination="@id/userPageHostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateUserFragment"
+        android:name="com.vm.frameworkexample.components.main.profile.updateuser.UpdateUserFragment"
+        android:label="UpdateUser"
+        android:layout="@layout/fragment_update_user">
+        <argument
+            android:name="user"
+            app:argType="com.vm.frameworkexample.models.ReqResUser" />
+    </fragment>
+    <fragment
+        android:id="@+id/userPageHostFragment"
+        android:name="com.vm.frameworkexample.components.main.users.userpage.UserPageHostFragment"
+        android:label="User Page Host"
+        android:layout="@layout/fragment_user_page_host">
+        <argument
+            android:name="users"
+            app:argType="com.vm.frameworkexample.models.ReqResUser[]" />
+        <argument
+            android:name="user"
+            android:defaultValue="@null"
+            app:argType="com.vm.frameworkexample.models.ReqResUser"
+            app:nullable="true" />
+
+    </fragment>
+
+</navigation>

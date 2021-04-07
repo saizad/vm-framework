@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/createProfileProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/circular_progress"
+        android:secondaryProgress="100"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/image_view"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/image_view"
+        app:layout_constraintStart_toStartOf="@id/image_view"
+        app:layout_constraintTop_toTopOf="@id/image_view"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/upload_progress_loading"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:indeterminate="true"
+        android:max="100"
+        android:progress="0"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:secondaryProgress="100"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/image_view"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/image_view"
+        app:layout_constraintStart_toStartOf="@id/image_view"
+        app:layout_constraintTop_toTopOf="@id/image_view"
+        tools:visibility="visible" />
+
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:padding="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@sample/circle_avatar" />
+
+    <ImageView
+        android:id="@+id/undo_avatar"
+        android:layout_width="@dimen/space_5x"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/space_1x"
+        android:layout_marginTop="@dimen/space_1x"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/grey_200"
+        android:padding="@dimen/space_1x"
+        android:visibility="gone"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintStart_toStartOf="@id/image_view"
+        app:layout_constraintTop_toTopOf="@id/image_view"
+        app:srcCompat="@drawable/ic_undo_black_24dp"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/edit_avatar"
+        android:layout_width="@dimen/space_5x"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_1x"
+        android:layout_marginEnd="@dimen/space_1x"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/grey_200"
+        android:padding="@dimen/space_1x"
+        android:visibility="visible"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="@id/image_view"
+        app:layout_constraintTop_toTopOf="@id/image_view"
+        app:srcCompat="@drawable/ic_mode_edit_black_24dp"
+        app:tint="@color/black" />
+
+    <ImageView
+        android:id="@+id/deleteAvatar"
+        android:layout_width="@dimen/space_5x"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/space_1x"
+        android:layout_marginBottom="@dimen/space_1x"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/grey_200"
+        android:padding="@dimen/space_1x"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/image_view"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="@id/image_view"
+        app:srcCompat="@drawable/ic_baseline_delete_forever_24"
+        app:tint="@color/black" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

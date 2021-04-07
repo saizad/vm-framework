@@ -1,0 +1,34 @@
+<resources>
+
+    <attr name="DrawableCircleStrokeWidth" format="dimension" />
+    <attr name="DrawableCircleStrokeColor" format="color" />
+    <attr name="DrawableCircleColor" format="color" />
+    <attr name="DrawableCircleSize" format="dimension" />
+    <attr name="DrawableCircleRadius" format="dimension" />
+
+    <attr name="CircleDrawablePaddingTop" format="dimension" />
+    <attr name="CircleDrawablePaddingBottom" format="dimension" />
+    <attr name="CircleDrawablePaddingRight" format="dimension" />
+    <attr name="CircleDrawablePaddingLeft" format="dimension" />
+
+    <attr name="backgroundColor" format="color" />
+    <attr name="cornerRadius" format="dimension" />
+    <attr name="topRightCornerRadius" format="dimension" />
+    <attr name="topLeftCornerRadius" format="dimension" />
+    <attr name="bottomRightCornerRadius" format="dimension" />
+    <attr name="bottomLeftCornerRadius" format="dimension" />
+    <attr name="roundedCornerStrokeColor" format="color" />
+    <attr name="roundedCornerColor" format="color" />
+    <attr name="roundedCornerStrokeWidth" format="dimension" />
+
+    <attr name="mandatory" format="boolean" />
+    <attr name="edited" format="boolean" />
+    <attr name="error" format="boolean" />
+
+    <attr name="inputFieldHint" format="string" />
+    <attr name="inputFieldTheme" format="reference" />
+    <attr name="textInputLayoutStyle" format="reference" />
+    <attr name="textInputEditTextStyle" format="reference" />
+
+    <attr name="navGraph" format="reference"/>
+</resources>
