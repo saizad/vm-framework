@@ -14,15 +14,20 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.ChipGroup
 import com.jakewharton.rxbinding2.view.RxView
 import com.saizad.mvvm.components.SaizadBaseFragment
+import com.saizad.mvvm.enums.DataState
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.PeriodFormatterBuilder
@@ -100,25 +105,25 @@ val DateTime.notificationTimeStamp: String
     }
 
 public fun SaizadBaseFragment<*>.lifecycleScopeOnMain(block: suspend CoroutineScope.() -> Unit): Job {
-    return viewLifecycleOwner.lifecycleScopeOnMain(block)
+    return lifecycleOwner.lifecycleScopeOnMain(block)
 }
 
 public fun SaizadBaseFragment<*>.lifecycleScopeOnMain(
     timeMillis: Long,
     block: suspend CoroutineScope.() -> Unit
 ): Job {
-    return viewLifecycleOwner.lifecycleScopeOnMainWithDelay(timeMillis, block)
+    return lifecycleOwner.lifecycleScopeOnMainWithDelay(timeMillis, block)
 }
 
 public fun LifecycleOwner.lifecycleScopeOnMain(block: suspend CoroutineScope.() -> Unit): Job {
-    return lifecycleScope.launch(Dispatchers.Main, block = block)
+    return lifecycleScope.launchWhenStarted(block = block)
 }
 
 public fun LifecycleOwner.lifecycleScopeOnMainWithDelay(
     timeMillis: Long,
     block: suspend CoroutineScope.() -> Unit
 ): Job {
-    return lifecycleScope.launch(Dispatchers.Main) {
+    return lifecycleScope.launchWhenStarted {
         delay(timeMillis)
         block.invoke(this)
     }
@@ -196,7 +201,7 @@ inline fun <reified T : Activity> Context.startActivity(config: Intent.() -> Uni
     startActivity(componentIntent<T>(config))
 
 inline fun <reified T : Activity> Context.startActivityClear(config: Intent.() -> Unit = {}) =
-    startActivity(componentIntent<T>{
+    startActivity(componentIntent<T> {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         config.invoke(this)
     })
@@ -212,6 +217,42 @@ val Activity.hideKeyboard: Unit
         KeyBoardUtils.hide(this)
     }
 
-fun Disposable.addToComposite(saizadBaseFragment: SaizadBaseFragment<*>){
+fun Disposable.addToComposite(saizadBaseFragment: SaizadBaseFragment<*>) {
     saizadBaseFragment.compositeDisposable().add(this)
 }
+
+fun Disposable.addToDisposable(disposable: CompositeDisposable) {
+    disposable.add(this)
+}
+
+fun <R> Flow<DataState<R>>.stateToData(): Flow<R> {
+    return filter { it is DataState.Success<R> }
+        .map { (it as DataState.Success<R>).data!! }
+}
+
+fun <R> Flow<DataState<R>>.isSuccess(): Flow<DataState<R>> {
+    return filter { it is DataState.Success }
+}
+
+fun <R> Flow<DataState<R>>.noContentStateToData(): Flow<R?> {
+    return filter { it is DataState.Success<R> }
+        .map { (it as DataState.Success<R>).data }
+}
+
+fun ViewPager2.next(smoothScroll: Boolean = true) {
+    setCurrentItem(currentItem + 1, smoothScroll)
+}
+
+fun ViewPager2.prev(smoothScroll: Boolean = true) {
+    setCurrentItem(currentItem - 1, smoothScroll)
+}
+
+val ViewPager2.isLastPage: Boolean
+    get() {
+        return currentItem == adapter!!.itemCount - 1
+    }
+
+val ViewPager2.isFirstPage: Boolean
+    get() {
+        return currentItem == 0
+    }

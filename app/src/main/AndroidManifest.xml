@@ -13,6 +13,7 @@
         android:label="${appName}"
         android:roundIcon="${appRoundIcon}"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".components.auth.AuthActivity"
@@ -23,9 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".components.main.DrawerMainActivity"
-            android:theme="@style/MainTheme" />
+
+        <activity android:name=".components.main.MainActivity"
+            android:theme="@style/MainTheme"/>
 
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"

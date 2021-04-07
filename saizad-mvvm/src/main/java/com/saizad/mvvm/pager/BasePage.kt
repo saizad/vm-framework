@@ -13,7 +13,7 @@ abstract class BasePage<VM : SaizadBaseViewModel> : SaizadBaseFragment<VM>(),
     PagerAdapterListener, BasePagerAdapterContract {
 
     private var pageLoaded = BehaviorSubject.create<Boolean>()
-
+    var pageIndex : Int = -1
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
@@ -38,17 +38,5 @@ abstract class BasePage<VM : SaizadBaseViewModel> : SaizadBaseFragment<VM>(),
 
     override fun pageLoaded(): Observable<Boolean> {
         return pageLoaded
-    }
-
-    override fun onPageShowing(visiblePercent: Int) {
-        log("xxxOnPageShowing $visiblePercent")
-    }
-
-    override fun onPageHiding(visiblePercent: Int) {
-        log("xxxOnPageHiding $visiblePercent")
-    }
-
-    override fun onPageResetting(visiblePercent: Int) {
-        log("xxxOnPageResetting $visiblePercent")
     }
 }
