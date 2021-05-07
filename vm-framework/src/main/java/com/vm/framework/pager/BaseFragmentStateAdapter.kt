@@ -48,7 +48,7 @@ open class BaseFragmentStateAdapter<F : BasePage<*>>(
         return false
     }
 
-    open fun setPageListener(pageListener: PageListener<F>) {
+    open fun setPageListener(pageListener: PageListener<F>?) {
         this.pageListener = pageListener
     }
 

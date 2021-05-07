@@ -16,7 +16,9 @@ import kotlinx.android.synthetic.main.fragment_user_page_host.*
 
 @AndroidEntryPoint
 class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
-    
+
+    private var userPageAdapter: UserPageAdapter? = null
+
     override val viewModelClassType: Class<UserPageHostViewModel>
         get() = UserPageHostViewModel::class.java
 
@@ -29,11 +31,19 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
         viewPager.offscreenPageLimit = 3
         viewPager.setPageTransformer(ZoomOutPageTransformer())
 
-        viewModel().initLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel().initLiveData.observe(viewLifecycleOwner, {
             val usersList = it.first
             val selectUser = it.second
             initPage(usersList, selectUser)
         })
+
+        refreshAll.throttleClick {
+            viewModel().refresh()
+        }
+
+        prevButton.throttleClick {
+            viewPager.prev(false)
+        }
 
         nextButton.throttleClick {
             viewPager.next(false)
@@ -45,7 +55,10 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
     }
     
     private fun initPage(users: List<ReqResUser>, user: ReqResUser?){
-        val userPageAdapter =
+
+        userPageAdapter?.setPageListener(null)
+
+        userPageAdapter =
             UserPageAdapter(this, users.map {
                 UserPageFragment::class.java
             }, viewPager)
@@ -54,7 +67,7 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
             viewPager.setCurrentItem(users.indexOfFirst { it.id == user.id }, false)
         }
 
-        userPageAdapter.setPageListener(object : PageListenerImp<UserPageFragment>() {
+        userPageAdapter!!.setPageListener(object : PageListenerImp<UserPageFragment>() {
             override fun onPageLoaded(page: UserPageFragment, position: Int) {
                 page.viewModel().setUser(users[position])
             }
