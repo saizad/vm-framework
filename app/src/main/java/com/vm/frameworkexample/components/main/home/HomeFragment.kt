@@ -1,9 +1,12 @@
 package com.vm.frameworkexample.components.main.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.vm.framework.enums.DataState
 import com.vm.framework.utils.lifecycleScopeOnMain
 import com.vm.framework.utils.noContentStateToData
@@ -17,9 +20,11 @@ import com.vm.frameworkexample.R
 import com.vm.frameworkexample.components.main.MainFragment
 import com.vm.frameworkexample.components.main.users.ReqResUserItem
 import com.vm.frameworkexample.models.ReqResUser
+import com.vm.frameworkexample.service.SampleWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.flow.collect
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class HomeFragment : MainFragment<HomeViewModel>() {
@@ -28,6 +33,11 @@ class HomeFragment : MainFragment<HomeViewModel>() {
 
     override val viewModelClassType: Class<HomeViewModel>
         get() = HomeViewModel::class.java
+
+
+    companion object {
+        const val SAMPLE_WORKER_TAG = "sample_worker"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
         super.onViewCreated(view, savedInstanceState, recycled)
@@ -104,7 +114,7 @@ class HomeFragment : MainFragment<HomeViewModel>() {
 
 
         currentUserType.loggedInUser()
-            .observe(viewLifecycleOwner, Observer {
+            .observe(viewLifecycleOwner, {
                 bindUserInfo(it)
             })
 
@@ -112,6 +122,24 @@ class HomeFragment : MainFragment<HomeViewModel>() {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUsersFragment())
         }
 
+        runSampleWorker()
+    }
+
+    private fun runSampleWorker() {
+        Log.d(SAMPLE_WORKER_TAG, "RunWorkManager")
+
+        val oneTimeWorkRequest =
+            OneTimeWorkRequest.Builder(SampleWorker::class.java)
+                .addTag(SAMPLE_WORKER_TAG)
+                .setInitialDelay(1, TimeUnit.SECONDS)
+                .build()
+
+        WorkManager.getInstance(requireContext()).beginWith(oneTimeWorkRequest).enqueue()
+
+        WorkManager.getInstance(requireContext()).getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
+            .observeForever{
+
+            }
     }
 
     private fun bindUserInfo(reqResUser: ReqResUser) {

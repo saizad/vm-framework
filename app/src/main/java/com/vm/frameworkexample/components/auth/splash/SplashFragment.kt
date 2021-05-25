@@ -18,7 +18,7 @@ class SplashFragment : AuthFragment<SplashViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
         currentUserType.isLoggedIn
-            .observe(viewLifecycleOwner, Observer {
+            .observe(viewLifecycleOwner, {
                 if (!it) {
                     findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
                 } else {

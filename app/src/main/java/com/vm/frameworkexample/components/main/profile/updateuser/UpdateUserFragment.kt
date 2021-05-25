@@ -31,7 +31,7 @@ class UpdateUserFragment : MainFragment<UpdateUserViewModel>() {
         jobField.setField(form.jobField)
 
         save.throttleClick {
-            viewModel().save().observe(viewLifecycleOwner, Observer {
+            viewModel().save().observe(viewLifecycleOwner, {
                 finishWithResult(ActivityResult(RequestCodes.USER, it))
             })
         }
