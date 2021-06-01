@@ -7,7 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RawRes;
 import androidx.annotation.WorkerThread;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.sa.easyandroidform.ObjectUtils;
@@ -15,7 +16,6 @@ import com.vm.framework.FCMToken;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -39,28 +39,21 @@ abstract public class VmFrameworkFirebaseMessagingService extends FirebaseMessag
 
     public static Observable<String> requestAndUpdate() {
         PublishSubject<String> tokenSubject = PublishSubject.create();
-
-        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful() && ObjectUtils.isNotNull(task.getResult())) {
-                        final String token = task.getResult().getToken();
-                        Log.d("Fcm_token", "requestFCMToken Received " + token);
-                        tokenSubject.onNext(token);
-                    }
-                });
+        FirebaseInstallations.getInstance().getToken(false).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && ObjectUtils.isNotNull(task.getResult())) {
+                final String token = task.getResult().getToken();
+                Log.d("Fcm_token", "requestFCMToken Received " + token);
+                tokenSubject.onNext(token);
+            }
+        });
         return tokenSubject;
     }
 
 
     @WorkerThread
-    public static void deleteFcmToken() throws IOException {
-        try {
-            FirebaseInstanceId.getInstance().deleteInstanceId();
-            Log.d("Fcm_token", "Deleted");
-        } catch (IOException e) {
-            Log.d("Fcm_token", "Fail to delete " + e.getMessage());
-            throw e;
-        }
+    public static void deleteFcmToken() {
+        FirebaseMessaging.getInstance().deleteToken();
+        Log.d("Fcm_token", "Deleted");
     }
 
     @Override
