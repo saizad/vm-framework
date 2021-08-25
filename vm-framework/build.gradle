@@ -89,7 +89,7 @@ dependencies {
 //    api project(path: ':easy-retrofit')
 //    api project(path: ':easyandroidform')
 
-    api 'com.github.saizad:easyretrofit:48cd9025ddfaf35e12a01e9ca9847eadd5868961'
+    api 'com.github.saizad:easyretrofit:aae333a45573eaf4302ee42231379c9d7ac187bc'
     api 'com.github.saizad:Android-Easy-Form:c4473f2e3088dac90403d2dc5fa6ae41c3d828bc'
     api 'com.github.saizad:PagedRecyclerList:e8d0c1fdaeae73ee914d872b12dda63bc450056e'
     api 'com.github.saizad:EasyPermission:531d80b5d356650b06d530666dff2d4e6244cb2b'
