@@ -27,7 +27,7 @@ abstract class VmFrameworkBaseFragment<V : VmFrameworkBaseViewModel> :
     Fragment(), FragmentAppLifecycleDelegate, FragmentCB<V>,
     FragmentAppLifecycleCallBack {
 
-    protected var delegate: FragmentAppLifecycleDelegate =
+    var delegate: FragmentAppLifecycleDelegate =
         FragmentAppLifecycleDelegateImp(this, this, javaClass.simpleName)
 
     override fun context(): Context {

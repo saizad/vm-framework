@@ -101,4 +101,19 @@
         <item name="textInputLayoutStyle">@style/JobInputLayoutStyle</item>
         <item name="textInputEditTextStyle">@style/JobInputEditTextStyle</item>
     </style>
+
+    <style name="Space0XCornerRadius" parent="MainTheme">
+        <item name="cornerRadius">@null</item>
+        <item name="roundedCornerStrokeWidth">0dp</item>
+        <item name="roundedCornerStrokeColor">@color/strokeColor</item>
+        <item name="roundedCornerColor">@color/strokeColor</item>
+        <item name="topRightCornerRadius">@null</item>
+        <item name="topLeftCornerRadius">@null</item>
+        <item name="bottomRightCornerRadius">@null</item>
+        <item name="bottomLeftCornerRadius">@null</item>
+    </style>
+
+    <style name="Space2XCornerRadius" parent="Space0XCornerRadius">
+        <item name="cornerRadius">@dimen/space_4x</item>
+    </style>
 </resources>

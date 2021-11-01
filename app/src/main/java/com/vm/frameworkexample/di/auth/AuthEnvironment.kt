@@ -6,7 +6,7 @@ import io.reactivex.subjects.BehaviorSubject
 import sa.zad.easypermission.PermissionManager
 import javax.inject.Inject
 
-class AuthEnvironment @Inject constructor(
+open class AuthEnvironment @Inject constructor(
     val api: AuthApi,
     fcmToken: FCMToken,
     behaviorSubject: BehaviorSubject<ActivityResult<*>>,

@@ -20,7 +20,7 @@ data class ReqResUser(
         get() = "$firstName $lastName"
 
 
-    class Form : FormModel<ReqResUser> {
+    open class Form : FormModel<ReqResUser> {
 
         companion object {
             const val FULL_NAME = "full_name"

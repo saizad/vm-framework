@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.vm.framework.Environment
 import com.vm.framework.components.VmFrameworkBaseViewModel
 import com.vm.framework.enums.DataState
+import com.vm.frameworkexample.MVVMExampleCurrentUser
 import com.vm.frameworkexample.models.ApiError
 import kotlinx.coroutines.flow.Flow
 import sa.zad.easyretrofit.observables.NeverErrorObservable
@@ -22,5 +23,9 @@ abstract class VmFrameworkExampleViewModel(
         requestId: Int
     ): Flow<DataState<M>> {
         return flowData(observable, requestId, eClass =  ApiError::class.java)
+    }
+
+    fun currentUser(): MVVMExampleCurrentUser {
+        return environment.currentUser as MVVMExampleCurrentUser
     }
 }

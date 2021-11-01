@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MVVMExampleCurrentUser @Inject constructor(dataStoreWrapper: DataStoreWrapper) :
+open class MVVMExampleCurrentUser @Inject constructor(dataStoreWrapper: DataStoreWrapper) :
     CurrentUserType<ReqResUser>(dataStoreWrapper) {
 
     override val classType: Class<ReqResUser>

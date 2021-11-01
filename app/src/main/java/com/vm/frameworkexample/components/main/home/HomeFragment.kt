@@ -3,7 +3,6 @@ package com.vm.frameworkexample.components.main.home
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -12,6 +11,7 @@ import com.vm.framework.utils.lifecycleScopeOnMain
 import com.vm.framework.utils.noContentStateToData
 import com.vm.framework.utils.stateToData
 import com.vm.framework.utils.throttleClick
+import com.vm.frameworkexample.ApiRequestCodes
 import com.vm.frameworkexample.ApiRequestCodes.DEFAULT_ERROR
 import com.vm.frameworkexample.ApiRequestCodes.DELAYED_RESPONSE
 import com.vm.frameworkexample.ApiRequestCodes.RANDOM_REQUEST
@@ -19,15 +19,20 @@ import com.vm.frameworkexample.ApiRequestCodes.SHORT_DELAYED_RESPONSE
 import com.vm.frameworkexample.R
 import com.vm.frameworkexample.components.main.MainFragment
 import com.vm.frameworkexample.components.main.users.ReqResUserItem
+import com.vm.frameworkexample.di.main.MainEnvironment
 import com.vm.frameworkexample.models.ReqResUser
 import com.vm.frameworkexample.service.SampleWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.flow.collect
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : MainFragment<HomeViewModel>() {
+open class HomeFragment : MainFragment<HomeViewModel>() {
+
+    @Inject
+    lateinit var environment: MainEnvironment
 
     private val reqResUserItem by lazy { currentUser as ReqResUserItem }
 
@@ -42,8 +47,10 @@ class HomeFragment : MainFragment<HomeViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
         super.onViewCreated(view, savedInstanceState, recycled)
 
-        logout.throttleClick {
-            viewModel().logout()
+        login.throttleClick {
+            lifecycleScopeOnMain {
+                currentUserType.logout {  }
+            }
         }
 
         noContentRequest.throttleClick {
@@ -58,7 +65,7 @@ class HomeFragment : MainFragment<HomeViewModel>() {
 
         resNotFoundErrorResponse.throttleClick {
             lifecycleScopeOnMain {
-                viewModel().resourceNotFound()
+                viewModel().resourceNotFound(ApiRequestCodes.RESOURCE_NOT_FOUND)
                     .collect {
                         if (it is DataState.ApiError) {
                             showShortToast(it.apiErrorException.errorModel.message())
@@ -113,33 +120,21 @@ class HomeFragment : MainFragment<HomeViewModel>() {
         }
 
 
-        currentUserType.loggedInUser()
-            .observe(viewLifecycleOwner, {
-                bindUserInfo(it)
-            })
+        lifecycleScopeOnMain {
+            currentUserType.loggedInUser()
+                .collect {
+                    bindUserInfo(it)
+                }
+        }
 
         users.throttleClick {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUsersFragment())
         }
 
-        runSampleWorker()
-    }
+        autoFillWebView.throttleClick {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAutoFillWebFragment())
+        }
 
-    private fun runSampleWorker() {
-        Log.d(SAMPLE_WORKER_TAG, "RunWorkManager")
-
-        val oneTimeWorkRequest =
-            OneTimeWorkRequest.Builder(SampleWorker::class.java)
-                .addTag(SAMPLE_WORKER_TAG)
-                .setInitialDelay(1, TimeUnit.SECONDS)
-                .build()
-
-        WorkManager.getInstance(requireContext()).beginWith(oneTimeWorkRequest).enqueue()
-
-        WorkManager.getInstance(requireContext()).getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
-            .observeForever{
-
-            }
     }
 
     private fun bindUserInfo(reqResUser: ReqResUser) {

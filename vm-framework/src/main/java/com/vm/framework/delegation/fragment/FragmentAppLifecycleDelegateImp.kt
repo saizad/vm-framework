@@ -8,7 +8,7 @@ import com.vm.framework.ActivityResult
 import com.vm.framework.components.VmFrameworkBaseViewModel
 import com.vm.framework.delegation.BaseLifecycleDelegateImp
 
-class FragmentAppLifecycleDelegateImp<V : VmFrameworkBaseViewModel>(
+open class FragmentAppLifecycleDelegateImp<V : VmFrameworkBaseViewModel>(
     private val fragmentAppLifecycleCallBack: FragmentAppLifecycleCallBack,
     fragmentAppLifecycleDelegate: FragmentCB<V>, tag: String
 ) : BaseLifecycleDelegateImp<V, FragmentCB<V>>(
