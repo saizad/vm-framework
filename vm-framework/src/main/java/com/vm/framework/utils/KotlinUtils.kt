@@ -225,20 +225,6 @@ fun Disposable.addToDisposable(disposable: CompositeDisposable) {
     disposable.add(this)
 }
 
-fun <R> Flow<DataState<R>>.stateToData(): Flow<R> {
-    return filter { it is DataState.Success<R> }
-        .map { (it as DataState.Success<R>).data!! }
-}
-
-fun <R> Flow<DataState<R>>.isSuccess(): Flow<DataState<R>> {
-    return filter { it is DataState.Success }
-}
-
-fun <R> Flow<DataState<R>>.noContentStateToData(): Flow<R?> {
-    return filter { it is DataState.Success<R> }
-        .map { (it as DataState.Success<R>).data }
-}
-
 fun ViewPager2.next(smoothScroll: Boolean = true) {
     setCurrentItem(currentItem + 1, smoothScroll)
 }
@@ -256,3 +242,4 @@ val ViewPager2.isFirstPage: Boolean
     get() {
         return currentItem == 0
     }
+

@@ -1,28 +1,26 @@
 package com.vm.framework
 
-import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DataStoreWrapper @Inject constructor(
-    @ApplicationContext val context: Context,
+open class DataStoreWrapper @Inject constructor(
+    val dataStore: DataStore<Preferences>,
     val gson: Gson
 ) {
 
-    private val Context.dataStore by preferencesDataStore("user")
-
     fun getValue(prefKey: String): Flow<String?> {
         val key = stringPreferencesKey(prefKey)
-        return context.dataStore.data.map { pref ->
+        return dataStore.data.map { pref ->
             pref[key]
         }
     }
@@ -32,25 +30,7 @@ class DataStoreWrapper @Inject constructor(
             remove(prefKey)
         } else {
             val key = stringPreferencesKey(prefKey)
-            context.dataStore.edit {
-                it[key] = value
-            }
-        }
-    }
-
-    fun getBoolean(prefKey: String): Flow<Boolean?> {
-        val key = booleanPreferencesKey(prefKey)
-        return context.dataStore.data.map { pref ->
-            pref[key]
-        }
-    }
-
-    suspend fun putBoolean(prefKey: String, value: Boolean?) {
-        if (value == null) {
-            remove(prefKey)
-        } else {
-            val key = booleanPreferencesKey(prefKey)
-            context.dataStore.edit {
+            dataStore.edit {
                 it[key] = value
             }
         }
@@ -58,7 +38,7 @@ class DataStoreWrapper @Inject constructor(
 
     fun <T> getObject(prefKey: String, classOfT: Class<T>): Flow<T?> {
         val key = stringPreferencesKey(prefKey)
-        return context.dataStore.data.map {
+        return dataStore.data.map {
             gson.fromJson(it[key], classOfT)
         }
     }
@@ -73,16 +53,34 @@ class DataStoreWrapper @Inject constructor(
 
     suspend fun remove(prefKey: String, listener: () -> Unit = {}) {
         val key = stringPreferencesKey(prefKey)
-        context.dataStore.edit {
+        dataStore.edit {
             it.remove(key)
             listener.invoke()
         }
     }
 
-    suspend fun removeAll(listener: () -> Unit) {
-        context.dataStore.edit {
+    suspend fun removeAll( listener: suspend () -> Unit) {
+        dataStore.edit {
             it.clear()
             listener.invoke()
+        }
+    }
+
+    fun booleanValue(prefKey: String): Flow<Boolean?> {
+        val key = booleanPreferencesKey(prefKey)
+        return dataStore.data.map { pref ->
+            pref[key]
+        }
+    }
+
+    suspend fun putValue(prefKey: String, value: Boolean?) {
+        if (value == null) {
+            remove(prefKey)
+        } else {
+            val key = booleanPreferencesKey(prefKey)
+            dataStore.edit {
+                it[key] = value
+            }
         }
     }
 }

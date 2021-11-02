@@ -39,7 +39,7 @@ data class LoginBody(
 
     class EmailLoginForm(email: String? = null) : FormModel<LoginBody>(
         ArrayList(listOf(
-            EmailField("email", email),
+            EmailField("email", email, true),
             PasswordField("password"))
         )
     ) {

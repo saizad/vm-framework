@@ -3,6 +3,10 @@ package com.vm.framework.di
 import android.app.Application
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -52,5 +56,15 @@ object BaseDiAppModule {
     @Named("notification")
     fun notificationResultBehaviorSubject(): BehaviorSubject<NotifyOnce<*>> {
         return BehaviorSubject.create()
+    }
+
+    @Singleton
+    @Provides
+    fun providesDataStore(application: Application): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(produceFile = {
+            application.preferencesDataStoreFile(
+                "data-store"
+            )
+        })
     }
 }

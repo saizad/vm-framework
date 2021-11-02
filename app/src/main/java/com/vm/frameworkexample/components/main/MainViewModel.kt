@@ -17,7 +17,7 @@ abstract class MainViewModel constructor(
     override fun onViewCreated() {
         onNavigationResult(RequestCodes.USER, ReqResUser::class.java)
             .observeForever {
-                currentUserType.refresh(it)
+//                currentUserType.refresh(it)
             }
 
         super.onViewCreated()

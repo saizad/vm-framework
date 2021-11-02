@@ -33,7 +33,7 @@ android {
         targetSdkVersion 30
         versionCode VERSION_CODE
         versionName VERSION_NAME
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.vm.frameworkexample.CustomTestRunner"
         multiDexEnabled true
     }
 
@@ -115,7 +115,24 @@ android {
         targetCompatibility = '1.8'
     }
 
+    sourceSets {
+        androidTest {
+            java.srcDirs += "src/sharedTest/java"
+        }
+        test {
+            java.srcDirs += "src/sharedTest/java"
+        }
+    }
+
     android.defaultConfig.vectorDrawables.useSupportLibrary = true
+
+    hilt {
+        enableTransformForLocalTests = true
+    }
+}
+
+hilt {
+    enableTransformForLocalTests = true
 }
 
 dependencies {
@@ -131,7 +148,46 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
 
     testImplementation 'joda-time:joda-time:2.9.3'
-    testImplementation 'junit:junit:4.13'
+    // Local Unit Tests
+    implementation "androidx.test:core:1.2.0"
+    testImplementation "junit:junit:4.13"
+    testImplementation "org.hamcrest:hamcrest-all:1.3"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "org.robolectric:robolectric:4.3.1"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
+    testImplementation "com.google.truth:truth:1.0.1"
+
+    // Instrumented Unit Tests
+    androidTestImplementation "junit:junit:4.13"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation "com.google.truth:truth:1.0.1"
+    testImplementation 'androidx.test.ext:truth:1.4.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.4.0'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation('androidx.test.espresso:espresso-intents:3.3.0')
+    androidTestImplementation('androidx.test:runner:1.3.0')
+    androidTestImplementation('androidx.test:rules:1.3.0')
+
+    testImplementation("com.google.dagger:hilt-android-testing:2.35")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.35.1")
+
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35.1'
+
+    debugImplementation "androidx.fragment:fragment-testing:1.3.0-alpha08"
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+
+
+
+
+    androidTestImplementation("androidx.work:work-testing:$work_version")
+
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.11.2'
+    // Having the actual dependency helps, instead of removing it by accident
+    // when adding the fix originally present, which is also not needed anymore.
+    androidTestImplementation "org.mockito:mockito-android:3.11.2"
+    testImplementation "org.mockito:mockito-inline:3.11.2"
 }
