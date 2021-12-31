@@ -41,8 +41,7 @@ class UserPageFragment : MainPageFragment<UserPageViewModel>() {
     }
 
     fun pageOnScreen(){
-        log("pageOnScreen $pageIndex ${lifecycle.currentState}")
-        showShortToast("pageOnScreen $pageIndex")
+        log("pageOnScreen ${pageIndex} ${lifecycle.currentState}")
     }
 
 }

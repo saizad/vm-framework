@@ -13,7 +13,7 @@ abstract class BasePage<VM : VmFrameworkBaseViewModel> : VmFrameworkBaseFragment
     PagerAdapterListener, BasePagerAdapterContract {
 
     private var pageLoaded = BehaviorSubject.create<Boolean>()
-    var pageIndex : Int = -1
+    var pageIndex: Int = -1
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
@@ -38,5 +38,17 @@ abstract class BasePage<VM : VmFrameworkBaseViewModel> : VmFrameworkBaseFragment
 
     override fun pageLoaded(): Observable<Boolean> {
         return pageLoaded
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("pageIndex", pageIndex)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            pageIndex = (savedInstanceState.get("pageIndex") ?: -1) as Int
+        }
+        super.onViewStateRestored(savedInstanceState)
     }
 }

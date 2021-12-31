@@ -28,12 +28,13 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
         super.onViewCreated(view, savedInstanceState, recycled)
-        viewPager.offscreenPageLimit = 3
+//        viewPager.offscreenPageLimit = 3
         viewPager.setPageTransformer(ZoomOutPageTransformer())
 
         viewModel().initLiveData.observe(viewLifecycleOwner, {
             val usersList = it.first
             val selectUser = it.second
+            progressBar2.max = it.first.size
             initPage(usersList, selectUser)
         })
 
@@ -73,6 +74,7 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
             }
 
             override fun onPageReady(page: UserPageFragment) {
+                progressBar2.progress = viewPager.currentItem + 1
                 page.pageOnScreen()
                 viewModel().setCurrentUser(users[viewPager.currentItem])
             }
@@ -80,10 +82,10 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
     }
 
     override fun onBackPressed(): Boolean {
-        if(viewPager.isFirstPage) {
+//        if(viewPager.isFirstPage) {
             return super.onBackPressed()
-        }
-        viewPager.prev()
-        return true
+//        }
+//        viewPager.prev()
+//        return true
     }
 }

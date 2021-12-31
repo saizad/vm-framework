@@ -25,7 +25,7 @@ class UsersFragment : MainFragment<UsersViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list.init(viewLifecycleOwner, ConstraintLayoutList.CallbackPageKeyedList { next, callback ->
+        list.init(viewLifecycleOwner, { next, callback ->
             lifecycleScopeOnMain {
                 viewModel().users(next)
                     .stateToData()
@@ -44,7 +44,7 @@ class UsersFragment : MainFragment<UsersViewModel>() {
         list.setItemOnClickListener { item, itemView, itemIndex ->
             findNavController().navigate(
                 UsersFragmentDirections.actionUsersFragmentToUserPageHostFragment(
-                    list.listAdapter.items.toTypedArray(), item
+                    list.listAdapter.items.subList(0,5).toTypedArray(), item
                 )
             )
         }

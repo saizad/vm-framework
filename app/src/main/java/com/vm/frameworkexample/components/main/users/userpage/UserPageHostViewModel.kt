@@ -24,11 +24,11 @@ class UserPageHostViewModel @Inject constructor(
 
     override fun onViewCreated() {
         super.onViewCreated()
-        initLiveData.value = users.subList(0,10) to currentSelected
+        initLiveData.value = users to currentSelected
     }
 
     fun refresh(){
-        initLiveData.value = users.subList(0,10) to currentSelected
+        initLiveData.value = users to currentSelected
     }
 
     fun setCurrentUser(currentUser: ReqResUser){
