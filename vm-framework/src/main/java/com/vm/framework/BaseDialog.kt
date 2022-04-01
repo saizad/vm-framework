@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,8 +16,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-abstract class BaseDialog<M, R>(context: Context, @LayoutRes layoutRes: Int) :
-    AppCompatDialog(context) {
+abstract class BaseDialog<M, R>(context: Context, @LayoutRes layoutRes: Int, @StyleRes theme: Int = 0) :
+    AppCompatDialog(context, theme) {
     protected val mutableLiveData = MutableLiveData<R>()
     protected var data: M? = null
     protected val compositeDisposable = CompositeDisposable()
