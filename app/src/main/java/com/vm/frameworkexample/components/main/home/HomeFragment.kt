@@ -1,16 +1,10 @@
 package com.vm.frameworkexample.components.main.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.vm.framework.enums.DataState
-import com.vm.framework.utils.lifecycleScopeOnMain
-import com.vm.framework.utils.noContentStateToData
-import com.vm.framework.utils.stateToData
-import com.vm.framework.utils.throttleClick
+import com.vm.framework.utils.*
 import com.vm.frameworkexample.ApiRequestCodes
 import com.vm.frameworkexample.ApiRequestCodes.DEFAULT_ERROR
 import com.vm.frameworkexample.ApiRequestCodes.DELAYED_RESPONSE
@@ -21,11 +15,9 @@ import com.vm.frameworkexample.components.main.MainFragment
 import com.vm.frameworkexample.components.main.users.ReqResUserItem
 import com.vm.frameworkexample.di.main.MainEnvironment
 import com.vm.frameworkexample.models.ReqResUser
-import com.vm.frameworkexample.service.SampleWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.flow.collect
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,10 +32,6 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
         get() = HomeViewModel::class.java
 
 
-    companion object {
-        const val SAMPLE_WORKER_TAG = "sample_worker"
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
         super.onViewCreated(view, savedInstanceState, recycled)
 
@@ -56,6 +44,9 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
         noContentRequest.throttleClick {
             lifecycleScopeOnMain {
                 viewModel().noContentResponse()
+                    .loadingState {
+                        vmFrameworkExampleActivity.showApiRequestLoadingDialog(it.isLoading)
+                    }
                     .noContentStateToData()
                     .collect {
                         showShortToast("No Content")
@@ -95,7 +86,7 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
 
             lifecycleScopeOnMain {
                 viewModel().delayed(6, SHORT_DELAYED_RESPONSE)
-                    .stateToData()
+                    .dataModel()
                     .collect {
                         showShortToast(it.data.size)
                     }
@@ -105,7 +96,7 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
         requestNoLoading.throttleClick {
             lifecycleScopeOnMain {
                 viewModel().delayed(1, RANDOM_REQUEST)
-                    .stateToData()
+                    .dataModel()
                     .collect {
                         showShortToast(it.data.size)
                     }
@@ -119,6 +110,11 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
             }
         }
 
+        lifecycleScopeOnMain {
+            viewModel().x.collect {
+                showShortToast(it.fullName)
+            }
+        }
 
         lifecycleScopeOnMain {
             currentUserType.loggedInUser()

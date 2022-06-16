@@ -14,26 +14,7 @@ import javax.inject.Named
 @Module
 @InstallIn(SingletonComponent::class)
 object MainModule {
-    
-    @Provides
-    fun providesAuthEnvironment(
-        mainApi: MainApi,
-        fcmToken: FCMToken,
-        permissionManager: PermissionManager,
-        currentUser: MVVMExampleCurrentUser,
-        navigationFragmentResult: BehaviorSubject<ActivityResult<*>>,
-        @Named("notification") notifyOnceBehaviorSubject: BehaviorSubject<NotifyOnce<*>>
-    ): MainEnvironment {
-        return MainEnvironment(
-            mainApi,
-            fcmToken,
-            navigationFragmentResult,
-            currentUser,
-            permissionManager,
-            notifyOnceBehaviorSubject
-        )
-    }
-    
+
     @Provides
     fun providesMainApi(retrofit: VmFrameworkEasyRetrofit): MainApi {
         return retrofit.provideRetrofit().create(MainApi::class.java)

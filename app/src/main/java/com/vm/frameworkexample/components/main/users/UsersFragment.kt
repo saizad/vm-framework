@@ -3,14 +3,13 @@ package com.vm.frameworkexample.components.main.users
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import com.vm.framework.utils.intPagedDataModel
 import com.vm.framework.utils.lifecycleScopeOnMain
-import com.vm.framework.utils.stateToData
 import com.vm.frameworkexample.R
 import com.vm.frameworkexample.components.main.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_users.*
 import kotlinx.coroutines.flow.collect
-import sa.zad.pagedrecyclerlist.ConstraintLayoutList
 import sa.zad.pagedrecyclerlist.PageKeyedListDataSource
 
 @AndroidEntryPoint
@@ -25,10 +24,10 @@ class UsersFragment : MainFragment<UsersViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list.init(viewLifecycleOwner, { next, callback ->
+        list.init(viewLifecycleOwner) { next, callback ->
             lifecycleScopeOnMain {
                 viewModel().users(next)
-                    .stateToData()
+                    .intPagedDataModel()
                     .collect {
                         callback.call(
                             PageKeyedListDataSource.KeyDataCallback(
@@ -39,12 +38,12 @@ class UsersFragment : MainFragment<UsersViewModel>() {
                         )
                     }
             }
-        })
+        }
 
         list.setItemOnClickListener { item, itemView, itemIndex ->
             findNavController().navigate(
                 UsersFragmentDirections.actionUsersFragmentToUserPageHostFragment(
-                    list.listAdapter.items.subList(0,5).toTypedArray(), item
+                    list.listAdapter.items.toTypedArray(), item
                 )
             )
         }

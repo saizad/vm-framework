@@ -1,38 +1,30 @@
 package com.vm.frameworkexample.components.main.users.userpage
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asFlow
 import com.vm.frameworkexample.components.main.MainViewModel
 import com.vm.frameworkexample.di.main.MainEnvironment
 import com.vm.frameworkexample.models.ReqResUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
 class UserPageHostViewModel @Inject constructor(
     mainEnvironment: MainEnvironment,
     savedStateHandle: SavedStateHandle
-) : MainViewModel(mainEnvironment){
+) : MainViewModel(mainEnvironment) {
 
-    private val _initLiveData = MutableLiveData<Pair<List<ReqResUser>, ReqResUser?>>()
-    val initLiveData: MutableLiveData<Pair<List<ReqResUser>, ReqResUser?>>
-        get() = _initLiveData
+    val users = savedStateHandle.getLiveData<Array<ReqResUser>>("users").asFlow()
+        .map { it.toList() }
+    private val _currentSelected = MutableStateFlow(savedStateHandle.get<ReqResUser>("user"))
 
-    private val users = savedStateHandle.get<Array<ReqResUser>>("users")!!.toList()
-    private var currentSelected = savedStateHandle.get<ReqResUser>("user")
+    val currentSelected: Flow<ReqResUser?> get() = _currentSelected
 
-
-    override fun onViewCreated() {
-        super.onViewCreated()
-        initLiveData.value = users to currentSelected
-    }
-
-    fun refresh(){
-        initLiveData.value = users to currentSelected
-    }
-
-    fun setCurrentUser(currentUser: ReqResUser){
-        currentSelected = currentUser
+    fun setCurrentUser(currentUser: ReqResUser) {
+        _currentSelected.value = currentUser
     }
 
 }

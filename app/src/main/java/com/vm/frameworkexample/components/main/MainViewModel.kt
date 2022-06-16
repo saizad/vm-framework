@@ -14,12 +14,4 @@ abstract class MainViewModel constructor(
     val api: MainApi = environment.api
     var currentUserType: MVVMExampleCurrentUser = environment.currentUser as MVVMExampleCurrentUser
 
-    override fun onViewCreated() {
-        onNavigationResult(RequestCodes.USER, ReqResUser::class.java)
-            .observeForever {
-//                currentUserType.refresh(it)
-            }
-
-        super.onViewCreated()
-    }
 }

@@ -14,15 +14,14 @@ abstract class VmFrameworkExampleViewModel(
     environment: Environment
 ) : VmFrameworkBaseViewModel(environment){
 
-    @Inject
-    lateinit var gson: Gson
-
+//    @Inject
+//    lateinit var gson: Gson
 
     fun <M> flowData(
         observable: NeverErrorObservable<M>,
         requestId: Int
     ): Flow<DataState<M>> {
-        return flowData(observable, requestId, eClass =  ApiError::class.java)
+        return networkRequest.flowData(observable, requestId, ApiError::class.java)
     }
 
     fun currentUser(): MVVMExampleCurrentUser {

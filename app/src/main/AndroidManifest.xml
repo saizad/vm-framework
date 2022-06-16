@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.vm.frameworkexample.MVVMExampleApplication"
+        android:name=".MVVMExampleApplication"
         android:allowBackup="true"
         android:icon="${appIcon}"
         android:label="${appName}"
@@ -16,23 +16,34 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.vm.frameworkexample.components.auth.AuthActivity"
-            android:theme="@style/FullScreen.Launch">
+            android:name=".components.auth.AuthActivity"
+            android:theme="@style/FullScreen.Launch"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
 
-        <activity android:name="com.vm.frameworkexample.components.main.MainActivity"
+        <activity android:name=".components.main.MainActivity"
             android:theme="@style/MainTheme"/>
 
+
         <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
-            tools:node="remove" />
+            tools:node="remove" >
+
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
+        </provider>
+
     </application>
 
 </manifest>

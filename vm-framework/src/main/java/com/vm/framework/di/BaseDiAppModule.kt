@@ -11,25 +11,18 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.vm.framework.ActivityResult
-import com.vm.framework.NotifyOnce
-import com.vm.framework.VmFrameworkLocation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object BaseDiAppModule {
-
-    @Singleton
-    @Provides
-    fun providesAppLocation(application: Application): VmFrameworkLocation {
-        return VmFrameworkLocation(application)
-    }
 
     @Singleton
     @Provides
@@ -47,16 +40,11 @@ object BaseDiAppModule {
 
     @Singleton
     @Provides
-    fun provideFragmentNavigationResult(): BehaviorSubject<ActivityResult<*>> {
-        return BehaviorSubject.create()
+    @Named("nav-result")
+    fun provideFragmentNavigationResult(): MutableStateFlow<ActivityResult<*>> {
+        return MutableStateFlow(ActivityResult(-1, null))
     }
 
-    @Singleton
-    @Provides
-    @Named("notification")
-    fun notificationResultBehaviorSubject(): BehaviorSubject<NotifyOnce<*>> {
-        return BehaviorSubject.create()
-    }
 
     @Singleton
     @Provides

@@ -1,10 +1,9 @@
 package com.vm.framework.model
 
-class FCMTokenBody @JvmOverloads constructor(
-    name: String,
-    private val deviceId: String,
-    private val registrationId: String,
-    private val active: Boolean = true
-) : NameModel(name = name) {
-    private val type = "android"
-}
+data class FCMTokenBody @JvmOverloads constructor(
+    val name: String,
+    val deviceId: String,
+    val registrationId: String,
+    val active: Boolean = true,
+    val type: String = "android"
+)

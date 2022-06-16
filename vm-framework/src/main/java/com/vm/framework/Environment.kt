@@ -1,12 +1,11 @@
 package com.vm.framework
 
-import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.MutableStateFlow
 import sa.zad.easypermission.PermissionManager
 
 abstract class Environment(
-    val fcmToken: FCMToken,
-    val activityResultBehaviorSubject: BehaviorSubject<ActivityResult<*>>,
     val currentUser: CurrentUserType<*>,
-    val notificationBehaviorSubject: BehaviorSubject<NotifyOnce<*>>,
-    val permissionManager: PermissionManager
+    val networkRequest: VmFrameworkNetworkRequest,
+    val permissionManager: PermissionManager,
+    val activityResultFlow : MutableStateFlow<ActivityResult<*>>
 )

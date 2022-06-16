@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/px12sp</item>
     </style>
 
     <style name="FullScreen.Launch">
@@ -24,7 +25,7 @@
     </style>
 
     <style name="HintTextAppearance">
-        <item name="android:textSize">@dimen/space_0_2x</item>
+        <item name="android:textSize">@dimen/px12sp</item>
     </style>
 
     <style name="TextInputLayoutStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -36,7 +37,7 @@
 
     <style name="TextInputEditTextStyle">
         <item name="android:textColorHint">@color/grey_200</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/px14sp</item>
         <item name="android:maxLines">1</item>
         <item name="android:minLines">1</item>
         <item name="android:padding">@dimen/space_2x</item>
@@ -114,6 +115,16 @@
     </style>
 
     <style name="Space2XCornerRadius" parent="Space0XCornerRadius">
-        <item name="cornerRadius">@dimen/space_4x</item>
+        <item name="cornerRadius">@dimen/space_2x</item>
     </style>
+
+    <style name="Space_0_2XCornerRadius" parent="Space0XCornerRadius">
+        <item name="cornerRadius">@dimen/space_0_2x</item>
+    </style>
+
+
+    <style name="Space1XCornerRadius" parent="Space0XCornerRadius">
+        <item name="cornerRadius">@dimen/space_1x</item>
+    </style>
+
 </resources>

@@ -91,22 +91,7 @@ abstract class FilesFieldView @JvmOverloads constructor(
     }
 
     private fun init(baseViewModel: VmFrameworkBaseViewModel) {
-        baseViewModel.onNavigationResult(VmFrameworkRequestCodes.PICK_FILE, Intent::class.java)
-            .observe(parentFragment.viewLifecycleOwner, Observer {
-                val list = ArrayList<String>()
-                // checking multiple selection or not
-                if (null != it.getClipData()) {
-                    for (i in 0 until it.clipData!!.itemCount) {
-                        val uri: Uri = it.clipData!!.getItemAt(i).uri
-                        list.add(extractFile(uri).absolutePath)
-                    }
-                } else {
-                    val uri: Uri = it.data!!
-                    list.add(extractFile(uri).absolutePath)
-                }
-                filesField.field = list
 
-            })
     }
 
     private fun extractFile(uri: Uri): File {

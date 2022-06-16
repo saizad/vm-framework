@@ -1,6 +1,5 @@
 package com.vm.framework.delegation
 
-import android.location.Location
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
@@ -8,9 +7,11 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.vm.framework.components.VmFrameworkBaseViewModel
-import com.vm.framework.components.VmFrameworkBaseViewModel.*
+import com.vm.framework.error.ApiErrorData
+import com.vm.framework.error.ConnectionErrorData
+import com.vm.framework.error.ErrorData
+import com.vm.framework.error.TimeoutErrorData
 import io.reactivex.disposables.CompositeDisposable
-import rx.functions.Action1
 
 interface BaseLifecycleDelegate {
     fun onCreate(savedInstanceState: Bundle?)
@@ -25,10 +26,10 @@ interface BaseLifecycleDelegate {
     fun showToast(text: CharSequence, toastLength: Int)
     fun log(integer: Int)
     fun log(string: String)
-    fun requestError(errorData: ErrorData)
-    fun requestApiError(apiErrorData: ApiErrorData)
-    fun showLoading(show: Boolean)
-    fun serverError(throwable: Throwable, requestId: Int): Boolean
+    fun showConnectionErrorDialog(errorData: ConnectionErrorData)
+    fun showTimeoutErrorDialog(errorData: TimeoutErrorData)
+    fun showRequestErrorDialog(errorData: ErrorData)
+    fun showApiErrorDialog(apiErrorData: ApiErrorData)
     fun showAlertDialogOk(
         title: String,
         message: String,
@@ -43,7 +44,6 @@ interface BaseLifecycleDelegate {
         negativeName: String = "No"
     ): LiveData<Int>
 
-    fun requestLocation(locationAction: Action1<Location>)
     fun viewModel(): VmFrameworkBaseViewModel
     fun compositeDisposable(): CompositeDisposable
     fun navController(): NavController

@@ -2,17 +2,16 @@ package com.vm.frameworkexample.components.main.users.userpage
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.vm.framework.pager.PageListenerImp
-import com.vm.framework.utils.isFirstPage
-import com.vm.framework.utils.next
-import com.vm.framework.utils.prev
-import com.vm.framework.utils.throttleClick
+import com.vm.framework.utils.*
 import com.vm.frameworkexample.R
 import com.vm.frameworkexample.components.main.MainFragment
 import com.vm.frameworkexample.models.ReqResUser
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_user_page_host.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.take
 
 @AndroidEntryPoint
 class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
@@ -28,18 +27,29 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
         super.onViewCreated(view, savedInstanceState, recycled)
-//        viewPager.offscreenPageLimit = 3
+        viewPager.offscreenPageLimit = 3
         viewPager.setPageTransformer(ZoomOutPageTransformer())
 
-        viewModel().initLiveData.observe(viewLifecycleOwner, {
-            val usersList = it.first
-            val selectUser = it.second
-            progressBar2.max = it.first.size
-            initPage(usersList, selectUser)
-        })
+        lifecycleScopeOnMain {
+            viewModel().users
+                .combinePair(viewModel().currentSelected.take(1))
+                .collect {
+                    val usersList = it.first
+                    val selectUser = it.second
+                    initPage(usersList, selectUser)
+                }
+        }
 
-        refreshAll.throttleClick {
-            viewModel().refresh()
+        lifecycleScopeOnMain {
+            refreshAll.flowThrottleClick()
+                .flatMapLatest {
+                    viewModel().users.combinePair(viewModel().currentSelected).take(1)
+                }
+                .collect {
+                    val usersList = it.first
+                    val selectUser = it.second
+                    initPage(usersList, selectUser)
+                }
         }
 
         prevButton.throttleClick {
@@ -54,8 +64,8 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
     override fun persistView(): Boolean {
         return false
     }
-    
-    private fun initPage(users: List<ReqResUser>, user: ReqResUser?){
+
+    private fun initPage(users: List<ReqResUser>, user: ReqResUser?) {
 
         userPageAdapter?.setPageListener(null)
 
@@ -74,7 +84,6 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
             }
 
             override fun onPageReady(page: UserPageFragment) {
-                progressBar2.progress = viewPager.currentItem + 1
                 page.pageOnScreen()
                 viewModel().setCurrentUser(users[viewPager.currentItem])
             }
@@ -82,10 +91,10 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
     }
 
     override fun onBackPressed(): Boolean {
-//        if(viewPager.isFirstPage) {
+        if (viewPager.isFirstPage) {
             return super.onBackPressed()
-//        }
-//        viewPager.prev()
-//        return true
+        }
+        viewPager.prev()
+        return true
     }
 }

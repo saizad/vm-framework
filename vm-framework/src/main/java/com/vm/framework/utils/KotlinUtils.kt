@@ -8,24 +8,32 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.updatePadding
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.chip.ChipGroup
 import com.jakewharton.rxbinding2.view.RxView
+import com.vm.framework.components.VmFrameworkBaseActivity
+import com.vm.framework.components.VmFrameworkBaseBottomSheetDialogFragment
 import com.vm.framework.components.VmFrameworkBaseFragment
 import com.vm.framework.enums.DataState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
@@ -36,44 +44,44 @@ import kotlin.math.max
 import kotlin.math.roundToInt
 
 
-public val DateTime.dobDateFormat: String
+val DateTime.dobDateFormat: String
     get() {
         return toString(Utils.DOB_DATE_FORMATTER)
     }
 
-public val DateTime.appDateFormat: String
+val DateTime.appDateFormat: String
     get() {
         return toString(Utils.APP_DATE_FORMATTER)
     }
 
 
-public val DateTime.appTimeFormat: String
+val DateTime.appTimeFormat: String
     get() {
         return toString(Utils.APP_TIME_FORMATTER)
     }
 
-public val DateTime.appTimeFormat24Hours: String
+val DateTime.appTimeFormat24Hours: String
     get() {
         return toString(Utils.APP_TIME_FORMATTER_24_HOURS)
     }
 
 
-public val DateTime.appTimeAndDateFormat: String
+val DateTime.appTimeAndDateFormat: String
     get() {
         return "$appTimeFormat $appDateFormat"
     }
 
-public val DateTime.ordinalDayOfMonth: String
+val DateTime.ordinalDayOfMonth: String
     get() {
         return Utils.ordinal(dayOfMonth)
     }
 
-public val DateTime.ordinalDay: String
+val DateTime.ordinalDay: String
     get() {
         return ordinalDayOfMonth + " " + toString("MMMM")
     }
 
-public fun View.throttleClick(
+fun View.throttleClick(
     throttle: Long = 500,
     listener: () -> Unit
 ) {
@@ -81,10 +89,6 @@ public fun View.throttleClick(
         .throttleFirst(throttle, TimeUnit.MILLISECONDS)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe { listener.invoke() }
-}
-
-fun <T> ChipGroup.getSelectedChipItems(): List<T> {
-    return ViewUtils.getSelectedChipItems(this)
 }
 
 val DateTime.notificationTimeStamp: String
@@ -104,22 +108,22 @@ val DateTime.notificationTimeStamp: String
         return lines[max(lines.size - 2, 0)]
     }
 
-public fun VmFrameworkBaseFragment<*>.lifecycleScopeOnMain(block: suspend CoroutineScope.() -> Unit): Job {
+fun VmFrameworkBaseFragment<*>.lifecycleScopeOnMain(block: suspend CoroutineScope.() -> Unit): Job {
     return lifecycleOwner.lifecycleScopeOnMain(block)
 }
 
-public fun VmFrameworkBaseFragment<*>.lifecycleScopeOnMain(
+fun VmFrameworkBaseFragment<*>.lifecycleScopeOnMain(
     timeMillis: Long,
     block: suspend CoroutineScope.() -> Unit
 ): Job {
     return lifecycleOwner.lifecycleScopeOnMainWithDelay(timeMillis, block)
 }
 
-public fun LifecycleOwner.lifecycleScopeOnMain(block: suspend CoroutineScope.() -> Unit): Job {
+fun LifecycleOwner.lifecycleScopeOnMain(block: suspend CoroutineScope.() -> Unit): Job {
     return lifecycleScope.launchWhenStarted(block = block)
 }
 
-public fun LifecycleOwner.lifecycleScopeOnMainWithDelay(
+fun LifecycleOwner.lifecycleScopeOnMainWithDelay(
     timeMillis: Long,
     block: suspend CoroutineScope.() -> Unit
 ): Job {
@@ -129,7 +133,7 @@ public fun LifecycleOwner.lifecycleScopeOnMainWithDelay(
     }
 }
 
-public val Int.appendZero: String
+val Int.appendZero: String
     get() {
         if (this < 10) {
             return "0${this}"
@@ -185,7 +189,12 @@ fun View.padding(dp: Float) {
 
 fun View.paddingTop(dp: Float) {
     val px = context.dpToPx(dp).roundToInt()
-    this.setPadding(0, px, 0, 0)
+    updatePadding(top = px)
+}
+
+fun View.paddingBottom(dp: Float) {
+    val px = context.dpToPx(dp).roundToInt()
+    updatePadding(bottom = px)
 }
 
 fun Context.themeColor(@AttrRes attrRes: Int): Int {
@@ -242,4 +251,19 @@ val ViewPager2.isFirstPage: Boolean
     get() {
         return currentItem == 0
     }
+
+fun View.setEqualSize(size: Int) {
+    val layoutParams: ViewGroup.LayoutParams = layoutParams
+    layoutParams.width = size
+    layoutParams.height = size
+    this.layoutParams = layoutParams
+}
+
+fun Disposable.addToComposite(vmFrameworkBaseActivity: VmFrameworkBaseActivity<*>) {
+    vmFrameworkBaseActivity.compositeDisposable().add(this)
+}
+
+fun Disposable.addToComposite(bottomSheetDialogFragment: VmFrameworkBaseBottomSheetDialogFragment<*>) {
+    bottomSheetDialogFragment.compositeDisposable().add(this)
+}
 

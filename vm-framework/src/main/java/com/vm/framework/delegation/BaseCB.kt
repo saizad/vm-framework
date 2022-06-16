@@ -6,17 +6,18 @@ import androidx.annotation.MenuRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
-import com.vm.framework.VmFrameworkLocation
+import com.vm.framework.VmFrameworkNetworkRequest
+import com.vm.framework.components.VmFrameworkBaseActivity
 import com.vm.framework.components.VmFrameworkBaseViewModel
 import sa.zad.easypermission.PermissionManager
 
 interface BaseCB<V : VmFrameworkBaseViewModel> {
 
     val lifecycleOwner: LifecycleOwner
+    val networkRequest: VmFrameworkNetworkRequest
     fun context(): Context
     fun viewModelStoreOwner(): ViewModelStoreOwner
     val viewModelClassType: Class<V>
-    fun appLocation(): VmFrameworkLocation
     fun permissionManager(): PermissionManager
 
     @MenuRes

@@ -1,22 +1,22 @@
 package com.vm.frameworkexample.di.main
 
-import com.vm.framework.*
+import com.vm.framework.ActivityResult
+import com.vm.framework.Environment
+import com.vm.framework.VmFrameworkNetworkRequest
+import com.vm.frameworkexample.MVVMExampleCurrentUser
 import com.vm.frameworkexample.api.MainApi
-import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.MutableStateFlow
 import sa.zad.easypermission.PermissionManager
 import javax.inject.Inject
+import javax.inject.Named
+import javax.inject.Singleton
 
+@Singleton
 class MainEnvironment @Inject constructor(
     val api: MainApi,
-    fcmToken: FCMToken,
-    behaviorSubject: BehaviorSubject<ActivityResult<*>>,
-    currentUser: CurrentUserType<*>,
+    currentUser: MVVMExampleCurrentUser,
     permissionManager: PermissionManager,
-    notifyOnceBehaviorSubject: BehaviorSubject<NotifyOnce<*>>
-) : Environment(
-    fcmToken,
-    behaviorSubject,
-    currentUser,
-    notifyOnceBehaviorSubject,
-    permissionManager
-)
+    @Named("nav-result")
+    activityResultFlow: MutableStateFlow<ActivityResult<*>>,
+    networkRequest: VmFrameworkNetworkRequest
+) : Environment(currentUser, networkRequest, permissionManager, activityResultFlow)

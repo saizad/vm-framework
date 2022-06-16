@@ -31,21 +31,24 @@ class LoginFragment : AuthFragment<LoginViewModel>() {
             lifecycleScopeOnMain {
                 val viewModel = viewModel()
                 viewModel.login()
-                    .stateToData()
+                    .loadingState {
+                        vmFrameworkExampleActivity.showApiRequestLoadingDialog(it.isLoading)
+                    }
+                    .dataModel()
                     .collect {
                         context().startActivityClear<MainActivity>()
                     }
             }
         }
 
-        viewModel().loginFormLiveData.observe(viewLifecycleOwner, { emailLoginForm ->
+        viewModel().loginFormLiveData.observe(viewLifecycleOwner) { emailLoginForm ->
             emailField.setField(emailLoginForm.emailField)
             passwordField.setField(emailLoginForm.passwordField)
             emailLoginForm.validObservable()
                 .subscribe {
                     login.isEnabled = it
                 }
-        })
+        }
     }
 
 

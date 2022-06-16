@@ -24,7 +24,7 @@ class UserPageFragment : MainPageFragment<UserPageViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel().liveData.observe(viewLifecycleOwner, {
+        viewModel().liveData.observe(viewLifecycleOwner) {
             fullName.text = it.fullName
             email.text = it.email
             Glide.with(requireContext())
@@ -34,10 +34,10 @@ class UserPageFragment : MainPageFragment<UserPageViewModel>() {
 
             bigAvatar.throttleClick {
                 openFragment(R.id.updateUserFragment, {
-                  putParcelable("user", it)
+                    putParcelable("user", it)
                 })
             }
-        })
+        }
     }
 
     fun pageOnScreen(){

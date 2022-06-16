@@ -1,6 +1,6 @@
 package com.vm.framework.model
 
-class IntPageDataModel<M>(
+open class IntPageDataModel<M>(
     data: List<M>,
     page: Int,
     count: Int,

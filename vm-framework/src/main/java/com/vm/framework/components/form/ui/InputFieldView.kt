@@ -2,13 +2,13 @@ package com.vm.framework.components.form.ui
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.EditText
 import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.textfield.TextInputLayout
 import com.sa.easyandroidform.field_view.BaseInputFieldView
 import com.vm.framework.R
 import com.vm.framework.utils.KeyBoardUtils
-import com.vm.framework.utils.ViewUtils
 import kotlinx.android.synthetic.main.lib_text_input_layout.view.*
 
 
@@ -22,11 +22,11 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
     private var prevShow: Boolean = false
 
     init {
-        ViewUtils.inflate(getContext(), R.layout.lib_text_input_layout, this, true)
-        isErrorEnabled = editTextLayout.isErrorEnabled
-        editTextLayout.findViewById<CheckableImageButton>(R.id.text_input_end_icon)?.let {
+        val view = View.inflate(getContext(), R.layout.lib_text_input_layout, this)
+        isErrorEnabled = view.editTextLayout.isErrorEnabled
+        view.editTextLayout.findViewById<CheckableImageButton>(com.google.android.material.R.id.text_input_end_icon)?.let {
             if (!it.hasOnClickListeners()) {
-                editTextLayout.setEndIconOnClickListener {
+                view.editTextLayout.setEndIconOnClickListener {
                     editText.clearFocus()
                     KeyBoardUtils.hide(context, editText)
                 }

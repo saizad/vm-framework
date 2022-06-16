@@ -12,7 +12,7 @@ abstract class BaseFormDialog<M, R>(context: Context, @LayoutRes layoutRes: Int)
 
     init {
         formActionButton().throttleClick{
-            mutableLiveData.value = form().requiredBuild()
+            mutableStateFlow.value = form().requiredBuild()
             dismiss()
         }
     }

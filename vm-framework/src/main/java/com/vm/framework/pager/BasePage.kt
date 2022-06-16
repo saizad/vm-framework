@@ -3,6 +3,7 @@ package com.vm.framework.pager
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
+import com.vm.framework.Environment
 import com.vm.framework.components.VmFrameworkBaseFragment
 import com.vm.framework.components.VmFrameworkBaseViewModel
 import io.reactivex.Observable

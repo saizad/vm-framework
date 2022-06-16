@@ -7,12 +7,13 @@ import androidx.annotation.CallSuper
 import com.vm.framework.ActivityResult
 import com.vm.framework.components.VmFrameworkBaseViewModel
 import com.vm.framework.delegation.BaseLifecycleDelegateImp
+import com.vm.framework.utils.lifecycleScopeOnMain
 
 open class FragmentAppLifecycleDelegateImp<V : VmFrameworkBaseViewModel>(
     private val fragmentAppLifecycleCallBack: FragmentAppLifecycleCallBack,
-    fragmentAppLifecycleDelegate: FragmentCB<V>, tag: String
+    fragmentAppLifecycleDelegate: FragmentCB<V>
 ) : BaseLifecycleDelegateImp<V, FragmentCB<V>>(
-    fragmentAppLifecycleCallBack, fragmentAppLifecycleDelegate, tag
+    fragmentAppLifecycleCallBack, fragmentAppLifecycleDelegate
 ), FragmentAppLifecycleDelegate {
 
     private var hasInitializedRootView = false
@@ -99,7 +100,6 @@ open class FragmentAppLifecycleDelegateImp<V : VmFrameworkBaseViewModel>(
     override fun onDestroyView() {
         log("onDestroyView")
         compositeDisposable().dispose()
-        viewModel.onDestroyView()
     }
 
     @CallSuper

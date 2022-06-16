@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.vm.framework.ActivityResult
 import com.vm.framework.utils.addToComposite
+import com.vm.framework.utils.flowThrottleClick
 import com.vm.framework.utils.lifecycleScopeOnMain
-import com.vm.framework.utils.throttleClick
 import com.vm.frameworkexample.R
 import com.vm.frameworkexample.RequestCodes
 import com.vm.frameworkexample.components.main.MainFragment
@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_update_user.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flatMapLatest
 
 @AndroidEntryPoint
 open class UpdateUserFragment : MainFragment<UpdateUserViewModel>() {
@@ -37,13 +38,13 @@ open class UpdateUserFragment : MainFragment<UpdateUserViewModel>() {
                 save.isEnabled = it
             }.addToComposite(this)
 
-        save.throttleClick {
-            lifecycleScopeOnMain {
-                viewModel().save()
-                    .collect {
-                        finishWithResult(ActivityResult(RequestCodes.USER, it))
-                    }
-            }
+        lifecycleScopeOnMain {
+            save.flowThrottleClick()
+                .flatMapLatest { viewModel().save() }
+                .collect {
+                    currentUserType.refresh(it)
+                    finishWithResult(ActivityResult(RequestCodes.USER, it))
+                }
         }
     }
 }

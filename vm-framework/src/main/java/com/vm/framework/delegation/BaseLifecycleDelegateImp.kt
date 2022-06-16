@@ -1,7 +1,6 @@
 package com.vm.framework.delegation
 
 import android.content.DialogInterface
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -13,18 +12,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import com.vm.framework.VmFrameworkLocation.GPSOffException
 import com.vm.framework.components.VmFrameworkBaseViewModel
-import com.vm.framework.components.VmFrameworkBaseViewModel.*
-import com.vm.framework.utils.addToDisposable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.vm.framework.error.ApiErrorData
+import com.vm.framework.error.ConnectionErrorData
+import com.vm.framework.error.ErrorData
+import com.vm.framework.error.TimeoutErrorData
 import io.reactivex.disposables.CompositeDisposable
-import rx.functions.Action1
 
 abstract class BaseLifecycleDelegateImp<V : VmFrameworkBaseViewModel, CB : BaseCB<V>>(
     private val baseLifecycleCallBack: BaseLifecycleCallBack,
-    protected val appLifecycleDelegate: CB,
-    val tag: String
+    protected val appLifecycleDelegate: CB
 ) : BaseLifecycleDelegate {
 
     lateinit var compositeDisposable: CompositeDisposable
@@ -55,32 +52,24 @@ abstract class BaseLifecycleDelegateImp<V : VmFrameworkBaseViewModel, CB : BaseC
     }
 
     override fun log(string: String) {
-        Log.i(tag, string)
+        Log.i(this.javaClass.simpleName, string)
     }
 
-    override fun requestError(errorData: ErrorData) {
-        val handle =
-            baseLifecycleCallBack.serverError(errorData.throwable, errorData.id)
-        if (!handle) {
-            showAlertDialogOk("Error ${errorData.id}", errorData.throwable.message!!)
-        }
+    override fun showRequestErrorDialog(errorData: ErrorData) {
+        showAlertDialogOk("Error ${errorData.requestId}", errorData.error.message!!)
     }
 
-    override fun requestApiError(apiErrorData: ApiErrorData) {
-        val error = apiErrorData.apiErrorException.errorModel
-        val handel = baseLifecycleCallBack.serverError(
-            apiErrorData.apiErrorException, apiErrorData.id
-        )
-        if (!handel) {
-            showAlertDialogOk("${error.error()} ${apiErrorData.id}", error.message())
-        }
+    override fun showConnectionErrorDialog(errorData: ConnectionErrorData) {
+        showAlertDialogOk("Connection Error ${errorData.requestId}", errorData.error.message!!)
     }
 
-    override fun showLoading(show: Boolean) {
+    override fun showTimeoutErrorDialog(errorData: TimeoutErrorData) {
+        showAlertDialogOk("Timeout Error ${errorData.requestId}", errorData.error.message!!)
     }
 
-    override fun serverError(throwable: Throwable, requestId: Int): Boolean {
-        return false
+    override fun showApiErrorDialog(apiErrorData: ApiErrorData) {
+        val error = apiErrorData.error.errorModel
+        showAlertDialogOk("${error.error()} ${apiErrorData.requestId}", error.message())
     }
 
     override fun showAlertDialogOk(
@@ -128,27 +117,6 @@ abstract class BaseLifecycleDelegateImp<V : VmFrameworkBaseViewModel, CB : BaseC
         return liveData
     }
 
-    override fun requestLocation(locationAction: Action1<Location>) {
-        showLoading(true)
-        appLifecycleDelegate.appLocation()
-            .getLastLocation({ location: Location ->
-                showLoading(false)
-                locationAction.call(location)
-            }) { throwable: Throwable ->
-                showLoading(false)
-                var title = "Error"
-                var message = throwable.message
-                if (throwable is SecurityException) {
-                    title = "Permission Not Granted"
-                    message = "Please provide location permission from the app settings"
-                } else if (throwable is GPSOffException) {
-                    title = "GPS is OFF"
-                    message = throwable.message
-                }
-                showAlertDialogOk(title, message!!, true)
-            }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         log("onCreate")
         viewModel = getFragmentViewModel(appLifecycleDelegate.viewModelClassType)
@@ -187,21 +155,8 @@ abstract class BaseLifecycleDelegateImp<V : VmFrameworkBaseViewModel, CB : BaseC
 
     @CallSuper
     override fun onViewReady() {
-        viewModel.onViewCreated()
         compositeDisposable = CompositeDisposable()
         log("onViewReady")
-
-        viewModel.errorSubject
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                baseLifecycleCallBack.requestError(it)
-            }.addToDisposable(compositeDisposable)
-
-        viewModel.apiErrorSubject
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                baseLifecycleCallBack.requestApiError(it)
-            }.addToDisposable(compositeDisposable)
     }
 
     override fun viewModel(): VmFrameworkBaseViewModel {
@@ -219,5 +174,4 @@ abstract class BaseLifecycleDelegateImp<V : VmFrameworkBaseViewModel, CB : BaseC
     override fun navController(): NavController {
         return appLifecycleDelegate.navController()
     }
-
 }

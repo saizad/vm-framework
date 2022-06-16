@@ -2,10 +2,12 @@ package com.vm.frameworkexample.components.main.home
 
 import com.vm.framework.enums.DataState
 import com.vm.framework.model.DataModel
+import com.vm.framework.utils.filterRequestCode
 import com.vm.frameworkexample.ApiRequestCodes.DELAYED_RESPONSE
 import com.vm.frameworkexample.ApiRequestCodes.DELETE_USER
 import com.vm.frameworkexample.ApiRequestCodes.RANDOM_REQUEST
 import com.vm.frameworkexample.ApiRequestCodes.RESOURCE_NOT_FOUND
+import com.vm.frameworkexample.RequestCodes
 import com.vm.frameworkexample.components.main.MainViewModel
 import com.vm.frameworkexample.di.main.MainEnvironment
 import com.vm.frameworkexample.models.ReqResUser
@@ -18,7 +20,9 @@ open class HomeViewModel @Inject constructor(
     environment: MainEnvironment
 ) : MainViewModel(environment) {
 
-   open fun delayed(
+    val x: Flow<ReqResUser> = environment.activityResultFlow.filterRequestCode(RequestCodes.USER)
+
+    open fun delayed(
         delay: Int,
         requestId: Int = DELAYED_RESPONSE
     ): Flow<DataState<DataModel<List<ReqResUser>>>> {
@@ -33,15 +37,4 @@ open class HomeViewModel @Inject constructor(
         return flowData(api.noContentResponse(), requestId)
     }
 
-    override fun showError(apiErrorData: ApiErrorData) {
-        if(!apiErrorData.isThisRequest(RESOURCE_NOT_FOUND)) {
-            super.showError(apiErrorData)
-        }
-    }
-
-    override fun showLoading(loadingData: LoadingData) {
-        if(!loadingData.isThisRequest(RANDOM_REQUEST)) {
-            super.showLoading(loadingData)
-        }
-    }
 }

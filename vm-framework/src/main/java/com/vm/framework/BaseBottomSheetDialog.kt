@@ -2,18 +2,20 @@ package com.vm.framework
 
 import android.content.Context
 import android.content.DialogInterface
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.vm.framework.utils.ViewUtils
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 abstract class BaseBottomSheetDialog<M, R>(
@@ -21,13 +23,13 @@ abstract class BaseBottomSheetDialog<M, R>(
     @LayoutRes layoutRes: Int,
     @StyleRes theme: Int = 0
 ) : BottomSheetDialog(context, theme) {
-    protected val mutableLiveData = MutableLiveData<R>()
+    private val flow = MutableStateFlow<R?>(null)
     protected var data: M? = null
     protected val compositeDisposable = CompositeDisposable()
     private var dismissJob: Job? = null
 
     init {
-        val inflate = ViewUtils.inflate(context, layoutRes)
+        val inflate = View.inflate(context, layoutRes, null)
         setContentView(inflate)
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         super.setOnShowListener {
@@ -49,19 +51,20 @@ abstract class BaseBottomSheetDialog<M, R>(
 
     fun dismiss(returnData: R, delay: Long = 0) {
         dismissJob?.cancel()
+
         dismissJob = GlobalScope.launch(Dispatchers.Main) {
             kotlinx.coroutines.delay(delay)
-            mutableLiveData.value = returnData
+            flow.value = returnData
             dismiss()
         }
     }
 
     @CallSuper
-    open fun show(data: M? = null): LiveData<R> {
+    open fun show(data: M? = null): Flow<R?> {
         this.data = data
         prepare(data)
         super.show()
-        return mutableLiveData
+        return flow.drop(1)
     }
 
     final override fun show() {

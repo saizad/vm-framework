@@ -8,7 +8,6 @@ import com.vm.framework.*
 import com.vm.frameworkexample.BuildConfig
 import com.vm.frameworkexample.MVVMExampleCurrentUser
 import com.vm.frameworkexample.RequestCodes
-import com.vm.frameworkexample.api.BackgroundApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,9 +58,4 @@ object AppModule {
         )
     }
 
-    @Singleton
-    @Provides
-    fun providesBackgroundApi(retrofit: VmFrameworkEasyRetrofit): BackgroundApi {
-        return retrofit.provideRetrofit().create(BackgroundApi::class.java)
-    }
 }

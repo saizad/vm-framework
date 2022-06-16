@@ -1,7 +1,6 @@
 package com.vm.framework.components
 
 import android.content.Context
-import android.location.Location
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.CallSuper
@@ -13,22 +12,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.vm.framework.ActivityResult
 import com.vm.framework.components.VmFrameworkBaseViewModel.*
 import com.vm.framework.delegation.fragment.FragmentAppLifecycleCallBack
 import com.vm.framework.delegation.fragment.FragmentAppLifecycleDelegate
 import com.vm.framework.delegation.fragment.FragmentAppLifecycleDelegateImp
 import com.vm.framework.delegation.fragment.FragmentCB
+import com.vm.framework.error.ApiErrorData
+import com.vm.framework.error.ConnectionErrorData
+import com.vm.framework.error.ErrorData
+import com.vm.framework.error.TimeoutErrorData
 import io.reactivex.disposables.CompositeDisposable
-import rx.functions.Action1
 
-abstract class VmFrameworkBaseDialogFragment<V : VmFrameworkBaseViewModel> :
+abstract class VmFrameworkBaseDialogFragment<V : VmFrameworkBaseViewModel>:
     DialogFragment(), FragmentAppLifecycleDelegate, FragmentCB<V>,
     FragmentAppLifecycleCallBack {
 
-    protected var delegate: FragmentAppLifecycleDelegate =
-        FragmentAppLifecycleDelegateImp(this, this, javaClass.simpleName)
+    protected open val delegate: FragmentAppLifecycleDelegate by lazy {
+        FragmentAppLifecycleDelegateImp(this, this)
+    }
 
     override fun context(): Context {
         return requireContext()
@@ -41,9 +44,10 @@ abstract class VmFrameworkBaseDialogFragment<V : VmFrameworkBaseViewModel> :
     override val lifecycleOwner: LifecycleOwner
         get() = viewLifecycleOwner
 
+
     abstract override val viewModelClassType: Class<V>
     override fun navController(): NavController {
-        return Navigation.findNavController(requireView())
+        return findNavController()
     }
 
     override fun showLongToast(text: CharSequence) {
@@ -109,20 +113,20 @@ abstract class VmFrameworkBaseDialogFragment<V : VmFrameworkBaseViewModel> :
         delegate.onCreate(savedInstanceState)
     }
 
-    override fun requestError(errorData: ErrorData) {
-        delegate.requestError(errorData)
+    override fun showConnectionErrorDialog(errorData: ConnectionErrorData) {
+        delegate.showConnectionErrorDialog(errorData)
     }
 
-    override fun requestApiError(apiErrorData: ApiErrorData) {
-        delegate.requestApiError(apiErrorData)
+    override fun showTimeoutErrorDialog(errorData: TimeoutErrorData) {
+        delegate.showTimeoutErrorDialog(errorData)
     }
 
-    override fun showLoading(show: Boolean) {
-        delegate.showLoading(show)
+    override fun showRequestErrorDialog(errorData: ErrorData) {
+        delegate.showRequestErrorDialog(errorData)
     }
 
-    override fun serverError(throwable: Throwable, requestId: Int): Boolean {
-        return delegate.serverError(throwable, requestId)
+    override fun showApiErrorDialog(apiErrorData: ApiErrorData) {
+        delegate.showApiErrorDialog(apiErrorData)
     }
 
     @CallSuper
@@ -218,10 +222,6 @@ abstract class VmFrameworkBaseDialogFragment<V : VmFrameworkBaseViewModel> :
         navOptions: NavOptions?
     ) {
         delegate.openFragment(fragment, bundle, navOptions)
-    }
-
-    override fun requestLocation(locationAction: Action1<Location>) {
-        delegate.requestLocation(locationAction)
     }
 
     override fun onRequestPermissionsResult(

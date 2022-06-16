@@ -38,7 +38,6 @@ open class AutoFillWebFragment : MainFragment<AutoFillWebViewModel>() {
                 view: WebView?,
                 request: WebResourceRequest
             ): Boolean {
-                showLoading(true)
                 return super.shouldOverrideUrlLoading(view, request)
             }
 

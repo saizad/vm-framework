@@ -64,7 +64,7 @@ class SplashFragmentTest {
             Navigation.setViewNavController(requireView(), navController)
         }
 
-        Espresso.onView(withId(R.id.tv)).perform(ViewActions.click())
+        Espresso.onView(withId(R.id.journeyView)).perform(ViewActions.click())
 
         verify(navController).navigate (
             SplashFragmentDirections.actionSplashFragmentToLoginFragment()
@@ -92,7 +92,7 @@ class SplashFragmentTest {
 
         launchFragmentInHiltContainer<SplashFragment> {}
 
-        Espresso.onView(withId(R.id.tv)).perform(ViewActions.click())
+        Espresso.onView(withId(R.id.journeyView)).perform(ViewActions.click())
 
         IntentSubject.assertThat(Iterables.getLast(Intents.getIntents())).hasComponentClass(
             MainActivity::class.java

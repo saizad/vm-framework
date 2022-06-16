@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.vm.framework.R
 import com.vm.framework.utils.ImageUtils
-import com.vm.framework.utils.ViewUtils
 import kotlinx.android.synthetic.main.lib_image_field_view.view.*
 
 
@@ -32,7 +31,7 @@ open class ImageFieldView @JvmOverloads constructor(context: Context, attrs: Att
     }
     
     init {
-        ViewUtils.inflate(getContext(), R.layout.lib_image_field_view, this, true)
+        View.inflate(getContext(), R.layout.lib_image_field_view, this)
     }
 
     override fun intent(): Intent {

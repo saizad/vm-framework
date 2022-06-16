@@ -2,7 +2,6 @@ package com.vm.framework.components
 
 import android.content.Context
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.DrawableRes
@@ -14,19 +13,22 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.vm.framework.ActivityResult
-import com.vm.framework.components.VmFrameworkBaseViewModel.*
 import com.vm.framework.delegation.activity.ActivityAppLifeCycleCallback
 import com.vm.framework.delegation.activity.ActivityAppLifecycleDelegate
 import com.vm.framework.delegation.activity.ActivityAppLifecycleDelegateImp
 import com.vm.framework.delegation.activity.ActivityCB
+import com.vm.framework.error.ApiErrorData
+import com.vm.framework.error.ConnectionErrorData
+import com.vm.framework.error.ErrorData
+import com.vm.framework.error.TimeoutErrorData
 import io.reactivex.disposables.CompositeDisposable
-import rx.functions.Action1
 
 abstract class VmFrameworkBaseActivity<V : VmFrameworkBaseViewModel> : AppCompatActivity(),
     ActivityAppLifecycleDelegate, ActivityCB<V>, ActivityAppLifeCycleCallback {
 
-    protected val delegate: ActivityAppLifecycleDelegate = ActivityAppLifecycleDelegateImp(this, this, javaClass.simpleName)
-
+   protected open val delegate: ActivityAppLifecycleDelegate by lazy {
+        ActivityAppLifecycleDelegateImp(this, this)
+    }
 
     override fun context(): Context {
         return this
@@ -75,24 +77,24 @@ abstract class VmFrameworkBaseActivity<V : VmFrameworkBaseViewModel> : AppCompat
         delegate.onViewReady()
     }
 
-    override fun requestError(errorData: ErrorData) {
-        delegate.requestError(errorData)
+    override fun showConnectionErrorDialog(errorData: ConnectionErrorData) {
+        delegate.showConnectionErrorDialog(errorData)
     }
 
-    override fun requestApiError(apiErrorData: ApiErrorData) {
-        delegate.requestApiError(apiErrorData)
+    override fun showTimeoutErrorDialog(errorData: TimeoutErrorData) {
+        delegate.showTimeoutErrorDialog(errorData)
     }
 
-    override fun requestLoading(loadingData: LoadingData) {
-        delegate.requestLoading(loadingData)
+    override fun showRequestErrorDialog(errorData: ErrorData) {
+        delegate.showRequestErrorDialog(errorData)
     }
 
-    override fun showLoading(show: Boolean) {
-        delegate.showLoading(show)
+    override fun showApiErrorDialog(apiErrorData: ApiErrorData) {
+        delegate.showApiErrorDialog(apiErrorData)
     }
 
-    override fun serverError(throwable: Throwable, requestId: Int): Boolean {
-        return delegate.serverError(throwable, requestId)
+    override fun showApiRequestLoadingDialog(show: Boolean) {
+        delegate.showApiRequestLoadingDialog(show)
     }
 
     @CallSuper
@@ -123,10 +125,6 @@ abstract class VmFrameworkBaseActivity<V : VmFrameworkBaseViewModel> : AppCompat
     override fun onResume() {
         super.onResume()
         delegate.onResume()
-    }
-
-    override fun requestLocation(locationAction: Action1<Location>) {
-        delegate.requestLocation(locationAction)
     }
 
     override fun showAlertDialogOk(
@@ -198,5 +196,4 @@ abstract class VmFrameworkBaseActivity<V : VmFrameworkBaseViewModel> : AppCompat
     override fun bundle(): Bundle? {
         return intent.extras
     }
-
 }
