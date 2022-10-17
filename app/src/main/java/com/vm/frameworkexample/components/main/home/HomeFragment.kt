@@ -12,21 +12,21 @@ import com.vm.frameworkexample.ApiRequestCodes.RANDOM_REQUEST
 import com.vm.frameworkexample.ApiRequestCodes.SHORT_DELAYED_RESPONSE
 import com.vm.frameworkexample.R
 import com.vm.frameworkexample.components.main.MainFragment
-import com.vm.frameworkexample.components.main.users.ReqResUserItem
+import com.vm.frameworkexample.databinding.FragmentHomeBinding
 import com.vm.frameworkexample.di.main.MainEnvironment
 import com.vm.frameworkexample.models.ReqResUser
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
 open class HomeFragment : MainFragment<HomeViewModel>() {
 
+
     @Inject
     lateinit var environment: MainEnvironment
 
-    private val reqResUserItem by lazy { currentUser as ReqResUserItem }
+    lateinit var binding: FragmentHomeBinding
 
     override val viewModelClassType: Class<HomeViewModel>
         get() = HomeViewModel::class.java
@@ -34,14 +34,15 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
         super.onViewCreated(view, savedInstanceState, recycled)
+        binding = FragmentHomeBinding.bind(view)
 
-        login.throttleClick {
+        binding.login.throttleClick {
             lifecycleScopeOnMain {
                 currentUserType.logout {  }
             }
         }
 
-        noContentRequest.throttleClick {
+        binding.noContentRequest.throttleClick {
             lifecycleScopeOnMain {
                 viewModel().noContentResponse()
                     .loadingState {
@@ -54,7 +55,7 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
             }
         }
 
-        resNotFoundErrorResponse.throttleClick {
+        binding.resNotFoundErrorResponse.throttleClick {
             lifecycleScopeOnMain {
                 viewModel().resourceNotFound(ApiRequestCodes.RESOURCE_NOT_FOUND)
                     .collect {
@@ -65,7 +66,7 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
             }
         }
 
-        multiRequests.throttleClick {
+        binding.multiRequests.throttleClick {
             lifecycleScopeOnMain {
                 viewModel().delayed(5, DELAYED_RESPONSE)
                     .collect {
@@ -93,7 +94,7 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
             }
         }
 
-        requestNoLoading.throttleClick {
+        binding.requestNoLoading.throttleClick {
             lifecycleScopeOnMain {
                 viewModel().delayed(1, RANDOM_REQUEST)
                     .dataModel()
@@ -103,7 +104,7 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
             }
         }
 
-        defaultError.throttleClick {
+        binding.defaultError.throttleClick {
             lifecycleScopeOnMain {
                 viewModel().resourceNotFound(DEFAULT_ERROR)
                     .collect {}
@@ -123,17 +124,18 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
                 }
         }
 
-        users.throttleClick {
+        binding.users.throttleClick {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToUsersFragment())
         }
 
-        autoFillWebView.throttleClick {
+        binding.autoFillWebView.throttleClick {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAutoFillWebFragment())
         }
 
     }
 
     private fun bindUserInfo(reqResUser: ReqResUser) {
+        val reqResUserItem = binding.currentUser.container
         reqResUserItem.bind(reqResUser)
         reqResUserItem.throttleClick {
             findNavController().navigate(

@@ -2,14 +2,14 @@ package com.vm.frameworkexample.components.main.users
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.TextView
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.vm.framework.FullWidthListItem
-import kotlinx.android.synthetic.main.item_req_res_user.view.*
 import com.vm.frameworkexample.R
-import com.vm.frameworkexample.models.ReqResUser;
+import com.vm.frameworkexample.models.ReqResUser
 
 class ReqResUserItem @JvmOverloads constructor(
     context: Context,
@@ -22,10 +22,11 @@ class ReqResUserItem @JvmOverloads constructor(
         Glide.with(context)
             .load(i.avatar)
             .transform(CircleCrop(), CenterCrop())
-            .into(avatar)
+            .into(findViewById(R.id.avatar))
 
-        fullNameField.text = i.fullName
-        email.text = i.email
+        findViewById<TextView>(R.id.fullNameField).text = i.fullName
+        findViewById<TextView>(R.id.email).text = i.email
+        val job = findViewById<TextView>(R.id.job)
         job.text = i.job
         job.isVisible = i.job != null
     }

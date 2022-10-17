@@ -3,6 +3,7 @@ package com.vm.frameworkexample.components.main.profile.updateuser
 import android.os.Bundle
 import android.view.View
 import com.vm.framework.ActivityResult
+import com.vm.framework.components.form.ui.StringInputFieldView
 import com.vm.framework.utils.addToComposite
 import com.vm.framework.utils.flowThrottleClick
 import com.vm.framework.utils.lifecycleScopeOnMain
@@ -11,12 +12,12 @@ import com.vm.frameworkexample.RequestCodes
 import com.vm.frameworkexample.components.main.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_update_user.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
 
 @AndroidEntryPoint
 open class UpdateUserFragment : MainFragment<UpdateUserViewModel>() {
+
 
     override val viewModelClassType: Class<UpdateUserViewModel>
         get() = UpdateUserViewModel::class.java
@@ -29,8 +30,9 @@ open class UpdateUserFragment : MainFragment<UpdateUserViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         val form = viewModel().form
-        fullNameField.setField(form.fullNameField)
-        jobField.setField(form.jobField)
+        val save = view.findViewById<View>(R.id.save)
+        view.findViewById<StringInputFieldView>(R.id.fullNameField).setField(form.fullNameField)
+        view.findViewById<StringInputFieldView>(R.id.jobField).setField(form.jobField)
 
         form.validObservable()
             .observeOn(AndroidSchedulers.mainThread())

@@ -6,32 +6,35 @@ import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.View
 import com.vm.framework.R
+import com.vm.framework.databinding.LibImageFieldViewBinding
 import com.vm.framework.utils.ImageUtils
-import kotlinx.android.synthetic.main.lib_image_field_view.view.*
 
 
 open class ImageFieldView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     FilesFieldView(context, attrs, defStyleAttr) {
 
+    lateinit var libImageFieldViewBinding: LibImageFieldViewBinding
+
     override fun showValue(field: List<String>?) {
         super.showValue(field)
-        ImageUtils.setAvatarImage(image_view, field?.first())
+        ImageUtils.setAvatarImage(libImageFieldViewBinding.imageView, field?.first())
     }
 
     override fun initView(): View {
-        return edit_avatar
+        return libImageFieldViewBinding.editAvatar
     }
 
     override fun undoView(): View? {
-        return undo_avatar
+        return libImageFieldViewBinding.undoAvatar
     }
 
     override fun clearView(): View? {
-        return deleteAvatar
+        return libImageFieldViewBinding.deleteAvatar
     }
     
     init {
-        View.inflate(getContext(), R.layout.lib_image_field_view, this)
+        val inflate = View.inflate(getContext(), R.layout.lib_image_field_view, this)
+        LibImageFieldViewBinding.bind(inflate)
     }
 
     override fun intent(): Intent {

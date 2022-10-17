@@ -8,26 +8,28 @@ import com.vm.framework.utils.*
 import com.vm.frameworkexample.R
 import com.vm.frameworkexample.components.auth.AuthFragment
 import com.vm.frameworkexample.components.main.MainActivity
+import com.vm.frameworkexample.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.flow.collect
 import java.util.*
 
 @AndroidEntryPoint
 class LoginFragment : AuthFragment<LoginViewModel>() {
 
+    private lateinit var binding: FragmentLoginBinding
+
     override val viewModelClassType: Class<LoginViewModel>
         get() = LoginViewModel::class.java
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
-
+        binding = FragmentLoginBinding.bind(view)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val locale = Locale("en", "NG")
             val currency = Currency.getInstance("NGN")
             val symbol = currency.getSymbol(locale)
         }
 
-        login.throttleClick {
+        binding.login.throttleClick {
             lifecycleScopeOnMain {
                 val viewModel = viewModel()
                 viewModel.login()
@@ -42,11 +44,11 @@ class LoginFragment : AuthFragment<LoginViewModel>() {
         }
 
         viewModel().loginFormLiveData.observe(viewLifecycleOwner) { emailLoginForm ->
-            emailField.setField(emailLoginForm.emailField)
-            passwordField.setField(emailLoginForm.passwordField)
+            binding.emailField.setField(emailLoginForm.emailField)
+            binding.passwordField.setField(emailLoginForm.passwordField)
             emailLoginForm.validObservable()
                 .subscribe {
-                    login.isEnabled = it
+                    binding.login.isEnabled = it
                 }
         }
     }

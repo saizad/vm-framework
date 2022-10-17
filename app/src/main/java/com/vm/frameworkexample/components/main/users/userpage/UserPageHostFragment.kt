@@ -6,9 +6,9 @@ import com.vm.framework.pager.PageListenerImp
 import com.vm.framework.utils.*
 import com.vm.frameworkexample.R
 import com.vm.frameworkexample.components.main.MainFragment
+import com.vm.frameworkexample.databinding.FragmentUserPageHostBinding
 import com.vm.frameworkexample.models.ReqResUser
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_user_page_host.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.take
@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.take
 class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
 
     private var userPageAdapter: UserPageAdapter? = null
+    private lateinit var binding: FragmentUserPageHostBinding
 
     override val viewModelClassType: Class<UserPageHostViewModel>
         get() = UserPageHostViewModel::class.java
@@ -27,8 +28,10 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, recycled: Boolean) {
         super.onViewCreated(view, savedInstanceState, recycled)
-        viewPager.offscreenPageLimit = 3
-        viewPager.setPageTransformer(ZoomOutPageTransformer())
+        binding = FragmentUserPageHostBinding.bind(view)
+        
+        binding.viewPager.offscreenPageLimit = 3
+        binding.viewPager.setPageTransformer(ZoomOutPageTransformer())
 
         lifecycleScopeOnMain {
             viewModel().users
@@ -41,7 +44,7 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
         }
 
         lifecycleScopeOnMain {
-            refreshAll.flowThrottleClick()
+            binding.refreshAll.flowThrottleClick()
                 .flatMapLatest {
                     viewModel().users.combinePair(viewModel().currentSelected).take(1)
                 }
@@ -52,12 +55,12 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
                 }
         }
 
-        prevButton.throttleClick {
-            viewPager.prev(false)
+        binding.prevButton.throttleClick {
+            binding.viewPager.prev(false)
         }
 
-        nextButton.throttleClick {
-            viewPager.next(false)
+        binding.nextButton.throttleClick {
+            binding.viewPager.next(false)
         }
     }
 
@@ -72,10 +75,10 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
         userPageAdapter =
             UserPageAdapter(this, users.map {
                 UserPageFragment::class.java
-            }, viewPager)
-        viewPager.adapter = userPageAdapter
+            }, binding.viewPager)
+        binding.viewPager.adapter = userPageAdapter
         user?.let {
-            viewPager.setCurrentItem(users.indexOfFirst { it.id == user.id }, false)
+            binding.viewPager.setCurrentItem(users.indexOfFirst { it.id == user.id }, false)
         }
 
         userPageAdapter!!.setPageListener(object : PageListenerImp<UserPageFragment>() {
@@ -85,16 +88,16 @@ class UserPageHostFragment : MainFragment<UserPageHostViewModel>() {
 
             override fun onPageReady(page: UserPageFragment) {
                 page.pageOnScreen()
-                viewModel().setCurrentUser(users[viewPager.currentItem])
+                viewModel().setCurrentUser(users[binding.viewPager.currentItem])
             }
         })
     }
 
     override fun onBackPressed(): Boolean {
-        if (viewPager.isFirstPage) {
+        if (binding.viewPager.isFirstPage) {
             return super.onBackPressed()
         }
-        viewPager.prev()
+        binding.viewPager.prev()
         return true
     }
 }

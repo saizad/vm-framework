@@ -9,7 +9,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.sa.easyandroidform.field_view.BaseInputFieldView
 import com.vm.framework.R
 import com.vm.framework.utils.KeyBoardUtils
-import kotlinx.android.synthetic.main.lib_text_input_layout.view.*
 
 
 abstract class InputFieldView<F> @JvmOverloads constructor(
@@ -23,10 +22,12 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
 
     init {
         val view = View.inflate(getContext(), R.layout.lib_text_input_layout, this)
-        isErrorEnabled = view.editTextLayout.isErrorEnabled
-        view.editTextLayout.findViewById<CheckableImageButton>(com.google.android.material.R.id.text_input_end_icon)?.let {
+        val editTextLayout = findViewById<TextInputLayout>(R.id.editTextLayout)
+        val editText = findViewById<EditText>(R.id.editText)
+        isErrorEnabled = editTextLayout.isErrorEnabled
+        editTextLayout.findViewById<CheckableImageButton>(com.google.android.material.R.id.text_input_end_icon)?.let {
             if (!it.hasOnClickListeners()) {
-                view.editTextLayout.setEndIconOnClickListener {
+                editTextLayout.setEndIconOnClickListener {
                     editText.clearFocus()
                     KeyBoardUtils.hide(context, editText)
                 }
@@ -36,10 +37,12 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
 
 
     public fun getEditTextLayout(): TextInputLayout {
+        val editTextLayout = findViewById<TextInputLayout>(R.id.editTextLayout)
         return editTextLayout
     }
 
     final override fun getEditText(): EditText {
+        val editText = findViewById<EditText>(R.id.editText)
         return editText
     }
 
@@ -47,6 +50,7 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
     }
 
     override fun displayError(show: Boolean, error: String?) {
+        val editTextLayout = findViewById<TextInputLayout>(R.id.editTextLayout)
         fieldItem?.isSet?.let {
             editTextLayout.error = error
             editTextLayout.isErrorEnabled = show && isErrorEnabled && it
@@ -54,6 +58,7 @@ abstract class InputFieldView<F> @JvmOverloads constructor(
     }
 
     override fun notSetError(error: String) {
+        val editTextLayout = findViewById<TextInputLayout>(R.id.editTextLayout)
         editTextLayout.isErrorEnabled = false
     }
 }

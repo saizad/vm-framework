@@ -3,11 +3,12 @@ package com.vm.framework
 import android.app.Dialog
 import android.content.Context
 import androidx.core.view.isVisible
-import kotlinx.android.synthetic.main.loading_dialog.*
+import com.vm.framework.databinding.LoadingDialogBinding
 
 class LoadingDialog (context: Context) : Dialog(context) {
 
     private var requestCounter = 0
+    var loadingDialogBinding: LoadingDialogBinding = LoadingDialogBinding.inflate(layoutInflater)
 
     fun show(show: Boolean) {
         if (show) {
@@ -21,14 +22,14 @@ class LoadingDialog (context: Context) : Dialog(context) {
         } else if (!show && requestCounter == 0) {
             super.dismiss()
         } else {
-            count.text = requestCounter.toString()
+           loadingDialogBinding.count.text = requestCounter.toString()
         }
 
-        count.isVisible = requestCounter > 1
+        loadingDialogBinding.count.isVisible = requestCounter > 1
     }
 
     init {
-        setContentView(R.layout.loading_dialog)
+        setContentView(loadingDialogBinding.root)
         setCancelable(true)
     }
 }

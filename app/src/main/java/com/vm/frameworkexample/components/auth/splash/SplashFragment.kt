@@ -2,15 +2,15 @@ package com.vm.frameworkexample.components.auth.splash
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.vm.framework.utils.*
+import com.vm.framework.utils.lifecycleScopeOnMain
+import com.vm.framework.utils.startActivityClear
+import com.vm.framework.utils.stateToDataRemoveDataModel
 import com.vm.frameworkexample.R
 import com.vm.frameworkexample.components.auth.AuthFragment
 import com.vm.frameworkexample.components.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_splash.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint

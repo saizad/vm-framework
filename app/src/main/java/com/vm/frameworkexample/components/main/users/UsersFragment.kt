@@ -8,7 +8,6 @@ import com.vm.framework.utils.lifecycleScopeOnMain
 import com.vm.frameworkexample.R
 import com.vm.frameworkexample.components.main.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_users.*
 import kotlinx.coroutines.flow.collect
 import sa.zad.pagedrecyclerlist.PageKeyedListDataSource
 
@@ -24,6 +23,7 @@ class UsersFragment : MainFragment<UsersViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val list = view.findViewById<ReqResUserList>(R.id.list)
         list.init(viewLifecycleOwner) { next, callback ->
             lifecycleScopeOnMain {
                 viewModel().users(next)
