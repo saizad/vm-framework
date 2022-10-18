@@ -9,7 +9,8 @@ import androidx.annotation.FloatRange
 abstract class BaseOutlineProvider(
     var scaleX: Float = 1f,
     var scaleY: Float = 1f,
-    var yShift: Int = 0
+    var yShift: Int = 0,
+    var xShift: Int = 0
 ) : ViewOutlineProvider() {
 
     companion object {
@@ -28,7 +29,7 @@ abstract class BaseOutlineProvider(
     final override fun getOutline(view: View, outline: Outline) {
         view.background?.copyBounds(rect)
         rect.scale(scaleX, scaleY)
-        rect.offset(0, yShift)
+        rect.offset(xShift, yShift)
         rectReady(rect, view, outline)
     }
 
