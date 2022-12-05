@@ -81,6 +81,9 @@ open class HomeFragment : MainFragment<HomeViewModel>() {
                                     showShortToast("Loading Completed!!")
                                 }
                             }
+                            else -> {
+
+                            }
                         }
                     }
             }

@@ -26,12 +26,12 @@ def DOMAIN_URL_STG = "http://167.71.236.237:8080/"
 def DOMAIN_URL_PROD = "http://167.71.236.237:8080/"
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId PACKAGE_NAME
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode VERSION_CODE
         versionName VERSION_NAME
         testInstrumentationRunner "com.vm.frameworkexample.CustomTestRunner"
@@ -44,12 +44,6 @@ android {
         }
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
-        abortOnError false
-    }
 
     buildTypes {
         debug {
@@ -135,6 +129,13 @@ android {
         viewBinding = true
     }
 
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    namespace 'com.vm.frameworkexample'
+
     android.defaultConfig.vectorDrawables.useSupportLibrary = true
 
 }
@@ -159,36 +160,36 @@ dependencies {
 
     testImplementation 'joda-time:joda-time:2.9.3'
     // Local Unit Tests
-    implementation "androidx.test:core:1.4.0"
+    implementation "androidx.test:core:1.5.0"
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.hamcrest:hamcrest-all:1.3"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "org.robolectric:robolectric:4.5.1"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
-    testImplementation "com.google.truth:truth:1.0.1"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+    testImplementation "com.google.truth:truth:1.1.3"
 
     // Instrumented Unit Tests
     androidTestImplementation "junit:junit:4.13.2"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    androidTestImplementation "com.google.truth:truth:1.0.1"
-    testImplementation 'androidx.test.ext:truth:1.4.0'
-    androidTestImplementation 'androidx.test.ext:truth:1.4.0'
+    androidTestImplementation "com.google.truth:truth:1.1.3"
+    testImplementation 'androidx.test.ext:truth:1.5.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.5.0'
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation('androidx.test.espresso:espresso-intents:3.4.0')
-    androidTestImplementation('androidx.test:runner:1.4.0')
-    androidTestImplementation('androidx.test:rules:1.4.0')
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation('androidx.test.espresso:espresso-intents:3.5.0')
+    androidTestImplementation('androidx.test:runner:1.5.1')
+    androidTestImplementation('androidx.test:rules:1.5.0')
 
-    testImplementation("com.google.dagger:hilt-android-testing:2.40.3")
-    kaptTest("com.google.dagger:hilt-android-compiler:2.40.3")
+    testImplementation("com.google.dagger:hilt-android-testing:2.44.2")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.44.2")
 
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.40.3'
-    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.40.3'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.44.2'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44.2'
 
-    debugImplementation "androidx.fragment:fragment-testing:1.4.0"
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+    debugImplementation "androidx.fragment:fragment-testing:1.5.4"
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.0'
 
 
 

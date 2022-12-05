@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +36,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'com.vm.framework'
 
     android.defaultConfig.vectorDrawables.useSupportLibrary = true
 
@@ -49,21 +50,21 @@ dependencies {
     api 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.8'
 
-    api 'androidx.constraintlayout:constraintlayout:2.1.3'
+    api 'androidx.constraintlayout:constraintlayout:2.1.4'
 //    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'androidx.appcompat:appcompat:1.4.1'
-    api 'androidx.core:core-ktx:1.7.0'
+    api 'androidx.appcompat:appcompat:1.5.1'
+    api 'androidx.core:core-ktx:1.9.0'
     api 'androidx.legacy:legacy-support-v4:1.0.0'
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-    api 'com.google.android.material:material:1.5.0'
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    api 'com.google.android.material:material:1.7.0'
     api 'androidx.paging:paging-runtime-ktx:3.1.1'
 
 
     // Kotlin + coroutines
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
-    def coroutine_ktx = "2.4.1"
+    def coroutine_ktx = "2.5.1"
     //coroutine
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$coroutine_ktx"
     api "androidx.lifecycle:lifecycle-runtime-ktx:$coroutine_ktx"
@@ -78,8 +79,8 @@ dependencies {
     api 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
     //Navigation
-    api "androidx.navigation:navigation-fragment-ktx:2.4.1"
-    api "androidx.navigation:navigation-ui-ktx:2.4.1"
+    api "androidx.navigation:navigation-fragment-ktx:2.5.3"
+    api "androidx.navigation:navigation-ui-ktx:2.5.3"
 
 //    api project(path: ':paged-list')
 //    api project(path: ':easy-permission')
@@ -95,7 +96,7 @@ dependencies {
     //Time
     api 'net.danlew:android.joda:2.9.3.1'
 
-    def hilt_version = '2.40.3'
+    def hilt_version = '2.44.2'
     implementation 'androidx.hilt:hilt-work:1.0.0'
     annotationProcessor 'androidx.hilt:hilt-compiler:1.0.0'
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -103,12 +104,12 @@ dependencies {
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
 
     //network debugging
-    implementation('com.facebook.stetho:stetho-okhttp3:1.5.0') {
+    implementation('com.facebook.stetho:stetho-okhttp3:1.6.0') {
         exclude module: 'okhttp'
     }
 
     // Media
-    def glideVersion = "4.11.0"
+    def glideVersion = "4.13.2"
     api "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
     api 'com.github.chrisbanes:PhotoView:2.0.0'
@@ -121,8 +122,8 @@ dependencies {
 
     testImplementation 'joda-time:joda-time:2.9.3'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     implementation 'com.itkacher.okhttpprofiler:okhttpprofiler:1.0.7'
 
 

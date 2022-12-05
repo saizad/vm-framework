@@ -68,14 +68,14 @@ fun <T> Flow<T>.log(tag: String): Flow<T> {
 
 fun View.flowThrottleClick(duration: Long = 500): Flow<Unit> = callbackFlow {
     throttleClick(duration) {
-        offer(Unit)
+        trySend(Unit)
     }
     awaitClose { setOnClickListener(null) }
 }
 
 fun View.flowThrottleClick(): Flow<Unit> = callbackFlow {
     throttleClick {
-        offer(Unit)
+        trySend(Unit)
     }
     awaitClose { setOnClickListener(null) }
 }
@@ -85,7 +85,7 @@ val <T> Observable<T>.toFlow: Flow<T>
         val block: suspend ProducerScope<T>.() -> Unit = {
             val request =
                 subscribe {
-                    offer(it)
+                    trySend(it)
                 }
 
             awaitClose {
@@ -155,7 +155,7 @@ fun <M> ListSelection<M, *>.itemClickListenerFlow(): Flow<ItemClickFields<M>> {
     val block: suspend ProducerScope<ItemClickFields<M>>.() -> Unit = {
 
         setItemOnClickListener { item, view, itemIndex ->
-            offer(ItemClickFields(item, view, itemIndex))
+            trySend(ItemClickFields(item, view, itemIndex))
         }
 
         awaitClose {
