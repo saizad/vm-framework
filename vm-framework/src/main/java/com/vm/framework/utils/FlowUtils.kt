@@ -66,6 +66,13 @@ fun <T> Flow<T>.log(tag: String): Flow<T> {
     }
 }
 
+fun View.flowThrottleClick(duration: Long = 500): Flow<Unit> = callbackFlow {
+    throttleClick(duration) {
+        offer(Unit)
+    }
+    awaitClose { setOnClickListener(null) }
+}
+
 fun View.flowThrottleClick(): Flow<Unit> = callbackFlow {
     throttleClick {
         offer(Unit)

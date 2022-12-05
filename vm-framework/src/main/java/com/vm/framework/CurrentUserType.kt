@@ -32,7 +32,7 @@ abstract class CurrentUserType<U> protected constructor(
 
     }
 
-    open suspend fun login(newUser: U) {
+    open fun login(newUser: U) {
         refresh(newUser)
     }
 
@@ -43,8 +43,8 @@ abstract class CurrentUserType<U> protected constructor(
         }
     }
 
-    suspend fun refresh(freshUser: U) {
-        currentUserFlow.emit(freshUser)
+    fun refresh(freshUser: U) {
+        currentUserFlow.value = freshUser
     }
 
     val isLoggedIn: Flow<Boolean>

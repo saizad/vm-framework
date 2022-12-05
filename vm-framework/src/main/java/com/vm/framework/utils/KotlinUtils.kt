@@ -1,11 +1,17 @@
 package com.vm.framework.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +22,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -39,6 +46,8 @@ import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.PeriodFormatterBuilder
+import java.io.File
+import java.io.FileOutputStream
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -267,3 +276,98 @@ fun Disposable.addToComposite(bottomSheetDialogFragment: VmFrameworkBaseBottomSh
     bottomSheetDialogFragment.compositeDisposable().add(this)
 }
 
+inline fun <T> T.alsoLog(tag: String, block: (T) -> String): T {
+    Log.d(tag, block(this))
+    return this
+}
+
+fun <T> T.alsoLog(tag: String): T {
+    alsoLog(tag) {
+        it.toString()
+    }
+    return this
+}
+
+fun intent(): Intent {
+    val intent = Intent(
+        Intent.ACTION_PICK,
+        MediaStore.Images.Media.INTERNAL_CONTENT_URI
+    )
+    intent.type = "image/*"
+    intent.putExtra("crop", "true")
+    intent.putExtra("scale", true)
+    intent.putExtra("outputX", 256)
+    intent.putExtra("outputY", 256)
+    intent.putExtra("aspectX", 1)
+    intent.putExtra("aspectY", 1)
+    intent.putExtra("return-customers", true)
+    return intent
+}
+
+fun Fragment.openPicker(intent: Intent?, requestCode: Int) {
+    parentFragment!!.activity?.startActivityForResult(intent ?: intent(), requestCode)
+}
+
+fun Intent.selectedFile(context: Context): List<String> {
+    val list = ArrayList<String>()
+    // checking multiple selection or not
+    if (null != clipData) {
+        for (i in 0 until clipData!!.itemCount) {
+            val uri: Uri = clipData!!.getItemAt(i).uri
+            list.add(extractFile(uri, context).absolutePath)
+        }
+    } else {
+        val uri: Uri = data!!
+        list.add(extractFile(uri, context).absolutePath)
+    }
+    return list
+}
+
+private fun extractFile(uri: Uri, context: Context): File {
+    val fileName = getFileName(uri, context)
+    val extension = File(fileName).extension
+    val file =
+        File.createTempFile((111111..9999999).random().toString(), ".$extension")
+    sa.zad.easyretrofit.Utils.writeStreamToFile(
+        context.contentResolver.openInputStream(uri)!!,
+        file
+    )
+    return file
+}
+
+@SuppressLint("Range")
+private fun getFileName(uri: Uri, context: Context): String {
+    var result: String? = null
+    if (uri.scheme == "content") {
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+            }
+        } finally {
+            cursor!!.close()
+        }
+    }
+    if (result == null) {
+        result = uri.path
+        val cut = result!!.lastIndexOf('/')
+        if (cut != -1) {
+            result = result.substring(cut + 1)
+        }
+    }
+    return result
+}
+
+fun Bitmap.save(file: File, compressFormat: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG) {
+    if (file.exists()) {
+        file.delete()
+    }
+    try {
+        val out = FileOutputStream(file)
+        compress(compressFormat, 90, out)
+        out.flush()
+        out.close()
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+    }
+}

@@ -196,7 +196,7 @@ inline fun <T> Flow<DataState<T>>.errorToSuccess(crossinline callback: suspend (
     }
 }
 
-suspend fun <T> dataStateErrorFlow(emitValue: Throwable, requestId: Int): Flow<DataState<T>> {
+fun <T> dataStateErrorFlow(emitValue: Throwable, requestId: Int): Flow<DataState<T>> {
     return flow {
         emit(DataState.Loading(true, requestId))
         kotlinx.coroutines.delay(10)

@@ -247,4 +247,7 @@ abstract class VmFrameworkBaseFragment<V : VmFrameworkBaseViewModel> :
         return arguments
     }
 
+    fun requireViewGroup() : ViewGroup {
+        return requireView() as ViewGroup
+    }
 }

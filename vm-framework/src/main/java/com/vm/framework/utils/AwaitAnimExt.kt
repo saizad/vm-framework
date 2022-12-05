@@ -8,14 +8,13 @@ import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.core.view.doOnLayout
-import androidx.core.view.marginBottom
-import androidx.core.view.updatePadding
+import androidx.core.animation.doOnEnd
+import androidx.core.view.*
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CancellableContinuation
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 /**
  * @author https://gist.github.com/chrisbanes/227b4d253da94c5f76552a7d9360b542/raw/61739a529b2a0fe7d6d1b9fc9a79a46d5fce471b/code.kt
@@ -441,6 +440,113 @@ fun simpleIntValueAnimator(
         addUpdateListener {
             val value = it.animatedValue as Int
             listener.invoke(value)
+        }
+    }
+}
+
+fun simpleFloatValueAnimator(
+    from: Float,
+    to: Float,
+    animDuration: Long?,
+    interpolator: TimeInterpolator?,
+    listener: (Float) -> Unit
+): ValueAnimator {
+    return ObjectAnimator.ofFloat(from, to).apply {
+        animDuration?.let { this.duration = it }
+        interpolator?.let { this.interpolator = it }
+        start()
+        addUpdateListener {
+            val value = it.animatedValue as Float
+            listener.invoke(value)
+        }
+    }
+}
+
+fun View.heightCollapse(
+    from: Int = height,
+    to: Int,
+    duration: Long = 400,
+    changeVisibility: Boolean = true
+): ValueAnimator {
+    return simpleIntValueAnimator(from, to, duration, null) {
+        updateLayoutParams {
+            height = it
+        }
+    }.apply {
+        doOnEnd {
+            updateLayoutParams {
+                height = from
+                if (changeVisibility) {
+                    isVisible = false
+                }
+            }
+        }
+    }
+}
+
+fun View.heightExpand(from: Int = 0, to: Int, duration: Long = 400): ValueAnimator {
+    return simpleIntValueAnimator(from, to, duration, null) {
+        updateLayoutParams {
+            height = it
+        }
+    }
+}
+
+fun View.widthAnimate(from: Int = width, to: Int, duration: Long = 400): ValueAnimator {
+    return simpleIntValueAnimator(from, to, duration, null) {
+        updateLayoutParams {
+            width = it
+        }
+    }
+}
+
+fun View.constraintChildAnimateHeight(from: Float = heightPercent,
+                                      to: Float, animDuration: Long?, interpolator: TimeInterpolator?
+): ValueAnimator {
+    return simpleFloatValueAnimator(
+        from,
+        to,
+        animDuration,
+        interpolator = interpolator
+    ) {
+        updateHeightPercent(it)
+    }
+}
+
+fun Float.animateFrom(to: Float, animDuration: Long = 400, interpolator: TimeInterpolator? = null) : Flow<Float> {
+    return callbackFlow {
+        val animator =
+            simpleFloatValueAnimator(this@animateFrom, to, animDuration, interpolator) {
+                if (!trySend(it).isSuccess) {
+                    cancel()
+                }
+            }
+
+        animator.doOnEnd {
+            close()
+        }
+
+        awaitClose {
+            animator.cancel()
+        }
+    }
+}
+
+fun Int.animateFrom(to: Int, animDuration: Long = 400, interpolator: TimeInterpolator? = null) : Flow<Int> {
+    return callbackFlow {
+        val animator =
+            simpleIntValueAnimator(this@animateFrom, to, animDuration, interpolator) {
+                if (!trySend(it).isSuccess) {
+                    cancel()
+                }
+            }
+
+        animator.doOnEnd {
+            close()
+        }
+
+        awaitClose {
+            animator.cancel()
         }
     }
 }

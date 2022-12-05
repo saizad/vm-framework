@@ -17,7 +17,7 @@ fun View.insetsListener(insetsListener: (WindowInsetsCompat) -> WindowInsetsComp
     }
 }
 
-fun View.moveBelowStatusBar(vararg views: View, statusBarHeight: Int) {
+fun View.moveBelowStatusBar(statusBarHeight: Int, vararg views: View) {
     insetsListener { insets ->
         views.forEach {
             it.setMarginTop(insets.statusBarInsets.top + statusBarHeight)

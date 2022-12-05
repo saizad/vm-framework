@@ -5,6 +5,7 @@ import android.graphics.PointF
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.vm.framework.R
 import com.vm.framework.components.form.ui.InputFieldView
 import kotlinx.coroutines.flow.Flow
@@ -51,3 +52,16 @@ val View.idName: String?
 fun InputFieldView<*>.endIconFlowThrottleClick(): Flow<Unit> {
     return findViewById<View>(com.google.android.material.R.id.text_input_end_icon).flowThrottleClick()
 }
+
+fun View.updateHeightPercent(percentHeight: Float) {
+    val lp = layoutParams as ConstraintLayout.LayoutParams
+    lp.width = 0
+    lp.matchConstraintPercentHeight = percentHeight
+    layoutParams = lp
+}
+
+val View.heightPercent: Float
+    get() {
+        val lp = layoutParams as ConstraintLayout.LayoutParams
+        return lp.matchConstraintPercentHeight
+    }

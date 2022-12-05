@@ -1,6 +1,5 @@
 package com.vm.framework.enums
 
-import com.vm.framework.components.VmFrameworkBaseViewModel
 import com.vm.framework.error.ApiErrorException
 
 sealed class DataState<out R>(val requestId: Int) {

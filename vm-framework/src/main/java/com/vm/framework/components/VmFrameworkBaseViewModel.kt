@@ -19,8 +19,7 @@ abstract class VmFrameworkBaseViewModel(
 
     protected var disposable = CompositeDisposable()
 
-    @Inject
-    lateinit var networkRequest: VmFrameworkNetworkRequest
+    var networkRequest: VmFrameworkNetworkRequest = environment.networkRequest
 
     @CallSuper
     override fun onCleared() {
