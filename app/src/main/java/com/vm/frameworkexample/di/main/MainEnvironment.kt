@@ -7,6 +7,7 @@ import com.vm.frameworkexample.MVVMExampleCurrentUser
 import com.vm.frameworkexample.api.MainApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import sa.zad.easypermission.PermissionManager
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -14,9 +15,10 @@ import javax.inject.Singleton
 @Singleton
 class MainEnvironment @Inject constructor(
     val api: MainApi,
+    locale: MutableStateFlow<Locale>,
     currentUser: MVVMExampleCurrentUser,
     permissionManager: PermissionManager,
     @Named("nav-result")
     activityResultFlow: MutableStateFlow<ActivityResult<*>>,
     networkRequest: VmFrameworkNetworkRequest
-) : Environment(currentUser, networkRequest, permissionManager, activityResultFlow)
+) : Environment(locale, currentUser, networkRequest, permissionManager, activityResultFlow)

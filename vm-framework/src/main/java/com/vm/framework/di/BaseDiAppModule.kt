@@ -17,6 +17,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.util.Locale
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -54,5 +55,11 @@ object BaseDiAppModule {
                 "data-store"
             )
         })
+    }
+
+    @Singleton
+    @Provides
+    fun providesLocale(): MutableStateFlow<Locale> {
+        return MutableStateFlow(Locale.forLanguageTag("en-US"))
     }
 }

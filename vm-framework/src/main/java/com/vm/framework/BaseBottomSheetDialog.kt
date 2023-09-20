@@ -12,8 +12,11 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
@@ -23,7 +26,7 @@ abstract class BaseBottomSheetDialog<M, R>(
     @LayoutRes layoutRes: Int,
     @StyleRes theme: Int = 0
 ) : BottomSheetDialog(context, theme) {
-    private val flow = MutableStateFlow<R?>(null)
+    private var dismissData: (R) -> Unit = {}
     protected var data: M? = null
     protected val compositeDisposable = CompositeDisposable()
     private var dismissJob: Job? = null
@@ -43,34 +46,38 @@ abstract class BaseBottomSheetDialog<M, R>(
     open fun onShow() {}
 
     override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
         dismissJob?.cancel()
-        dismiss()
         compositeDisposable.dispose()
+        super.onDetachedFromWindow()
     }
 
     fun dismiss(returnData: R, delay: Long = 0) {
         dismissJob?.cancel()
-
         dismissJob = GlobalScope.launch(Dispatchers.Main) {
-            kotlinx.coroutines.delay(delay)
-            flow.value = returnData
-            dismiss()
+            delay(delay)
+            dismissData.invoke(returnData)
         }
     }
 
     @CallSuper
-    open fun show(data: M? = null): Flow<R?> {
+    fun show(data: M? = null): Flow<R> {
         this.data = data
-        prepare(data)
-        super.show()
-        return flow.drop(1)
+        return callbackFlow {
+            super.show()
+
+            dismissData = {
+                trySend(it)
+                dismiss()
+            }
+
+            awaitClose {
+                dismiss()
+            }
+        }
     }
 
     final override fun show() {
         throw RuntimeException("Invalid method call")
     }
-
-    abstract fun prepare(data: M?)
 
 }

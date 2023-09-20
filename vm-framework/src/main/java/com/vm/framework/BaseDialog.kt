@@ -1,5 +1,6 @@
 package com.vm.framework
 
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
@@ -12,9 +13,14 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
 abstract class BaseDialog<M, R>(
@@ -23,7 +29,7 @@ abstract class BaseDialog<M, R>(
     @StyleRes theme: Int = 0
 ) :
     AppCompatDialog(context, theme) {
-    protected val mutableStateFlow = MutableStateFlow<R?>(null)
+    private var dismissData: (R) -> Unit = {}
     protected var data: M? = null
     protected val compositeDisposable = CompositeDisposable()
     private var dismissJob: Job? = null
@@ -43,32 +49,38 @@ abstract class BaseDialog<M, R>(
     open fun onShow() {}
 
     override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
         dismissJob?.cancel()
-        dismiss()
         compositeDisposable.dispose()
+        super.onDetachedFromWindow()
     }
 
     fun dismiss(returnData: R, delay: Long = 0) {
         dismissJob?.cancel()
         dismissJob = GlobalScope.launch(Dispatchers.Main) {
-            kotlinx.coroutines.delay(delay)
-            mutableStateFlow.value = returnData
-            dismiss()
+            delay(delay)
+            dismissData.invoke(returnData)
         }
     }
 
     @CallSuper
     fun show(data: M? = null): Flow<R> {
         this.data = data
-        prepare(data)
-        super.show()
-        return mutableStateFlow.filterNotNull()
+        return callbackFlow {
+            super.show()
+
+            dismissData = {
+                trySend(it)
+                dismiss()
+            }
+
+            awaitClose {
+                dismiss()
+            }
+        }
     }
 
     final override fun show() {
         throw RuntimeException("Invalid method call")
     }
 
-    abstract fun prepare(data: M?)
 }
