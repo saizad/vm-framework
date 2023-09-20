@@ -12,9 +12,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.MutableStateFlow
 import sa.zad.easypermission.AppPermission
 import sa.zad.easypermission.AppPermissionImp
 import sa.zad.easypermission.PermissionManager
+import java.util.Locale
 import javax.inject.Singleton
 
 @Module
@@ -56,6 +58,13 @@ object AppModule {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ), MAX_REQUEST, sharedPreferences
         )
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesLocale(): MutableStateFlow<Locale> {
+        return MutableStateFlow(Locale.forLanguageTag("en-US"))
     }
 
 }
