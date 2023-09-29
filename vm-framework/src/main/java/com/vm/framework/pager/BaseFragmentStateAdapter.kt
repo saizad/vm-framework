@@ -31,20 +31,22 @@ open class BaseFragmentStateAdapter<F : BasePage<*>>(
 
     private fun makeCall(position: Int): Boolean {
         val fragments = hostFragment.childFragmentManager.fragments
-        fragments.forEach {
-            if (it is BasePage<*>) {
-                if (it.pageIndex == position && currentPage != it) {
-                    currentPage?.onPageUnSelected()
-                    if (it.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-                        pageListener?.onPageReady(it as F)
-                    } else {
-                        return false
+        fragments
+            .filter { fragment -> items.contains(fragment::class.java) }
+            .forEach {
+                if (it is BasePage<*>) {
+                    if (it.pageIndex == position && currentPage != it) {
+                        currentPage?.onPageUnSelected()
+                        if (it.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                            pageListener?.onPageReady(it as F)
+                        } else {
+                            return false
+                        }
+                        currentPage = it as F
+                        return true
                     }
-                    currentPage = it as F
-                    return true
                 }
             }
-        }
         return false
     }
 
