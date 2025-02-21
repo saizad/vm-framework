@@ -2,7 +2,6 @@ package com.vm.framework
 
 import android.app.Application
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.itkacher.okhttpprofiler.OkHttpProfilerInterceptor
 import com.sa.easyandroidform.ObjectUtils
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,7 +21,6 @@ open class VmFrameworkEasyRetrofitClient(
         if (isDebugMode) {
             builder.addNetworkInterceptor(StethoInterceptor())
             builder.addNetworkInterceptor(TextToJsonInterceptor())
-            builder.addInterceptor(OkHttpProfilerInterceptor())
         }
         return builder
     }
@@ -41,7 +39,7 @@ open class VmFrameworkEasyRetrofitClient(
         private fun getAuthInterceptor(currentUser: CurrentUserType<*>): Interceptor {
             return Interceptor { chain: Interceptor.Chain ->
                 var request = chain.request()
-                val decode = URLDecoder.decode(request.url.toString(), "UTF-8")
+                val decode = URLDecoder.decode(request.url().toString(), "UTF-8")
                 request = request.newBuilder().url(decode).build()
                 val token = currentUser.token
                 if (ObjectUtils.isNotNull(token)) {
