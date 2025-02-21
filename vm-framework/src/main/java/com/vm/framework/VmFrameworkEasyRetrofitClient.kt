@@ -3,6 +3,7 @@ package com.vm.framework
 import android.app.Application
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.sa.easyandroidform.ObjectUtils
+import io.nerdythings.okhttp.profiler.OkHttpProfilerInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
